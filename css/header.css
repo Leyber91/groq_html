@@ -1,0 +1,30 @@
+header {
+    background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
+    color: #ff6b6b;
+    text-align: center;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,107,107,0.1) 0%, rgba(255,107,107,0) 70%);
+    animation: pulse 15s infinite;
+}
+
+h1 {
+    font-size: 3rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 1;
+}

@@ -1,0 +1,198 @@
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #ff9999;
+    --background-dark: #0a0a0a;
+    --background-light: #1a1a1a;
+    --text-color: #f0f0f0;
+    --border-radius: 10px;
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, var(--background-dark), var(--background-light));
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+label, input, select {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background-color: rgba(44, 44, 44, 0.8);
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+}
+
+#layers-container {
+    margin-top: 2rem;
+}
+
+.layer-config, #main-config {
+    background: linear-gradient(135deg, #252525, #2c2c2c);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-speed) ease;
+}
+
+.layer-config:hover, #main-config:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(255, 107, 107, 0.3);
+}
+
+.agent-config {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+#moa-toggle {
+    margin-bottom: 1rem;
+}
+
+#toggle-moa-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--background-light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    z-index: 1001;
+    font-weight: bold;
+}
+
+#toggle-moa-controls:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-2px);
+}
+
+#moa-controls {
+    padding: 20px;
+}
+
+#moa-controls-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    background: rgba(44, 44, 44, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 30px rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    overflow: hidden;
+    transition: all var(--transition-speed) ease;
+    z-index: 1000;
+}
+
+#moa-diagram {
+    flex: 1;
+    min-height: 600px;
+    padding: 1rem;
+}
+
+#moa-interface {
+    display: flex;
+    justify-content: space-between;
+    background: radial-gradient(circle at top left, #2c2c2c, var(--background-light));
+    border-radius: 25px;
+    box-shadow: 0 15px 50px rgba(255, 107, 107, 0.3), inset 0 0 20px rgba(255, 107, 107, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+#moa-controls h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+#moa-controls label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+#moa-controls select,
+#moa-controls input[type="range"] {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 5px;
+    color: var(--text-color);
+}
+
+#moa-controls input[type="range"] {
+    -webkit-appearance: none;
+    height: 5px;
+    background: var(--primary-color);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity var(--transition-speed);
+}
+
+#moa-controls input[type="range"]:hover {
+    opacity: 1;
+}
+
+#moa-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--text-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 1.5rem;
+    }
+
+    #moa-controls-wrapper {
+        width: 100%;
+        right: 0;
+        top: auto;
+        bottom: 0;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    #toggle-moa-controls {
+        top: auto;
+        bottom: 20px;
+    }
+}

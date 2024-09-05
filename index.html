@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groq MOA - Mixture of Agents</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+</head>
+<body>
+    <header>
+        <h1>Groq MOA - Mixture of Agents</h1>
+    </header>
+    <main>
+        <div id="moa-interface">
+            <div id="moa-diagram"></div>
+        </div>
+        <div id="chat-interface">
+            <h2>Chat Interface</h2>
+            <div id="chat-messages"></div>
+            <div id="chat-input">
+                <textarea id="user-input" placeholder="Ask a question..." rows="3"></textarea>
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
+    <script type="module" src="js/main/main.js"></script>
+</body>
+</html>

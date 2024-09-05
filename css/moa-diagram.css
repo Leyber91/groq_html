@@ -1,0 +1,315 @@
+:root {
+    --primary-color: #ff6b6b;
+    --secondary-color: #ff9999;
+    --background-dark: #0a0a0a;
+    --background-light: #1a1a1a;
+    --text-color: #f0f0f0;
+    --border-radius: 15px;
+    --transition-speed: 0.4s;
+}
+
+#moa-interface {
+    display: flex;
+    justify-content: space-between;
+    background: radial-gradient(circle at top left, #2c2c2c, var(--background-light));
+    border-radius: var(--border-radius);
+    box-shadow: 0 15px 50px rgba(255, 107, 107, 0.3), inset 0 0 20px rgba(255, 107, 107, 0.1);
+    margin-bottom: 4rem;
+    overflow: hidden;
+    transition: all var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#moa-interface:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.4), inset 0 0 30px rgba(255, 107, 107, 0.2);
+}
+
+#moa-diagram {
+    flex: 2;
+    height: 750px;
+    background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(255, 107, 107, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-speed) ease;
+    padding-right: 250px;
+}
+
+#moa-diagram:hover {
+    box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4), inset 0 0 40px rgba(255, 107, 107, 0.1);
+}
+
+#moa-diagram::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" stroke="rgba(255,107,107,0.07)" stroke-width="0.5" x="0" y="0" width="100" height="100"/></svg>');
+    opacity: 0.4;
+    pointer-events: none;
+    animation: gridPulse 20s infinite alternate;
+}
+
+@keyframes gridPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.05); }
+}
+
+.node foreignObject select,
+.node foreignObject input {
+    width: 140px;
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: var(--border-radius);
+    background-color: rgba(44, 44, 44, 0.95);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+}
+
+.node foreignObject select:focus,
+.node foreignObject input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+    transform: translateY(-2px);
+}
+
+.node circle {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 6px 8px rgba(0,0,0,0.3));
+    animation: pulse 4s infinite;
+}
+
+.node:hover circle {
+    fill: var(--secondary-color);
+    r: 38;
+    filter: drop-shadow(0 8px 15px rgba(255,107,107,0.6));
+    animation: glow 2.5s infinite alternate;
+}
+
+line {
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+    transition: all var(--transition-speed) ease;
+}
+
+line:hover {
+    stroke-width: 4;
+    filter: drop-shadow(0 6px 12px rgba(255,107,107,0.4));
+}
+
+svg line {
+    transform: translate(12px, 24px);
+}
+
+.layer-buttons rect,
+.agent-buttons rect {
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+    animation: bounce 4s infinite;
+}
+
+.layer-buttons rect:hover,
+.agent-buttons rect:hover {
+    fill: var(--secondary-color);
+    transform: scale(1.15);
+    filter: drop-shadow(0 8px 15px rgba(255,107,107,0.5));
+    animation: pulse 2s infinite;
+}
+
+.layer-buttons text,
+.agent-buttons text {
+    pointer-events: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    transition: all var(--transition-speed) ease;
+}
+
+.layer-buttons:hover text,
+.agent-buttons:hover text {
+    fill: var(--background-dark);
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+}
+
+.node-label {
+    font-size: 15px;
+    fill: var(--text-color);
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+    transition: all var(--transition-speed) ease;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.node:hover .node-label {
+    font-size: 17px;
+    font-weight: bold;
+    fill: var(--background-dark);
+    text-shadow: 1px 1px 3px rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+    #moa-interface {
+        flex-direction: column;
+    }
+
+    #moa-diagram {
+        height: 550px;
+        border-right: none;
+        border-bottom: 3px solid var(--primary-color);
+    }
+}
+
+.node foreignObject {
+    transition: transform var(--transition-speed) ease, opacity var(--transition-speed) ease;
+    opacity: 0.85;
+}
+
+.node:hover foreignObject {
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+.layer-label {
+    font-size: 20px;
+    font-weight: bold;
+    fill: var(--primary-color);
+    text-anchor: middle;
+    dominant-baseline: hanging;
+    animation: fadeIn 2s ease-out;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #moa-diagram::after,
+    .node circle,
+    line,
+    .layer-buttons rect,
+    .agent-buttons rect {
+        transition: none;
+        animation: none;
+    }
+}
+
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    padding: 10px 15px;
+    background-color: rgba(255, 107, 107, 0.95);
+    color: #fff;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed), visibility var(--transition-speed), transform var(--transition-speed);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    pointer-events: none;
+    z-index: 1003;
+}
+
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.node circle {
+    fill: var(--primary-color);
+}
+
+.node:hover circle {
+    fill: var(--secondary-color);
+}
+
+.loading-indicator {
+    width: 60px;
+    height: 60px;
+    border: 6px solid var(--primary-color);
+    border-top: 6px solid transparent;
+    border-radius: 50%;
+    animation: rotate 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    box-shadow: 0 0 15px rgba(255,107,107,0.5);
+}
+
+.performance-metric {
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.performance-metric.updated {
+    animation: pulse 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: scale(1.05);
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes glow {
+    0% { filter: drop-shadow(0 0 5px rgba(255,107,107,0.6)); }
+    100% { filter: drop-shadow(0 0 20px rgba(255,107,107,0.8)); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+#moa-controls-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 250px;
+    background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
+    border-left: 3px solid var(--primary-color);
+    overflow-y: auto;
+}
+
+#moa-controls {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}

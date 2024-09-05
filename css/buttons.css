@@ -1,0 +1,63 @@
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #ff6b6b, #ff9999);
+    color: #1a1a1a;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
+}
+
+button:hover::after {
+    opacity: 1;
+}
+
+#add-layer {
+    margin-top: 1.5rem;
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+}
+
+#add-layer:hover {
+    background: linear-gradient(45deg, #45a049, #4CAF50);
+}
+
+#update-config {
+    margin-top: 2rem;
+    background: linear-gradient(45deg, #3498db, #2980b9);
+}
+
+#update-config:hover {
+    background: linear-gradient(45deg, #2980b9, #3498db);
+}
+
+.add-layer-button,
+.add-agent-button,
+.remove-layer-button {
+    transform-origin: center;
+}
