@@ -38,13 +38,22 @@ button:hover::after {
     opacity: 1;
 }
 
-#add-layer {
+#add-layer, #add-agent {
     margin-top: 1.5rem;
     background: linear-gradient(45deg, #4CAF50, #45a049);
 }
 
-#add-layer:hover {
+#add-layer:hover, #add-agent:hover {
     background: linear-gradient(45deg, #45a049, #4CAF50);
+}
+
+#remove-layer, #remove-agent {
+    margin-top: 1.5rem;
+    background: linear-gradient(45deg, #fc5c65, #eb3b5a);
+}
+
+#remove-layer:hover, #remove-agent:hover {
+    background: linear-gradient(45deg, #eb3b5a, #fc5c65);
 }
 
 #update-config {
@@ -58,6 +67,7 @@ button:hover::after {
 
 .add-layer-button,
 .add-agent-button,
-.remove-layer-button {
+.remove-layer-button,
+.remove-agent-button {
     transform-origin: center;
 }

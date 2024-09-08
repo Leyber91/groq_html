@@ -7,7 +7,7 @@
 
 /* Global styles */
 body {
-    min-height: 100vh;
+    min-height: 60h;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
@@ -28,25 +28,28 @@ main {
 
 #moa-interface {
     position: relative;
-    height: calc(60vh - 60px); /* Increased height, adjust based on header */
-    overflow: hidden;
+    height: calc(70vh - 60px); /* Adjust based on your title height */
     display: flex;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 #moa-diagram {
-    flex: 1;
+    flex: 0 0 80%;
     height: 100%;
     overflow: auto;
 }
 
 #moa-controls-container {
-    position: relative;
-    width: 350px; /* Increased width for better usability */
+    flex: 0 0 20%;
     height: 100%;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    flex-shrink: 0;
+    overflow-y: auto;
+    background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
+    border-left: 3px solid var(--primary-color);
+}
+
+#chat-interface {
+    height: calc(30vh - 20px); /* Adjust based on spacing */
+    overflow-y: auto;
 }
 
 #moa-controls-container.expanded {
@@ -77,7 +80,7 @@ main {
 }
 
 #moa-controls-wrapper {
-    width: 100%;
+    width: 20%;
     height: 100%;
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(15px);

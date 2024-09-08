@@ -39,6 +39,9 @@ export function updateMOAConfig(newConfig = {}) {
         updateVisualizationSettings();
     }
 
+    // Update MOA controls
+    updateMOAControls();
+
     // Ensure this function is defined and imported from diagram.js
     if (typeof updateMOADiagram === 'function') {
         updateMOADiagram();
@@ -133,6 +136,31 @@ function updateMOADiagram() {
     console.log('Updating MOA diagram with new configuration:', MOA_CONFIG);
     // Here you would typically update a visual representation of the MOA
     // This could involve manipulating DOM elements or updating a canvas
+}
+
+function updateMOAControls() {
+    // Update main model select
+    const mainModelSelect = document.getElementById('main-model-select');
+    mainModelSelect.value = MOA_CONFIG.main_model;
+
+    // Update main temperature
+    const mainTemperature = document.getElementById('main-temperature');
+    mainTemperature.value = MOA_CONFIG.main_temperature;
+    document.getElementById('main-temperature-value').textContent = MOA_CONFIG.main_temperature;
+
+    // Update processing time
+    const processingTime = document.getElementById('processing-time');
+    processingTime.value = MOA_CONFIG.adaptive_threshold.processing_time;
+    document.getElementById('processing-time-value').textContent = MOA_CONFIG.adaptive_threshold.processing_time;
+
+    // Update output quality
+    const outputQuality = document.getElementById('output-quality');
+    outputQuality.value = MOA_CONFIG.adaptive_threshold.output_quality;
+    document.getElementById('output-quality-value').textContent = MOA_CONFIG.adaptive_threshold.output_quality;
+
+    // Update layer and agent controls
+    // This would involve dynamically creating or updating controls for each layer and agent
+    // You might need to implement this part based on your specific UI structure
 }
 
 // Export utility functions

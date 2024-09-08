@@ -17,7 +17,7 @@ function initializeApp() {
     setupChatInterface();
     setupDiagramControls();
     setupMOAControlsToggle();
-    setupMOAControlsWrapper();
+    updateMOAControls(); // Add this line to update MOA controls with available models
 }
 
 function setupMainModelControls() {
@@ -26,45 +26,55 @@ function setupMainModelControls() {
     const mainTemperatureValue = document.getElementById('main-temperature-value');
 
     if (!mainModelSelect || !mainTemperature || !mainTemperatureValue) {
-        console.warn('Main model controls not found. Some features may not work.');
+        console.error('Main model control elements not found');
         return;
     }
 
     // Populate main model select
-    availableModels.forEach(model => {
-        const option = document.createElement('option');
-        option.value = model;
-        option.textContent = model;
-        mainModelSelect.appendChild(option);
-    });
+    mainModelSelect.innerHTML = availableModels.map(model => 
+        `<option value="${model}" ${model === moaConfig.main_model ? 'selected' : ''}>${model}</option>`
+    ).join('');
 
     // Set initial values
-    mainModelSelect.value = moaConfig.main_model;
     mainTemperature.value = moaConfig.main_temperature;
-    mainTemperatureValue.textContent = moaConfig.main_temperature;
+    mainTemperatureValue.textContent = moaConfig.main_temperature.toFixed(2);
 
     // Add event listeners
     mainModelSelect.addEventListener('change', (e) => {
         updateMOAConfig({ main_model: e.target.value });
-        updateDiagram();
+        createMOADiagram();
     });
 
     mainTemperature.addEventListener('input', (e) => {
         const value = parseFloat(e.target.value);
-        mainTemperatureValue.textContent = value;
+        mainTemperatureValue.textContent = value.toFixed(2);
         updateMOAConfig({ main_temperature: value });
-        updateDiagram();
+        createMOADiagram();
     });
 }
 
 function setupAdaptiveThresholdControls() {
-    const processingTime = document.getElementById('processing-time');
-    const processingTimeValue = document.getElementById('processing-time-value');
-    const outputQuality = document.getElementById('output-quality');
-    const outputQualityValue = document.getElementById('output-quality-value');
-
-    if (!processingTime || !processingTimeValue || !outputQuality || !outputQualityValue) {
+    const controls = document.getElementById('adaptive-threshold-controls');
+    if (!controls) {
         console.warn('Adaptive threshold controls not found. Some features may not work.');
+        return;
+    }
+
+    const adaptiveThreshold = controls.querySelector('#adaptive-threshold');
+    const processingTime = controls.querySelector('#processing-time');
+    const processingTimeValue = controls.querySelector('#processing-time-value');
+    const outputQuality = controls.querySelector('#output-quality');
+    const outputQualityValue = controls.querySelector('#output-quality-value');
+
+    const missingElements = [];
+    if (!adaptiveThreshold) missingElements.push('adaptive-threshold');
+    if (!processingTime) missingElements.push('processing-time');
+    if (!processingTimeValue) missingElements.push('processing-time-value');
+    if (!outputQuality) missingElements.push('output-quality');
+    if (!outputQualityValue) missingElements.push('output-quality-value');
+
+    if (missingElements.length > 0) {
+        console.warn(`Some adaptive threshold control elements are missing: ${missingElements.join(', ')}`);
         return;
     }
 
@@ -113,44 +123,68 @@ function setupChatInterface() {
         }
     });
 }
+
 function setupDiagramControls() {
+    const moaDiagram = document.getElementById('moa-diagram');
+    const moaControlsContainer = document.getElementById('moa-controls-container');
+
+    if (!moaDiagram || !moaControlsContainer) {
+        console.error('Diagram or controls container not found');
+        return;
+    }
+
     const addLayerButton = document.getElementById('add-layer-button');
     const addAgentButton = document.getElementById('add-agent-button');
     const removeLayerButton = document.getElementById('remove-layer-button');
     const removeAgentButton = document.getElementById('remove-agent-button');
 
+    const missingElements = [];
+    [
+        { el: addLayerButton, name: 'add-layer-button' },
+        { el: addAgentButton, name: 'add-agent-button' },
+        { el: removeLayerButton, name: 'remove-layer-button' },
+        { el: removeAgentButton, name: 'remove-agent-button' }
+    ].forEach(item => {
+        if (!item.el) missingElements.push(item.name);
+    });
+
+    if (missingElements.length > 0) {
+        console.warn(`Some control elements are missing: ${missingElements.join(', ')}`);
+    }
+
     if (addLayerButton) {
         addLayerButton.addEventListener('click', () => {
             addLayer();
             updateDiagram();
+            updateMOAControls(); // Update controls after adding a layer
         });
     }
 
     if (addAgentButton) {
         addAgentButton.addEventListener('click', () => {
-            // Assuming we're adding to the last layer
             const lastLayerIndex = moaConfig.layers.length - 1;
             addAgent(lastLayerIndex);
             updateDiagram();
+            updateMOAControls(); // Update controls after adding an agent
         });
     }
 
     if (removeLayerButton) {
         removeLayerButton.addEventListener('click', () => {
-            // Assuming we're removing the last layer
             const lastLayerIndex = moaConfig.layers.length - 1;
             removeLayer(lastLayerIndex);
             updateDiagram();
+            updateMOAControls(); // Update controls after removing a layer
         });
     }
 
     if (removeAgentButton) {
         removeAgentButton.addEventListener('click', () => {
-            // Assuming we're removing from the last layer
             const lastLayerIndex = moaConfig.layers.length - 1;
             const lastAgentIndex = moaConfig.layers[lastLayerIndex].length - 1;
             removeAgent(lastLayerIndex, lastAgentIndex);
             updateDiagram();
+            updateMOAControls(); // Update controls after removing an agent
         });
     }
 }
@@ -160,33 +194,6 @@ function setupMOAControlsToggle() {
     const moaControlsContainer = document.getElementById('moa-controls-container');
     const moaInterface = document.getElementById('moa-interface');
     const moaDiagram = document.getElementById('moa-diagram');
-
-    // Add styles dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-        #moa-controls-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 300px;
-            background: rgba(44, 44, 44, 0.95);
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
-            z-index: 1000;
-        }
-        #moa-controls-container.expanded {
-            transform: translateX(0);
-        }
-        #toggle-moa-controls {
-            position: absolute;
-            top: 10px;
-            right: 320px;
-            z-index: 1001;
-        }
-    `;
-    document.head.appendChild(style);
 
     if (toggleButton && moaControlsContainer && moaInterface && moaDiagram) {
         toggleButton.addEventListener('click', (e) => {
@@ -212,7 +219,7 @@ function setupMOAControlsToggle() {
                 toggleButton.textContent = 'Hide Controls';
             } else {
                 closeControls();
-            }s
+            }
         }
 
         function closeControls() {
@@ -242,5 +249,60 @@ function setupMOAControls() {
         });
     }
 }   
+
+function updateMOAControls() {
+    const layersContainer = document.getElementById('moa-layers-container');
+    if (!layersContainer) {
+        console.error('MOA layers container not found');
+        return;
+    }
+
+    // Clear existing controls
+    layersContainer.innerHTML = '';
+
+    // Create controls for each layer and agent
+    moaConfig.layers.forEach((layer, layerIndex) => {
+        const layerDiv = document.createElement('div');
+        layerDiv.className = 'moa-layer';
+        layerDiv.innerHTML = `<h3>Layer ${layerIndex + 1}</h3>`;
+
+        layer.forEach((agent, agentIndex) => {
+            const agentDiv = document.createElement('div');
+            agentDiv.className = 'moa-agent';
+            agentDiv.innerHTML = `
+                <h4>Agent ${agentIndex + 1}</h4>
+                <select class="agent-model" data-layer="${layerIndex}" data-agent="${agentIndex}">
+                    ${availableModels.map(model => `<option value="${model}" ${model === agent.model_name ? 'selected' : ''}>${model}</option>`).join('')}
+                </select>
+                <input type="range" class="agent-temperature" min="0" max="1" step="0.1" value="${agent.temperature}" data-layer="${layerIndex}" data-agent="${agentIndex}">
+                <span class="temperature-value">${agent.temperature.toFixed(1)}</span>
+            `;
+            layerDiv.appendChild(agentDiv);
+        });
+
+        layersContainer.appendChild(layerDiv);
+    });
+
+    // Add event listeners to the new controls
+    document.querySelectorAll('.agent-model, .agent-temperature').forEach(el => {
+        el.addEventListener('change', (e) => {
+            const layerIndex = parseInt(e.target.dataset.layer);
+            const agentIndex = parseInt(e.target.dataset.agent);
+            const value = e.target.type === 'range' ? parseFloat(e.target.value) : e.target.value;
+            const key = e.target.classList.contains('agent-model') ? 'model_name' : 'temperature';
+
+            // Update the moaConfig
+            moaConfig.layers[layerIndex][agentIndex][key] = value;
+
+            // Update the temperature display if needed
+            if (key === 'temperature') {
+                e.target.nextElementSibling.textContent = value.toFixed(1);
+            }
+
+            // Update the diagram
+            updateDiagram();
+        });
+    });
+}
 
 document.addEventListener('DOMContentLoaded', initializeApp);

@@ -19,7 +19,12 @@ export async function chatWithMOA(message) {
                 context = response;
                 updateMessageContent(layerMessageDiv, `Layer ${i + 1}: ${response}`);
             }
-            animateAgent(i);
+            try {
+                animateAgent(i);
+            } catch (animationError) {
+                console.error('Animation Error:', animationError);
+                // Continue with the chat process even if animation fails
+            }
         } catch (error) {
             console.error('Error:', error);
             updateMessageContent(layerMessageDiv, `Layer ${i + 1}: Error: ${error.message}`);

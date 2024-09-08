@@ -9,10 +9,11 @@ export function addMessageToChat(role, content, chatContainer) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${role}-message`;
     messageDiv.innerHTML = `
-        <div class="message-header">${role.charAt(0).toUpperCase() + role.slice(1)}:</div>
+        <div class="message-header">${role.charAt(0).toUpperCase() + role.slice(1)}</div>
         <div class="message-content">${formatContent(content)}</div>
     `;
     chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
     return messageDiv;
 }
 

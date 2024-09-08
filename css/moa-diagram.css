@@ -1,155 +1,123 @@
 :root {
-    --primary-color: #ff6b6b;
-    --secondary-color: #ff9999;
-    --background-dark: #0a0a0a;
-    --background-light: #1a1a1a;
-    --text-color: #f0f0f0;
-    --border-radius: 15px;
-    --transition-speed: 0.4s;
+    --primary-color: #FF6B6B;
+    --secondary-color: #FF9999;
+    --background-dark: #0A0A0A;
+    --background-light: #1A1A1A;
+    --text-color: #F0F0F0;
+    --accent-color: #FF4136;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --max-width: 180rem;
+    --spacing-small: 0.5rem;
+    --spacing-medium: 1rem;
+    --spacing-large: 2rem;
+    --font-primary: 'Roboto', sans-serif;
+    --font-heading: 'Montserrat', sans-serif;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, var(--background-dark), var(--background-light));
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
 }
 
 #moa-interface {
     display: flex;
-    justify-content: space-between;
-    background: radial-gradient(circle at top left, #2c2c2c, var(--background-light));
-    border-radius: var(--border-radius);
-    box-shadow: 0 15px 50px rgba(255, 107, 107, 0.3), inset 0 0 20px rgba(255, 107, 107, 0.1);
-    margin-bottom: 4rem;
+    flex: 1;
     overflow: hidden;
-    transition: all var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-#moa-interface:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.4), inset 0 0 30px rgba(255, 107, 107, 0.2);
 }
 
 #moa-diagram {
-    flex: 2;
-    height: 750px;
-    background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
-    border-radius: var(--border-radius);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(255, 107, 107, 0.05);
-    position: relative;
-    overflow: hidden;
-    transition: all var(--transition-speed) ease;
-    padding-right: 250px;
+    flex: 1;
+    overflow: auto;
 }
 
-#moa-diagram:hover {
-    box-shadow: 0 12px 24px rgba(255, 107, 107, 0.4), inset 0 0 40px rgba(255, 107, 107, 0.1);
+#moa-controls-container {
+    width: 250px;
+    background-color: var(--background-light);
+    border-left: 1px solid var(--primary-color);
+    padding: var(--spacing-medium);
+    overflow-y: auto;
 }
 
-#moa-diagram::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="none" stroke="rgba(255,107,107,0.07)" stroke-width="0.5" x="0" y="0" width="100" height="100"/></svg>');
-    opacity: 0.4;
-    pointer-events: none;
-    animation: gridPulse 20s infinite alternate;
+#chat-interface {
+    height: 200px;
+    background-color: var(--background-light);
+    border-top: 1px solid var(--primary-color);
+    padding: var(--spacing-medium);
+    display: flex;
+    flex-direction: column;
 }
 
-@keyframes gridPulse {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.05); }
+#chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-medium);
 }
 
-.node foreignObject select,
-.node foreignObject input {
-    width: 140px;
-    font-size: 14px;
-    padding: 10px;
+#chat-input-form {
+    display: flex;
+}
+
+#user-input {
+    flex: 1;
+    margin-right: var(--spacing-small);
+}
+
+#moa-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#moa-controls h3 {
+    color: var(--primary-color);
     margin-bottom: 10px;
-    border-radius: var(--border-radius);
-    background-color: rgba(44, 44, 44, 0.95);
-    border: 2px solid var(--primary-color);
+}
+
+#moa-controls label {
+    display: block;
+    margin-bottom: 5px;
     color: var(--text-color);
-    transition: all var(--transition-speed) ease;
 }
 
-.node foreignObject select:focus,
-.node foreignObject input:focus {
-    outline: none;
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
-    transform: translateY(-2px);
+#moa-controls select,
+#moa-controls input[type="checkbox"] {
+    width: 100%;
+    padding: 5px;
+    background-color: var(--background-light);
+    color: var(--text-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 3px;
 }
 
-.node circle {
-    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    filter: drop-shadow(0 6px 8px rgba(0,0,0,0.3));
-    animation: pulse 4s infinite;
-}
-
-.node:hover circle {
-    fill: var(--secondary-color);
-    r: 38;
-    filter: drop-shadow(0 8px 15px rgba(255,107,107,0.6));
-    animation: glow 2.5s infinite alternate;
-}
-
-line {
-    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
-    transition: all var(--transition-speed) ease;
-}
-
-line:hover {
-    stroke-width: 4;
-    filter: drop-shadow(0 6px 12px rgba(255,107,107,0.4));
-}
-
-svg line {
-    transform: translate(12px, 24px);
-}
-
-.layer-buttons rect,
-.agent-buttons rect {
+#moa-controls button {
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 3px;
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
-    animation: bounce 4s infinite;
+    transition: background-color 0.3s;
 }
 
-.layer-buttons rect:hover,
-.agent-buttons rect:hover {
-    fill: var(--secondary-color);
-    transform: scale(1.15);
-    filter: drop-shadow(0 8px 15px rgba(255,107,107,0.5));
-    animation: pulse 2s infinite;
-}
-
-.layer-buttons text,
-.agent-buttons text {
-    pointer-events: none;
-    font-size: 16px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    transition: all var(--transition-speed) ease;
-}
-
-.layer-buttons:hover text,
-.agent-buttons:hover text {
-    fill: var(--background-dark);
-    text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
-    transform: translateY(-2px);
-}
-
-.node-label {
-    font-size: 15px;
-    fill: var(--text-color);
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-    transition: all var(--transition-speed) ease;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-}
-
-.node:hover .node-label {
-    font-size: 17px;
-    font-weight: bold;
-    fill: var(--background-dark);
-    text-shadow: 1px 1px 3px rgba(255,255,255,0.3);
+#moa-controls button:hover {
+    background-color: var(--secondary-color);
 }
 
 @media (max-width: 768px) {
@@ -157,10 +125,142 @@ svg line {
         flex-direction: column;
     }
 
-    #moa-diagram {
-        height: 550px;
-        border-right: none;
-        border-bottom: 3px solid var(--primary-color);
+    #moa-diagram,
+    #moa-controls-container {
+        flex: 0 0 100%;
+    }
+
+    #moa-controls-container {
+        border-left: none;
+        border-top: 1px solid var(--primary-color);
+    }
+}
+
+.node foreignObject select,
+.node foreignObject input {
+    width: 100%;
+    max-width: 140px;
+    font-size: 14px;
+    padding: 8px 12px;
+    margin-bottom: var(--spacing-small);
+    border-radius: var(--border-radius);
+    background-color: rgba(26, 26, 26, 0.95);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+    transition: all var(--transition-speed) ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FF6B6B' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+}
+
+.node foreignObject select:hover,
+.node foreignObject input:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+.node foreignObject select:focus,
+.node foreignObject input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+}
+
+.node foreignObject select option {
+    background-color: var(--background-dark);
+    color: var(--text-color);
+}
+
+#moa-diagram svg {
+    max-width: 85%;
+    height: auto;
+}
+
+.layer {
+    margin-bottom: var(--spacing-large);
+}
+
+.layer-label {
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: bold;
+    fill: var(--primary-color);
+    text-anchor: middle;
+    dominant-baseline: hanging;
+}
+
+.node-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    padding: var(--spacing-small);
+    background-color: rgba(44, 44, 44, 0.8);
+    border-radius: var(--border-radius);
+}
+
+.node circle {
+    fill: var(--primary-color);
+    stroke: var(--secondary-color);
+    stroke-width: 2px;
+    transition: all var(--transition-speed) ease;
+}
+
+.node:hover circle {
+    fill: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+.node text {
+    font-family: var(--font-primary);
+    fill: var(--text-color);
+}
+
+.link {
+    stroke: var(--secondary-color);
+    stroke-opacity: 0.4;
+    stroke-width: 2px;
+    transition: all var(--transition-speed) ease;
+}
+
+.link:hover {
+    stroke-opacity: 1;
+    stroke-width: 3px;
+}
+
+.diagram-button {
+    fill: var(--primary-color);
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+.diagram-button:hover {
+    fill: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+.diagram-button text {
+    fill: var(--background-dark);
+    font-family: var(--font-primary);
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    #moa-interface {
+        flex-direction: column;
+    }
+
+    #moa-diagram,
+    #moa-controls-container {
+        flex: 0 0 100%;
+    }
+
+    #moa-controls-container {
+        border-left: none;
+        border-top: 1px solid var(--primary-color);
     }
 }
 
@@ -172,16 +272,6 @@ svg line {
 .node:hover foreignObject {
     transform: scale(1.08);
     opacity: 1;
-}
-
-.layer-label {
-    font-size: 20px;
-    font-weight: bold;
-    fill: var(--primary-color);
-    text-anchor: middle;
-    dominant-baseline: hanging;
-    animation: fadeIn 2s ease-out;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -224,14 +314,6 @@ svg line {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
-}
-
-.node circle {
-    fill: var(--primary-color);
-}
-
-.node:hover circle {
-    fill: var(--secondary-color);
 }
 
 .loading-indicator {
@@ -312,4 +394,50 @@ svg line {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
+}
+
+.node-label {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    fill: var(--text-color);
+    text-anchor: middle;
+    dominant-baseline: central;
+    transition: all var(--transition-speed) ease;
+}
+
+.node:hover .node-label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#moa-controls-container {
+    width: 10%;
+    padding: 10px;
+    background-color: var(--background-light);
+    border-left: 1px solid var(--primary-color);
+    overflow-y: auto;
+}
+
+.moa-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.moa-controls label {
+    display: flex;
+    flex-direction: column;
+}
+
+.moa-controls button {
+    padding: 5px 10px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.moa-controls button:hover {
+    background-color: var(--secondary-color);
 }
