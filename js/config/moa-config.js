@@ -1,4 +1,5 @@
 // MOA Configuration
+// MOA Configuration
 export const MOA_CONFIG = {
     main_model: 'llama3-70b-8192',
     main_temperature: 0.7,
@@ -7,8 +8,7 @@ export const MOA_CONFIG = {
             { model_name: 'llama3-8b-8192', temperature: 0.5, weight: 0.2, specialization: 'general_knowledge', adaptive_weight: true },
             { model_name: 'gemma-7b-it', temperature: 0.6, weight: 0.2, specialization: 'instruction_following', adaptive_weight: true },
             { model_name: 'llava-v1.5-7b-4096-preview', temperature: 0.6, weight: 0.2, specialization: 'visual_understanding', adaptive_weight: true },
-            { model_name: 'llama3-8b-8192', temperature: 0.7, weight: 0.2, specialization: 'creative_thinking', adaptive_weight: true },
-            { model_name: 'llama-guard-3-8b', temperature: 0.5, weight: 0.2, specialization: 'content_moderation', adaptive_weight: true }
+            { model_name: 'llama3-8b-8192', temperature: 0.7, weight: 0.2, specialization: 'creative_thinking', adaptive_weight: true }
         ],
         [
             { model_name: 'llama3-70b-8192', temperature: 0.6, weight: 0.4, specialization: 'deep_reasoning', adaptive_weight: true },
@@ -61,64 +61,44 @@ export const MOA_CONFIG = {
         graceful_degradation: {
             enabled: true,
             fallback_chain: ['llama3-70b-8192', 'llama3-8b-8192', 'gemma-7b-it']
+        },
+        exponential_backoff: {
+            enabled: true,
+            max_delay: 30000 // ms
         }
     },
     caching: {
         enabled: true,
-        ttl: 3600, // seconds
-        max_size: 1000, // number of items
-        strategy: 'LRU',
-        distributed_cache: {
+        max_cache_size: 1000, // Number of items to cache
+        ttl: 3600000, // Time to live in milliseconds (1 hour)
+        strategy: 'lru', // Least Recently Used eviction strategy
+        persistent_storage: {
             enabled: true,
-            sync_interval: 60000 // ms
+            storage_type: 'indexedDB',
+            max_persistent_size: 50 * 1024 * 1024 // 50 MB
+        },
+        compression: {
+            enabled: true,
+            algorithm: 'lz4'
+        },
+        invalidation: {
+            on_config_change: true,
+            on_model_update: true
         }
     },
     quantum_inspired_processing: {
         enabled: true,
         superposition_depth: 3,
-        entanglement_factor: 0.5,
-        quantum_annealing: {
-            enabled: true,
-            annealing_steps: 1000,
-            temperature_schedule: 'exponential_decay'
-        }
+        entanglement_factor: 0.5
     },
     meta_learning: {
         enabled: true,
         learning_rate: 0.01,
-        update_interval: 1000, // number of processed requests
-        transfer_learning: {
-            enabled: true,
-            source_models: ['llama3-70b-8192', 'mixtral-8x7b-32768'],
-            fine_tuning_frequency: 'weekly'
-        }
-    },
-    ethical_ai: {
-        bias_detection: {
-            enabled: true,
-            threshold: 0.7,
-            mitigation_strategy: 'rebalancing'
-        },
-        fairness_metrics: ['demographic_parity', 'equal_opportunity'],
-        transparency: {
-            model_cards: true,
-            decision_explanations: true
-        }
-    },
-    security: {
-        input_sanitization: true,
-        output_filtering: true,
-        encryption: {
-            at_rest: true,
-            in_transit: true,
-            end_to_end: true
-        },
-        access_control: {
-            role_based: true,
-            multi_factor_authentication: true
-        }
+        learning_epochs: 10,
+        learning_batch_size: 32 
     }
-};
+}
+
 
 export function getLayerConfig(layerIndex) {
     if (layerIndex < 0 || layerIndex >= MOA_CONFIG.layers.length) {

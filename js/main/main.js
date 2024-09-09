@@ -67,7 +67,7 @@ function addEventListeners({ mainModelSelect, mainTemperature, mainTemperatureVa
     });
 }
 
-function setupAdaptiveThresholdControls() {
+export function setupAdaptiveThresholdControls() {
     const controls = document.getElementById('adaptive-threshold-controls');
     if (!controls) {
         console.warn('Adaptive threshold controls not found. Some features may not work.');

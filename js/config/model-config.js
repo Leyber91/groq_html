@@ -4,7 +4,6 @@ export const RATE_LIMITS = {
     'gemma2-9b-it': { rpm: 30, tpm: 15000 },
     'llama-3.1-70b-versatile': { rpm: 30, tpm: 20000, dailyTokens: 1000000 },
     'llama-3.1-8b-instant': { rpm: 30, tpm: 20000, dailyTokens: 1000000 },
-    'llama-guard-3-8b': { rpm: 30, tpm: 15000 },
     'llama3-70b-8192': { rpm: 30, tpm: 6000 },
     'llama3-8b-8192': { rpm: 30, tpm: 30000 },
     'llama3-groq-70b-8192-tool-use-preview': { rpm: 30, tpm: 15000 },
@@ -31,20 +30,6 @@ export const MODEL_INFO = {
         bestFor: ['General-purpose tasks', 'Balanced performance'],
         strengths: ['Improved reasoning', 'Better context understanding'],
         weaknesses: ['Moderate resource requirements']
-    },
-    'llama-guard-3-8b': {
-        description: 'Specialized model for content moderation and safety',
-        contextWindow: 4096,
-        bestFor: ['Content filtering', 'Safety checks'],
-        strengths: ['High accuracy in detecting harmful content', 'Efficient processing'],
-        weaknesses: ['Limited general knowledge', 'Narrow use case']
-    },
-    'llama3-70b-8192': {
-        description: 'Large model with broad knowledge and advanced capabilities',
-        contextWindow: 8192,
-        bestFor: ['Complex reasoning', 'Long-form content', 'Advanced language understanding'],
-        strengths: ['Extensive knowledge base', 'Sophisticated reasoning'],
-        weaknesses: ['Higher resource requirements', 'Slower inference']
     },
     'llama3-8b-8192': {
         description: 'Balanced model offering good performance with lower resource requirements',

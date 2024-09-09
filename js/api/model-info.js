@@ -4,7 +4,6 @@ export const availableModels = [
     'gemma2-9b-it',
     'llama-3.1-70b-versatile',
     'llama-3.1-8b-instant',
-    'llama-guard-3-8b',
     'llama3-70b-8192',
     'llama3-8b-8192',
     'llama3-groq-70b-8192-tool-use-preview',
@@ -52,15 +51,6 @@ export const modelInfo = {
         tokenLimit: 20000,
         requestsPerMinute: 30,
         dailyTokenLimit: 1000000
-    },
-    'llama-guard-3-8b': {
-        description: 'Specialized model for content moderation and safety',
-        contextWindow: 8192,
-        bestFor: ['Content filtering', 'Safety checks'],
-        strengths: ['High accuracy in detecting harmful content', 'Efficient processing'],
-        weaknesses: ['Limited general knowledge', 'Narrow use case'],
-        tokenLimit: 15000,
-        requestsPerMinute: 30
     },
     'llama3-70b-8192': {
         description: 'Large and powerful general-purpose model',

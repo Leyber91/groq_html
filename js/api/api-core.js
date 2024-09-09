@@ -1,5 +1,5 @@
 import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
-import { createAndProcessBatch } from '../chat/batch-processor.js';
+import { createAndProcessBatch } from '../chat/batchProcessor/batch-processor.js';
 import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit } from './model-info.js';
 import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, rateLimits, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
 import { logError, withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
@@ -88,9 +88,9 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
         });
 
         if (!response.ok) {
-            const errorBody = await response.text();
+            const errorBody = await response.json();
             console.error(`API request failed for model ${model}. Status: ${response.status}. Response:`, errorBody);
-            throw new Error(`API request failed with status ${response.status} for model ${model}. Response: ${errorBody}`);
+            throw new Error(`API request failed: ${errorBody.error.message} (${response.status})`);
         }
 
         const reader = response.body.getReader();
@@ -112,13 +112,17 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
                     if (jsonData.trim() === '[DONE]') break;
                     try {
                         const parsedData = JSON.parse(jsonData);
-                        const content = parsedData.choices[0]?.delta?.content || '';
-                        fullResponse += content;
-                        if (typeof updateCallback === 'function') {
-                            updateCallback(content);
+                        if (parsedData.choices && parsedData.choices.length > 0) {
+                            const content = parsedData.choices[0]?.delta?.content || '';
+                            fullResponse += content;
+                            if (typeof updateCallback === 'function') {
+                                updateCallback(content);
+                            }
+                        } else {
+                            console.warn('Received unexpected data structure:', parsedData);
                         }
                     } catch (error) {
-                        console.error('Error parsing JSON:', error);
+                        console.error('Error parsing JSON:', error, 'Raw data:', jsonData);
                     }
                 }
             }
