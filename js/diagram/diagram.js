@@ -321,18 +321,31 @@ export function createMOADiagram() {
         d.fy = null;
     }
 
-    // Add this function to handle model selection change
+    // Function to handle model selection change
     function handleModelSelection(event, d) {
         const selectedModel = event.target.value;
         d.model_name = selectedModel;
         updateNodeAppearance(d3.select(event.target.closest('.node')), d);
-        // You may want to trigger a redraw of the diagram or update other components
-        // based on the new model selection
+        updateMOAConfig();
     }
 
-    // Modify the existing createNode function to add the event listener
+    // Function to create a node
     function createNode(d) {
-        // ... existing code ...
+        const nodeGroup = d3.create('g')
+            .attr('class', 'node')
+            .call(d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended));
+
+        nodeGroup.append('circle')
+            .attr('r', 30)
+            .style('fill', getModelColor(d.model_name));
+
+        nodeGroup.append('text')
+            .attr('dy', '.35em')
+            .attr('text-anchor', 'middle')
+            .text(d => `Layer ${d.layer}, Agent ${d.agent}`);
 
         const modelSelect = nodeGroup.append('foreignObject')
             .attr('width', 150)
@@ -340,19 +353,88 @@ export function createMOADiagram() {
             .attr('x', -75)
             .attr('y', 30)
             .append('xhtml:select')
+            .attr('class', 'agent-model')
             .on('change', (event) => handleModelSelection(event, d));
 
-        // ... rest of the existing code ...
+        availableModels.forEach(model => {
+            modelSelect.append('option')
+                .attr('value', model)
+                .text(model)
+                .property('selected', model === d.model_name);
+        });
+
+        const temperatureInput = nodeGroup.append('foreignObject')
+            .attr('width', 150)
+            .attr('height', 30)
+            .attr('x', -75)
+            .attr('y', 65)
+            .append('xhtml:input')
+            .attr('type', 'range')
+            .attr('class', 'agent-temperature')
+            .attr('min', 0)
+            .attr('max', 1)
+            .attr('step', 0.1)
+            .attr('value', d.temperature || 0.7)
+            .on('input', (event) => {
+                d.temperature = parseFloat(event.target.value);
+                updateMOAConfig();
+                updateTemperatureLabel(nodeGroup, d.temperature);
+            });
+
+        nodeGroup.append('text')
+            .attr('class', 'temperature-label')
+            .attr('x', 0)
+            .attr('y', 90)
+            .attr('text-anchor', 'middle')
+            .text(`Temp: ${d.temperature || 0.7}`);
 
         return nodeGroup;
     }
 
+    // Function to update temperature label
+    function updateTemperatureLabel(nodeGroup, temperature) {
+        nodeGroup.select('.temperature-label')
+            .text(`Temp: ${temperature.toFixed(1)}`);
+    }
+
     // Add this function to update node appearance based on the selected model
     function updateNodeAppearance(node, d) {
-        // Update node color or other visual properties based on the selected model
+        // Update node color and other visual properties based on the selected model
         const color = getModelColor(d.model_name);
-        node.select('circle').style('fill', color);
-        // You can add more visual updates here
+        const borderColor = d3.color(color).darker(0.5);
+        const textColor = d3.color(color).luminance() > 0.5 ? '#000000' : '#FFFFFF';
+
+        node.select('circle')
+            .style('fill', color)
+            .style('stroke', borderColor)
+            .style('stroke-width', '2px');
+
+        node.select('text')
+            .style('fill', textColor);
+
+        // Add a subtle glow effect
+        node.select('circle')
+            .attr('filter', 'url(#glow)');
+
+        // Update the size based on the model's complexity or importance
+        const size = getModelSize(d.model_name);
+        node.select('circle')
+            .transition()
+            .duration(300)
+            .attr('r', size);
+
+        // Add an icon or symbol representing the model type
+        const symbol = getModelSymbol(d.model_name);
+        node.select('.model-symbol')
+            .remove(); // Remove existing symbol if any
+        node.append('text')
+            .attr('class', 'model-symbol')
+            .attr('x', 0)
+            .attr('y', size + 15)
+            .attr('text-anchor', 'middle')
+            .style('font-family', 'FontAwesome')
+            .style('font-size', '16px')
+            .text(symbol);
     }
 
     // Helper function to get color based on model name
@@ -361,43 +443,105 @@ export function createMOADiagram() {
         const colorScheme = {
             'llama2-70b-4096': '#FF6B6B',
             'gemma2-5b-it': '#4ECDC4',
-            // Add more models and colors as needed
+            'mixtral-8x7b-32768': '#FFA07A',
+            'gpt-3.5-turbo': '#98FB98',
+            'gpt-4': '#87CEFA',
+            'claude-2': '#DDA0DD',
+            'palm': '#F0E68C',
+            'cohere-command': '#20B2AA',
+            'falcon-40b': '#FF69B4',
+            'j2-jumbo': '#9370DB'
         };
-        return colorScheme[modelName] || '#888888'; // Default color if not found
+
+        // If the model name is not in the colorScheme, generate a color based on the model name
+        if (!colorScheme[modelName]) {
+            let hash = 0;
+            for (let i = 0; i < modelName.length; i++) {
+                hash = modelName.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const color = `hsl(${hash % 360}, 70%, 60%)`;
+            return color;
+        }
+
+        return colorScheme[modelName];
+    }
+
+    // Helper function to get size based on model name
+    function getModelSize(modelName) {
+        const baseSize = 30;
+        const sizeMultipliers = {
+            'llama2-70b-4096': 1.5,
+            'gpt-4': 1.4,
+            'mixtral-8x7b-32768': 1.3,
+            'claude-2': 1.2,
+            'gpt-3.5-turbo': 1.1
+        };
+        return baseSize * (sizeMultipliers[modelName] || 1);
+    }
+
+    // Helper function to get symbol based on model type
+    function getModelSymbol(modelName) {
+        const symbols = {
+            'llama2': '\uf1b0', // fa-paw
+            'gemma': '\uf0e7', // fa-bolt
+            'gpt': '\uf121', // fa-code
+            'claude': '\uf19d', // fa-graduation-cap
+            'palm': '\uf1e6', // fa-plug
+            'cohere': '\uf0c1', // fa-link
+            'falcon': '\uf007', // fa-user
+            'j2': '\uf135'  // fa-rocket
+        };
+        const modelType = Object.keys(symbols).find(type => modelName.toLowerCase().includes(type));
+        return symbols[modelType] || '\uf128'; // fa-question as default
     }
 }
 
 export function updateMOAConfig() {
     const svg = d3.select('#moa-diagram svg');
-    
-    const newConfig = {
-        layers: [],
-        main_model: '',
-        main_temperature: 0
-    };
+    const newConfig = initializeNewConfig();
 
     svg.selectAll('.node').each(function(d) {
-        const node = d3.select(this);
-        const modelSelect = node.select('.agent-model');
-        const tempInput = node.select('.agent-temperature');
-        
-        if (d.id !== 'main_model') {
-            const [layer, agent] = d.id.split('_').map(part => parseInt(part.replace(/\D/g, '')));
-            if (!newConfig.layers[layer]) {
-                newConfig.layers[layer] = [];
-            }
-            newConfig.layers[layer][agent] = {
-                model_name: modelSelect.property('value'),
-                temperature: parseFloat(tempInput.property('value'))
-            };
-        } else {
-            newConfig.main_model = modelSelect.property('value');
-            newConfig.main_temperature = parseFloat(tempInput.property('value'));
-        }
+        updateConfigForNode(newConfig, d, this);
     });
 
     configUpdateMOAConfig(newConfig);
     createMOADiagram();
+}
+
+function initializeNewConfig() {
+    return {
+        layers: [],
+        main_model: '',
+        main_temperature: 0
+    };
+}
+
+function updateConfigForNode(config, nodeData, nodeElement) {
+    const node = d3.select(nodeElement);
+    const modelSelect = node.select('.agent-model');
+    const tempInput = node.select('.agent-temperature');
+    
+    if (nodeData.id !== 'main_model') {
+        updateLayerConfig(config, nodeData, modelSelect, tempInput);
+    } else {
+        updateMainModelConfig(config, modelSelect, tempInput);
+    }
+}
+
+function updateLayerConfig(config, nodeData, modelSelect, tempInput) {
+    const [layer, agent] = nodeData.id.split('_').map(part => parseInt(part.replace(/\D/g, '')));
+    if (!config.layers[layer]) {
+        config.layers[layer] = [];
+    }
+    config.layers[layer][agent] = {
+        model_name: modelSelect.property('value'),
+        temperature: parseFloat(tempInput.property('value'))
+    };
+}
+
+function updateMainModelConfig(config, modelSelect, tempInput) {
+    config.main_model = modelSelect.property('value');
+    config.main_temperature = parseFloat(tempInput.property('value'));
 }
 
 export function addLayer() {
@@ -440,6 +584,12 @@ export function animateAgent(index) {
     const nodes = svg.selectAll('.node');
     const links = svg.selectAll('line');
     
+    animateLayerNodes(nodes, index);
+    animateLayerLinks(nodes, links, index);
+    animateMainModelIfLastLayer(nodes, index);
+}
+
+function animateLayerNodes(nodes, index) {
     nodes.filter(d => d.layer === index)
         .select('circle')
         .transition()
@@ -448,7 +598,9 @@ export function animateAgent(index) {
         .transition()
         .duration(500)
         .attr('fill', '#3498db');
+}
 
+function animateLayerLinks(nodes, links, index) {
     links.filter(d => {
         const sourceNode = nodes.data().find(n => n.id === d.source.id);
         return sourceNode && sourceNode.layer === index;
@@ -461,7 +613,9 @@ export function animateAgent(index) {
         .duration(500)
         .attr('stroke', '#999')
         .attr('stroke-width', 2);
+}
 
+function animateMainModelIfLastLayer(nodes, index) {
     if (index === moaConfig.layers.length - 1) {
         nodes.filter(d => d.id === 'main_model')
             .select('circle')

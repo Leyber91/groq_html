@@ -1,82 +1,91 @@
-import { API_ENDPOINT, API_KEY } from '../config/config.js';
+import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
 import { createAndProcessBatch } from '../chat/batch-processor.js';
-import { compressMessage, decompressMessage } from '../compression.js';
-import { availableModels, getModelInfo } from './model-info.js';
-import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, rateLimits } from './rate-limiting.js';
-import { logError, withErrorHandling } from './error-handling.js';
+import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit } from './model-info.js';
+import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, rateLimits, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
+import { logError, withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
 
 const apiQueue = [];
 let isProcessingQueue = false;
-let globalTokenCount = 0;
 
-export async function queueApiRequest(model, messages, temperature, updateCallback) {
+export async function queueApiRequest(model, messages, temperature, updateCallback, priority = 'normal') {
     return new Promise((resolve, reject) => {
-        apiQueue.push({ model, messages, temperature, updateCallback, resolve, reject });
+        const request = { model, messages, temperature, updateCallback, resolve, reject, priority, timestamp: Date.now() };
+        insertRequestIntoQueue(request);
         processApiQueue();
     });
 }
 
+function insertRequestIntoQueue(request) {
+    const index = apiQueue.findIndex(item => item.priority === 'low' || (item.priority === 'normal' && request.priority === 'high'));
+    if (index === -1) {
+        apiQueue.push(request);
+    } else {
+        apiQueue.splice(index, 0, request);
+    }
+}
+
 async function processSingleRequest({ model, messages, temperature, updateCallback, resolve, reject }) {
+    if (!model) {
+        reject(new Error('Model parameter is missing or undefined'));
+        return;
+    }
+    
     try {
         if (!availableModels.includes(model)) {
             throw new Error(`Invalid model: ${model}`);
         }
 
-        refillTokenBuckets();
-        const bucket = tokenBuckets.get(model);
-        const limits = rateLimits[model];
+        await refillTokenBuckets();
         
-        if (!bucket || !limits) {
-            throw new Error(`Rate limit information not available for model ${model}`);
-        }
-
-        if (bucket.requestCount >= limits.rpm) {
-            throw new Error(`Rate limit exceeded for model ${model}`);
-        }
-
         const estimatedTokens = estimateTokens(messages, model);
-        if (bucket.tokens < estimatedTokens) {
-            throw new Error(`Token limit exceeded for model ${model}`);
-        }
-
-        if (limits.dailyTokens && bucket.dailyTokens < estimatedTokens) {
-            throw new Error(`Daily token limit exceeded for model ${model}`);
-        }
-
-        bucket.requestCount++;
-        bucket.tokens -= estimatedTokens;
-        if (limits.dailyTokens) {
-            bucket.dailyTokens -= estimatedTokens;
-        }
+        await checkRateLimit(model, estimatedTokens);
 
         const result = await enhancedStreamGroqAPI(model, messages, temperature, updateCallback);
+
+        await consumeTokens(model, estimatedTokens);
         resolve(result);
     } catch (error) {
-        logError(error, `processSingleRequest:${model}`);
-        reject(error);
+        const gracefulResult = await handleGracefulDegradation(error, `processSingleRequest:${model}`);
+        if (gracefulResult) {
+            resolve(gracefulResult);
+        } else {
+            reject(error);
+        }
     }
 }
 
 async function streamGroqAPI(model, messages, temperature, updateCallback) {
-    const rateLimit = rateLimits[model] || { rpm: 30, tpm: 15000 }; // Default rate limit
-    await waitForRateLimit(model, rateLimit);
+    if (!model) {
+        throw new Error('Model parameter is missing or undefined');
+    }
 
     const url = API_ENDPOINT;
     const headers = {
         'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
     };
+    const modelTokenLimit = getModelTokenLimit(model);
+    const modelContextWindow = getModelContextWindow(model);
+    const estimatedInputTokens = estimateTokens(messages, model);
+    const maxTokens = Math.min(modelTokenLimit, modelContextWindow - estimatedInputTokens);
     const body = JSON.stringify({
         model,
         messages,
         temperature,
-        stream: true
+        stream: true,
+        max_tokens: maxTokens
     });
 
     console.log(`Sending request for model ${model}:`, { url, headers, body: JSON.parse(body) });
 
     try {
-        const response = await fetch(url, { method: 'POST', headers, body });
+        const timeoutMs = typeof systemSettings.apiTimeout === 'number' ? systemSettings.apiTimeout : 30000; // Default to 30 seconds
+        const response = await fetch(url, { 
+            method: 'POST', 
+            headers, 
+            body,
+            signal: AbortSignal.timeout(timeoutMs)
+        });
 
         if (!response.ok) {
             const errorBody = await response.text();
@@ -117,94 +126,72 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
 
         return fullResponse;
     } catch (error) {
-        logError(error, `streamGroqAPI:${model}`);
+        if (error.name === 'AbortError') {
+            console.error(`API request timed out after ${timeoutMs}ms for model ${model}`);
+            throw new Error(`API request timed out after ${timeoutMs}ms for model ${model}`);
+        }
+        console.error(`Error in API request for model ${model}:`, error);
         throw error;
     }
-}
-
-function waitForRateLimit(model, rateLimit) {
-    return new Promise(resolve => {
-        const now = Date.now();
-        const lastRequestTime = tokenBuckets.get(model)?.lastRequestTime || 0;
-        const timeToWait = Math.max(0, (60000 / rateLimit.rpm) - (now - lastRequestTime));
-
-        setTimeout(() => {
-            tokenBuckets.set(model, { lastRequestTime: Date.now(), tokens: rateLimit.tpm });
-            resolve();
-        }, timeToWait);
-    });
 }
 
 function estimateTokens(messages, model) {
     const averageTokenLength = 4;
     const overheadFactor = 1.1;
-    const modelSpecificFactors = {
-        'gemma-7b-it': 1.05,
-        'gemma2-9b-it': 1.1,
-        'llama-3.1-70b-versatile': 1.2,
-        'llama-3.1-8b-instant': 1.1,
-        'llama-guard-3-8b': 1.05,
-        'llama3-70b-8192': 1.25,
-        'llama3-8b-8192': 1.15,
-        'llama3-groq-70b-8192-tool-use-preview': 1.3,
-        'llama3-groq-8b-8192-tool-use-preview': 1.2,
-        'mixtral-8x7b-32768': 1.15
-    };
+    const modelSpecificFactor = getModelInfo(model).tokenEstimationFactor || 1.0;
 
-    return messages.reduce((sum, msg) => {
+    const estimatedTokens = messages.reduce((sum, msg) => {
         const charCount = msg.content.length;
         const estimatedTokens = Math.ceil(charCount / averageTokenLength);
-        return sum + (estimatedTokens * overheadFactor * (modelSpecificFactors[model] || 1.0));
+        return sum + estimatedTokens;
     }, 0);
+
+    return Math.ceil(estimatedTokens * overheadFactor * modelSpecificFactor);
 }
 
 export async function processApiQueue() {
     if (isProcessingQueue || apiQueue.length === 0) return;
     
     isProcessingQueue = true;
-    const batchSize = 5;
+    const batchSize = systemSettings.apiBatchSize || 5;
     const batch = apiQueue.splice(0, batchSize);
 
     try {
         await createAndProcessBatch(batch, processSingleRequest, {
             batchSize,
-            delay: 100,
-            retryAttempts: 3,
-            retryDelay: 1000,
-            maxConcurrent: 3,
+            delay: systemSettings.apiBatchDelay || 100,
+            retryAttempts: systemSettings.apiRetryAttempts || 3,
+            retryDelay: systemSettings.apiRetryDelay || 1000,
+            maxConcurrent: systemSettings.apiMaxConcurrent || 3,
             progressCallback: (progress) => console.log(`Batch progress: ${progress * 100}%`)
         });
     } catch (error) {
-        logError(error, 'processApiQueue');
+        await handleGracefulDegradation(error, 'processApiQueue');
     }
     
     isProcessingQueue = false;
-    setTimeout(processApiQueue, 100);
+    setTimeout(processApiQueue, systemSettings.apiQueueInterval || 100);
 }
 
 export const safeProcessApiQueue = withErrorHandling(processApiQueue, 'safeProcessApiQueue');
 
-const enhancedStreamGroqAPI = (model, messages, temperature, updateCallback) => 
-    withErrorHandling(() => streamGroqAPI(model, messages, temperature, updateCallback), `streamGroqAPI:${model}`);
+const enhancedStreamGroqAPI = withErrorHandling(
+    async (model, messages, temperature, updateCallback) => {
+        if (!model) {
+            throw new Error('Model parameter is missing or undefined in enhancedStreamGroqAPI');
+        }
+        return await streamGroqAPI(model, messages, temperature, updateCallback);
+    },
+    'enhancedStreamGroqAPI'
+);
 
-export function logApiUsageStats() {
-    const stats = {
-        globalTokenCount,
-        modelStats: {}
-    };
-    for (const [model, bucket] of tokenBuckets.entries()) {
-        stats.modelStats[model] = {
-            tokens: bucket.tokens.toFixed(2),
-            rpm: bucket.rpm,
-            requestCount: bucket.requestCount
-        };
-    }
-    console.log('API Usage Stats:', JSON.stringify(stats, null, 2));
-}
+
 
 // Initialize token buckets when the module loads
 initializeTokenBuckets();
 
 // Periodically refill token buckets and log usage statistics
-setInterval(refillTokenBuckets, 60000); // Run every minute
-setInterval(logApiUsageStats, 300000); // Log stats every 5 minutes
+setInterval(refillTokenBuckets, systemSettings.tokenRefillInterval || 60000); // Run every minute by default
+setInterval(logApiUsageStats, systemSettings.apiStatsLogInterval || 300000); // Log stats every 5 minutes by default
+
+export { logApiUsageStats, handleApiFailure };

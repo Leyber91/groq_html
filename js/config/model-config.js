@@ -2,14 +2,15 @@
 export const RATE_LIMITS = {
     'gemma-7b-it': { rpm: 30, tpm: 15000 },
     'gemma2-9b-it': { rpm: 30, tpm: 15000 },
+    'llama-3.1-70b-versatile': { rpm: 30, tpm: 20000, dailyTokens: 1000000 },
+    'llama-3.1-8b-instant': { rpm: 30, tpm: 20000, dailyTokens: 1000000 },
     'llama-guard-3-8b': { rpm: 30, tpm: 15000 },
     'llama3-70b-8192': { rpm: 30, tpm: 6000 },
     'llama3-8b-8192': { rpm: 30, tpm: 30000 },
     'llama3-groq-70b-8192-tool-use-preview': { rpm: 30, tpm: 15000 },
     'llama3-groq-8b-8192-tool-use-preview': { rpm: 30, tpm: 15000 },
-    'mixtral-8x7b-32768': { rpm: 30, tpm: 5000 },
-    'llama-3.1-70b-versatile': { rpm: 100, tpm: 131072 },
-    'llama-3.1-8b-instant': { rpm: 30, tpm: 131072 }
+    'llava-v1.5-7b-4096-preview': { rpm: 30, tpm: 30000 },
+    'mixtral-8x7b-32768': { rpm: 30, tpm: 5000 }
 };
 
 // Available models
@@ -86,6 +87,11 @@ export const MODEL_INFO = {
         bestFor: ['Rapid responses', 'Real-time applications', 'Lightweight processing'],
         strengths: ['Fast inference', 'Large context window', 'Low latency'],
         weaknesses: ['Less advanced than larger models', 'Limited complex reasoning']
+    },
+    'llava-v1.5-7b-4096-preview': {
+        description: 'Vision-language model for image understanding and generation',
+        contextWindow: 4096,
+        bestFor: ['Image analysis', 'Visual question answering', 'Image-based tasks']
     }
 };
 

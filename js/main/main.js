@@ -21,25 +21,39 @@ function initializeApp() {
 }
 
 function setupMainModelControls() {
+    const elements = getMainModelControlElements();
+    if (!elements) return;
+
+    populateMainModelSelect(elements.mainModelSelect);
+    setInitialValues(elements);
+    addEventListeners(elements);
+}
+
+function getMainModelControlElements() {
     const mainModelSelect = document.getElementById('main-model-select');
     const mainTemperature = document.getElementById('main-temperature');
     const mainTemperatureValue = document.getElementById('main-temperature-value');
 
     if (!mainModelSelect || !mainTemperature || !mainTemperatureValue) {
         console.error('Main model control elements not found');
-        return;
+        return null;
     }
 
-    // Populate main model select
+    return { mainModelSelect, mainTemperature, mainTemperatureValue };
+}
+
+function populateMainModelSelect(mainModelSelect) {
     mainModelSelect.innerHTML = availableModels.map(model => 
         `<option value="${model}" ${model === moaConfig.main_model ? 'selected' : ''}>${model}</option>`
     ).join('');
+}
 
-    // Set initial values
+function setInitialValues({ mainTemperature, mainTemperatureValue }) {
     mainTemperature.value = moaConfig.main_temperature;
     mainTemperatureValue.textContent = moaConfig.main_temperature.toFixed(2);
+}
 
-    // Add event listeners
+function addEventListeners({ mainModelSelect, mainTemperature, mainTemperatureValue }) {
     mainModelSelect.addEventListener('change', (e) => {
         updateMOAConfig({ main_model: e.target.value });
         createMOADiagram();

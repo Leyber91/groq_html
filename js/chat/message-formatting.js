@@ -22,10 +22,9 @@ export function updateMessageContent(messageDiv, content) {
     contentDiv.innerHTML = formatContent(content);
 }
 
-export function formatContent(text) {
-    const formattedText = marked.parse(text);
-    return formattedText.replace(/<pre><code class="language-(\w+)">([\s\S]+?)<\/code><\/pre>/g, (match, language, code) => {
-        const highlightedCode = hljs.highlight(code, { language }).value;
-        return `<pre><code class="hljs language-${language}">${highlightedCode}</code></pre>`;
-    });
+export function formatContent(content) {
+    if (typeof content === 'object') {
+        content = JSON.stringify(content, null, 2);
+    }
+    return marked.parse(content);
 }
