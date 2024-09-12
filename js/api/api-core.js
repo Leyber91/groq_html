@@ -1,6 +1,6 @@
 import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
 import { createAndProcessBatch } from '../chat/batchProcessor/batch-processor.js';
-import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit } from './model-info.js';
+import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit } from './modelInfo/model-info.js';
 import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, rateLimits, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
 import { logError, withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
 

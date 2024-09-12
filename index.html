@@ -14,11 +14,9 @@
     <main>
         <div id="moa-interface">
             <div id="moa-diagram"></div>
-            <div id="moa-controls-container">
-                <div id="moa-controls-wrapper">
-                    <div id="moa-controls">
-                        <h3>MOA Controls</h3>
-                        <div class="control-group">
+            <div id="moa-controls">
+                <h3>MOA Controls</h3>
+                <div class="control-group">
                             <label for="main-model-select">Main Model:</label>
                             <select id="main-model-select"></select>
                         </div>
@@ -40,25 +38,23 @@
                                 <span id="output-quality-value"></span>
                             </div>
                             <div>
-                                <label for="max-retries">Max Retries:</label>
-                                <input type="number" id="max-retries" min="1" max="10" step="1">
+                                    <label for="max-retries">Max Retries:</label>
+                                    <input type="number" id="max-retries" min="1" max="10" step="1">
+                                </div>
+                                <div>
+                                    <label for="backoff-factor">Backoff Factor:</label>
+                                    <input type="number" id="backoff-factor" min="1" max="3" step="0.1">
+                                </div>
+                                <div>
+                                    <label for="dynamic-adjustment">Dynamic Adjustment:</label>
+                                    <input type="checkbox" id="dynamic-adjustment">
+                                </div>
                             </div>
                             <div>
-                                <label for="backoff-factor">Backoff Factor:</label>
-                                <input type="number" id="backoff-factor" min="1" max="3" step="0.1">
-                            </div>
-                            <div>
-                                <label for="dynamic-adjustment">Dynamic Adjustment:</label>
-                                <input type="checkbox" id="dynamic-adjustment">
-                            </div>
-                        </div>
-                        <div>
-                            <button id="add-layer-button">Add Layer</button>
-                            <button id="add-agent-button">Add Agent</button>
-                            <button id="remove-layer-button">Remove Layer</button>
-                            <button id="remove-agent-button">Remove Agent</button>
-                        </div>
-                    </div>
+                                <button id="add-layer-button">Add Layer</button>
+                    <button id="add-agent-button">Add Agent</button>
+                    <button id="remove-layer-button">Remove Layer</button>
+                    <button id="remove-agent-button">Remove Agent</button>
                 </div>
             </div>
         </div>

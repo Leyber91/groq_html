@@ -71,7 +71,8 @@ export async function batchProcess(promises, delay, progressCallback, retryAttem
 
     if (errors.length > 0) {
         console.warn(`${errors.length} promises failed after all retry attempts.`);
-        throw new Error(`Batch processing failed: ${errors.length} promises failed after all retry attempts.`);
+        const errorDetails = errors.map(e => e.message).join('; ');
+        throw new Error(`Batch processing failed: ${errors.length} promises failed after all retry attempts. Details: ${errorDetails}`);
     }
 
     return results;
@@ -92,20 +93,25 @@ export async function batchProcess(promises, delay, progressCallback, retryAttem
  */
 export async function createAndProcessBatch(items, processingFunction, options = {}) {
     const {
-        batchSize = 10,
+        initialBatchSize = 10,
+        minBatchSize = 1,
+        maxBatchSize = 50,
         delay = 0,
         retryAttempts = 3,
         retryDelay = 1000,
         maxConcurrent = Infinity,
-        progressCallback
+        progressCallback,
+        adaptiveThreshold = 0.8
     } = options;
 
     const results = [];
     const totalItems = items.length;
     let processedItems = 0;
+    let currentBatchSize = initialBatchSize;
+    let lastBatchDuration = 0;
 
-    for (let i = 0; i < items.length; i += batchSize) {
-        const batch = items.slice(i, i + batchSize);
+    for (let i = 0; i < items.length;) {
+        const batch = items.slice(i, i + currentBatchSize);
         const batchPromises = batch.map(item => async () => {
             try {
                 return await processingFunction(item);
@@ -114,6 +120,8 @@ export async function createAndProcessBatch(items, processingFunction, options =
                 throw error;
             }
         });
+
+        const batchStartTime = Date.now();
         try {
             const batchResults = await batchProcess(
                 batchPromises.map(fn => fn()),
@@ -133,6 +141,18 @@ export async function createAndProcessBatch(items, processingFunction, options =
             console.error(`Batch processing failed: ${error.message}`);
             throw error;
         }
+
+        const batchEndTime = Date.now();
+        lastBatchDuration = batchEndTime - batchStartTime;
+
+        // Adaptive batch sizing logic
+        if (lastBatchDuration < adaptiveThreshold * delay * currentBatchSize) {
+            currentBatchSize = Math.min(currentBatchSize * 2, maxBatchSize);
+        } else if (lastBatchDuration > delay * currentBatchSize) {
+            currentBatchSize = Math.max(Math.floor(currentBatchSize / 2), minBatchSize);
+        }
+
+        i += batch.length;
     }
 
     return results;
@@ -141,11 +161,14 @@ export async function createAndProcessBatch(items, processingFunction, options =
 // Add a new function to use batch processing in the main workflow
 export async function processBatchedRequests(requests, processingFunction) {
     return createAndProcessBatch(requests, processingFunction, {
-        batchSize: 5,
+        initialBatchSize: 5,
+        minBatchSize: 1,
+        maxBatchSize: 20,
         delay: 1000,
         retryAttempts: 3,
         retryDelay: 1000,
         maxConcurrent: 3,
-        progressCallback: (progress) => console.log(`Batch progress: ${(progress * 100).toFixed(2)}%`)
+        progressCallback: (progress) => console.log(`Batch progress: ${(progress * 100).toFixed(2)}%`),
+        adaptiveThreshold: 0.8
     });
 }

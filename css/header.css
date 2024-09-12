@@ -2,7 +2,7 @@ header {
     background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
     color: #ff6b6b;
     text-align: center;
-    padding: 2rem;
+    padding: 3rem;
     box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
     position: relative;
     overflow: hidden;

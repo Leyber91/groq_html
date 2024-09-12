@@ -3,6 +3,83 @@
 export const MOA_CONFIG = {
     main_model: 'llama3-70b-8192',
     main_temperature: 0.7,
+    main_weight: 0.5,
+    main_specialization: 'general_intelligence',
+    summary_model: 'llama3-70b-8192',
+    summary_temperature: 0.6,
+    summary_weight: 0.5,
+    summary_specialization: 'deep_reasoning',
+    summary_weight: 0.5,
+    summary_adaptive_weight: true,
+    summary_threshold: {
+        processing_time: 10000, // ms
+        output_quality: 0.7,
+        max_retries: 3,
+        backoff_factor: 1.5,
+        dynamic_adjustment: true,
+        auto_scaling: {
+            enabled: true,
+            scale_up_threshold: 0.8,
+            scale_down_threshold: 0.2,
+            cooldown_period: 300000 // ms
+        }
+    },
+    visualization: {
+        update_interval: 5000, // ms
+        color_scheme: 'adaptive',
+        show_confidence: true,
+        show_processing_time: true,
+        show_model_contributions: true,
+        real_time_performance_graphs: true,
+        interactive_model_comparison: true
+    },
+    rate_limiting: {
+        enabled: true,
+        max_requests_per_minute: 30,
+        max_tokens_per_minute: 15000,
+        dynamic_adjustment: true,
+        fair_use_policy: {
+            enabled: true,
+            user_quotas: {
+                default: { requests: 100, tokens: 50000 },
+                premium: { requests: 500, tokens: 250000 }
+            }
+        }
+    },
+    error_handling: {
+        max_retries: 3,
+        retry_delay: 1000, // ms
+        fallback_model: 'llama3-8b-8192',
+        error_logging: true,
+        automatic_issue_reporting: true,
+        graceful_degradation: {
+            enabled: true,
+            fallback_chain: ['llama3-70b-8192', 'llama3-8b-8192', 'gemma-7b-it']
+        },
+        exponential_backoff: {
+            enabled: true,
+            max_delay: 30000 // ms
+        }
+    },
+    caching: {
+        enabled: true,
+        max_cache_size: 1000, // Number of items to cache
+        ttl: 3600000, // Time to live in milliseconds (1 hour)
+        strategy: 'lru', // Least Recently Used eviction strategy
+        persistent_storage: {
+            enabled: true,
+            storage_type: 'indexedDB',
+            max_persistent_size: 50 * 1024 * 1024 // 50 MB
+        },
+        compression: {
+            enabled: true,
+            algorithm: 'lz4'
+        },
+        invalidation: {
+            on_config_change: true,
+            on_model_update: true
+        }
+    },
     layers: [
         [
             { model_name: 'llama3-8b-8192', temperature: 0.5, weight: 0.2, specialization: 'general_knowledge', adaptive_weight: true },
@@ -96,7 +173,22 @@ export const MOA_CONFIG = {
         learning_rate: 0.01,
         learning_epochs: 10,
         learning_batch_size: 32 
-    }
+    },
+    layer_threshold: {
+        processing_time: 10000, // ms
+        output_quality: 0.7,
+        max_retries: 3,
+        backoff_factor: 1.5,
+        dynamic_adjustment: true,
+        auto_scaling: {
+            enabled: true,  
+            scale_up_threshold: 0.8,
+            scale_down_threshold: 0.2,
+            cooldown_period: 300000 // ms
+        }
+    }   
+    
+
 }
 
 

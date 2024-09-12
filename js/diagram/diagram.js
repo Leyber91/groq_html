@@ -12,8 +12,40 @@ function debounce(func, wait) {
 
 import { moaConfig, availableModels, updateMOAConfig as configUpdateMOAConfig } from '../config/config.js';
 import { generateUniqueId } from '../utils/idGenerator.js';
+import { MODEL_INFO } from '../config/model-config.js';
+import { getModelInfo, getModelContextWindow } from '../api/modelInfo/model-info.js';
 
+
+function responsivefy(svg) {
+  const container = d3.select(svg.node().parentNode),
+      width = parseInt(svg.style('width')),
+      height = parseInt(svg.style('height')),
+      aspect = width / height;
+
+  svg.attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('preserveAspectRatio', 'xMinYMid')
+      .call(resize);
+
+  d3.select(window).on('resize.' + container.attr('id'), resize);
+
+  function resize() {
+    const targetWidth = parseInt(container.style('width'));
+    svg.attr('width', targetWidth);
+    svg.attr('height', Math.round(targetWidth / aspect));
+  }
+}
+
+
+let nodeMap = new Map();
 export function createMOADiagram() {
+    return new Promise((resolve) => {
+        if (!moaConfig || !moaConfig.layers || moaConfig.layers.length === 0) {
+            console.warn('MOA configuration not fully loaded. Skipping diagram creation.');
+            resolve();
+            return;
+        }
+    
+    let nodeMap = new Map();
     const container = d3.select('#moa-diagram');
     container.selectAll('*').remove();
     
@@ -27,40 +59,109 @@ export function createMOADiagram() {
         .attr('viewBox', `0 0 ${width} ${height}`)
         .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    const diagramWidth = width * 0.9;
-    const diagramHeight = height * 0.9;
-    const margin = { top: height * 0.05, left: width * 0.05 };
-
+    const diagramWidth = width * 0.95;
+    const diagramHeight = height * 0.95;
+    const margin = { top: height * 0.025, left: width * 0.025 };
+        
     const layerWidth = diagramWidth / (moaConfig.layers.length + 1);
     const layerHeight = diagramHeight;
 
     const nodes = [];
     const links = [];
-
+    
     // Create nodes and links for each layer and agent
+    nodeMap.clear(); // Clear the existing map before populating it
     moaConfig.layers.forEach((layer, layerIndex) => {
         const layerX = margin.left + (layerIndex + 1) * layerWidth;
         layer.forEach((agent, agentIndex) => {
             const agentY = margin.top + (agentIndex + 1) * (layerHeight / (layer.length + 1));
+            const nodeId = `layer${layerIndex}_agent${agentIndex}`;
             nodes.push({
-                id: `layer${layerIndex}_agent${agentIndex}`,
+                id: nodeId,
                 x: layerX,
                 y: agentY,
                 layer: layerIndex,
                 agent: agentIndex,
                 ...agent
             });
+            // Add this node to a global map for easy access
+            nodeMap.set(nodeId, nodes[nodes.length - 1]);
+
+            // Connect to previous layer nodes
             if (layerIndex > 0) {
                 moaConfig.layers[layerIndex - 1].forEach((prevAgent, prevAgentIndex) => {
+                    const prevNodeId = `layer${layerIndex-1}_agent${prevAgentIndex}`;
+                    const connectionStrength = calculateConnectionStrength(prevAgent, agent);
                     links.push({
-                        source: `layer${layerIndex-1}_agent${prevAgentIndex}`,
-                        target: `layer${layerIndex}_agent${agentIndex}`,
-                        weight: 1 // Default weight, can be adjusted based on connection strength
+                        source: prevNodeId,
+                        target: nodeId,
+                        weight: connectionStrength
+                    });
+                });
+            }
+
+            // Add self-connection for recurrent behavior
+            links.push({
+                source: nodeId,
+                target: nodeId,
+                weight: 0.5,
+                type: 'self'
+            });
+            // Connect to next layer nodes (if not the last layer)
+            if (layerIndex < moaConfig.layers.length - 1) {
+                moaConfig.layers[layerIndex + 1].forEach((nextAgent, nextAgentIndex) => {
+                    const nextNodeId = `layer${layerIndex+1}_agent${nextAgentIndex}`;
+                    links.push({
+                        source: nodeId,
+                        target: nextNodeId,
+                        weight: 1,
+                        type: 'forward'
                     });
                 });
             }
         });
     });
+    function calculateConnectionStrength(prevAgent, currentAgent) {
+        // Calculate model compatibility
+        const modelCompatibility = MODEL_INFO[prevAgent.model_name]?.compatibility?.[currentAgent.model_name] || 0.7;
+     
+        // Calculate temperature compatibility
+        const temperatureCompatibility = 1 - Math.abs(prevAgent.temperature - currentAgent.temperature);
+
+        // Calculate context window compatibility
+        const prevContextWindow = getModelContextWindow(prevAgent.model_name);
+        const currentContextWindow = getModelContextWindow(currentAgent.model_name);
+        const contextWindowCompatibility = Math.min(prevContextWindow, currentContextWindow) / Math.max(prevContextWindow, currentContextWindow);
+
+        // Calculate task compatibility
+        const taskCompatibility = calculateTaskCompatibility(prevAgent, currentAgent);
+
+        // Calculate overall connection strength
+        const connectionStrength = (
+            modelCompatibility * 0.3 +
+            temperatureCompatibility * 0.2 +
+            contextWindowCompatibility * 0.3 +
+            taskCompatibility * 0.2
+        );
+
+        return connectionStrength;
+    }
+    function calculateTaskCompatibility(prevAgent, currentAgent) {
+        const prevModelInfo = getModelInfo(prevAgent.model_name);
+        const currentModelInfo = getModelInfo(currentAgent.model_name);
+
+        if (!prevModelInfo || !currentModelInfo) {
+            return 0.5; // Default compatibility if model info is not available
+        }
+
+        const prevTasks = new Set(prevModelInfo.bestFor);
+        const currentTasks = new Set(currentModelInfo.bestFor);
+
+        const commonTasks = new Set([...prevTasks].filter(task => currentTasks.has(task)));
+        const totalTasks = new Set([...prevTasks, ...currentTasks]);
+
+        return commonTasks.size / totalTasks.size;
+    }
 
     // Add main model node
     nodes.push({
@@ -80,14 +181,14 @@ export function createMOADiagram() {
             weight: 1
         });
     });
-
     // Create force simulation
     const simulation = d3.forceSimulation(nodes)
         .force('link', d3.forceLink(links).id(d => d.id).distance(layerWidth))
         .force('charge', d3.forceManyBody().strength(-500))
         .force('x', d3.forceX(d => d.x).strength(0.5))
         .force('y', d3.forceY(d => d.y).strength(0.5))
-        .on('tick', ticked);
+        .on('tick', ticked)
+        .restart();
 
     // Create links
     const link = svg.append('g')
@@ -96,7 +197,10 @@ export function createMOADiagram() {
         .data(links)
         .enter().append('line')
         .attr('stroke-width', d => Math.sqrt(d.weight))
-        .attr('stroke', '#999');
+        .attr('stroke', '#999')
+        .attr('opacity', 0.6)
+        .attr('filter', 'url(#link-glow)')
+        .attr('class', d => d.type);
 
     // Create nodes
     const node = svg.append('g')
@@ -106,6 +210,7 @@ export function createMOADiagram() {
         .enter().append('g')
         .attr('class', 'node')
         .call(d3.drag()
+
             .on('start', dragstarted)
             .on('drag', dragged)
             .on('end', dragended));
@@ -210,7 +315,6 @@ export function createMOADiagram() {
                 .attr('font-weight', 'bold')
                 .text('Remove Layer');
         }
-
         // Add 'Remove Agent' buttons
         layer.forEach((agent, agentIndex) => {
             if (layer.length > 1) {
@@ -222,16 +326,34 @@ export function createMOADiagram() {
 
                 removeAgentButton.append('circle')
                     .attr('r', 12)
-                    .attr('fill', '#fc5c65');
+                    .attr('fill', '#fc5c65')
+                    .attr('filter', 'url(#button-glow)');
 
                 removeAgentButton.append('text')
                     .attr('x', 0)
-                    .attr('y', 4)
+                    .attr('y', 5)
                     .attr('text-anchor', 'middle')
                     .attr('fill', 'white')
                     .attr('font-weight', 'bold')
-                    .attr('font-size', '16px')
+                    .attr('font-size', '18px')
                     .text('×');
+
+                // Add hover effect
+                removeAgentButton
+                    .on('mouseover', function() {
+                        d3.select(this).select('circle')
+                            .transition()
+                            .duration(200)
+                            .attr('r', 14)
+                            .attr('fill', '#ff7675');
+                    })
+                    .on('mouseout', function() {
+                        d3.select(this).select('circle')
+                            .transition()
+                            .duration(200)
+                            .attr('r', 12)
+                            .attr('fill', '#fc5c65');
+                    });
             }
         });
     });
@@ -470,11 +592,16 @@ export function createMOADiagram() {
     function getModelSize(modelName) {
         const baseSize = 30;
         const sizeMultipliers = {
-            'llama2-70b-4096': 1.5,
-            'gpt-4': 1.4,
-            'mixtral-8x7b-32768': 1.3,
-            'claude-2': 1.2,
-            'gpt-3.5-turbo': 1.1
+            'gemma-7b-it': 1.1,
+            'gemma2-9b-it': 1.2,
+            'llama-3.1-70b-versatile': 1.5,
+            'llama-3.1-8b-instant': 1.1,
+            'llama3-70b-8192': 1.5,
+            'llama3-8b-8192': 1.1,
+            'llama3-groq-70b-8192-tool-use-preview': 1.5,
+            'llama3-groq-8b-8192-tool-use-preview': 1.1,
+            'llava-v1.5-7b-4096-preview': 1.2,
+            'mixtral-8x7b-32768': 1.4
         };
         return baseSize * (sizeMultipliers[modelName] || 1);
     }
@@ -482,18 +609,27 @@ export function createMOADiagram() {
     // Helper function to get symbol based on model type
     function getModelSymbol(modelName) {
         const symbols = {
-            'llama2': '\uf1b0', // fa-paw
+            'llama': '\uf1b0', // fa-paw
             'gemma': '\uf0e7', // fa-bolt
             'gpt': '\uf121', // fa-code
             'claude': '\uf19d', // fa-graduation-cap
-            'palm': '\uf1e6', // fa-plug
-            'cohere': '\uf0c1', // fa-link
-            'falcon': '\uf007', // fa-user
-            'j2': '\uf135'  // fa-rocket
+            'mixtral': '\uf1e6', // fa-plug
+            'llava': '\uf03e', // fa-picture-o
         };
         const modelType = Object.keys(symbols).find(type => modelName.toLowerCase().includes(type));
         return symbols[modelType] || '\uf128'; // fa-question as default
     }
+
+            setTimeout(() => {
+            resolve();
+        }, 100); // Small delay to ensure rendering is complete
+});
+
+
+
+
+
+
 }
 
 export function updateMOAConfig() {
@@ -628,17 +764,67 @@ function animateMainModelIfLastLayer(nodes, index) {
     }
 }
 
-export function updateDiagram(performanceMetrics = {}) {
-    const svg = d3.select('#moa-diagram svg');
-    const nodes = svg.selectAll('.node');
+export function updateDiagram(layerIndex, agentIndex, modelName, status) {
+    if (layerIndex === undefined || agentIndex === undefined) {
+        console.error(`Invalid layer or agent index: Layer ${layerIndex}, Agent ${agentIndex}`);
+        return;
+    }
 
-    nodes.each(function(d) {
-        const node = d3.select(this);
-        const metric = performanceMetrics[d.id];
-        if (metric) {
-            const color = d3.interpolateRdYlGn(metric.outputQuality);
-            node.select('circle').attr('fill', color);
-            node.append('title').text(`Processing Time: ${metric.processingTime}ms\nOutput Quality: ${metric.outputQuality.toFixed(2)}`);
+    const nodeId = `layer${layerIndex}_agent${agentIndex}`;
+    const svg = d3.select('#moa-diagram svg');
+    const agentNode = svg.select(`.node[data-id="${nodeId}"]`);
+
+    if (agentNode.empty()) {
+        console.warn(`Node not found for Layer ${layerIndex}, Agent ${agentIndex}. Recreating diagram...`);
+        createMOADiagram();
+        return;
+    }
+
+    // Update the model name in the dropdown
+    agentNode.select('.agent-model')
+        .property('value', modelName);
+
+    // Animate the node based on status
+    agentNode.select('circle')
+        .transition()
+        .duration(500)
+        .attr('fill', status === 'success' ? '#4CAF50' : '#FF5252')
+        .transition()
+        .duration(500)
+        .attr('fill', '#3498db');
+
+    // Update the node label
+    agentNode.select('text')
+        .text(`A${agentIndex}`);
+
+    // Update the node in the global nodeMap
+    if (nodeMap.has(nodeId)) {
+        const updatedNode = nodeMap.get(nodeId);
+        updatedNode.model_name = modelName;
+        nodeMap.set(nodeId, updatedNode);
+    }
+
+    // Trigger a partial redraw of the diagram
+    updateNodeConnections(layerIndex, agentIndex);
+}
+
+function updateNodeConnections(layerIndex, agentIndex) {
+    const svg = d3.select('#moa-diagram svg');
+    const links = svg.selectAll('.links line');
+
+    links.each(function(d) {
+        const link = d3.select(this);
+        const sourceId = d.source.id || d.source;
+        const targetId = d.target.id || d.target;
+
+        if (sourceId === `layer${layerIndex}_agent${agentIndex}` || targetId === `layer${layerIndex}_agent${agentIndex}`) {
+            const weight = calculateConnectionStrength(nodeMap.get(sourceId), nodeMap.get(targetId));
+            link.transition()
+                .duration(500)
+                .attr('stroke-width', Math.sqrt(weight))
+                .attr('stroke', '#999');
         }
     });
+
+    
 }

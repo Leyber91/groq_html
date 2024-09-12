@@ -1,6 +1,9 @@
 import { API_ENDPOINT, API_KEY, rateLimits, systemSettings } from '../config/config.js';
-import { availableModels, modelInfo } from './model-info.js';
+import { availableModels, modelInfo } from './modelInfo/model-info.js';
+
 import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
+import { getModelContextWindow } from './modelInfo/model-info.js';
+import { moaConfig } from '../config/config.js';
 
 // Enhanced error logging function
 export function logError(error, context) {
@@ -225,15 +228,70 @@ async function handleRateLimitExceeded(context) {
     return { status: 'retry', message: 'Rate limit exceeded, retrying after wait' };
 }
 
-async function handleTokenLimitExceeded(context) {
+async function handleTokenLimitExceeded(context, requiredTokens) {
     console.log(`Handling token limit exceeded in ${context}`);
-    // Attempt to use a model with a larger context window
     const currentModel = context.split(':')[1];
-    const largerModel = findModelWithLargerContext(currentModel);
-    if (largerModel) {
-        return { status: 'use_larger_model', message: `Using larger model: ${largerModel}`, model: largerModel };
+    
+    if (typeof moaConfig === 'undefined' || !moaConfig.layers) {
+        console.error('moaConfig is not properly defined. Unable to handle token limit exceeded.');
+        throw new Error('Invalid moaConfig');
     }
-    return { status: 'error', message: 'Token limit exceeded and no larger model available' };
+
+    let availableModels = moaConfig.layers.flatMap(layer => layer.map(agent => agent.model_name));
+    let sortedModels = availableModels.sort((a, b) => getModelContextWindow(b) - getModelContextWindow(a));
+    
+    for (let model of sortedModels) {
+        if (getModelContextWindow(model) >= requiredTokens) {
+            return { status: 'use_larger_model', message: `Using larger model: ${model}`, model: model };
+        }
+    }
+    
+    // If no model can handle the required tokens, fall back to chunking
+    const maxTokens = getModelContextWindow(currentModel);
+    const chunks = partitionInput(context, maxTokens);
+    return { 
+        status: 'chunk_input', 
+        message: `Input needs to be chunked. Divided into ${chunks.length} parts.`,
+        model: currentModel,
+        chunks: chunks
+    };
+}
+
+function partitionInput(input, maxTokens) {
+    const partitions = [];
+    let currentPartition = '';
+    const sentences = input.split(/(?<=[.!?])\s+/);
+    
+    for (const sentence of sentences) {
+        if (estimateTokens(currentPartition + sentence) > maxTokens) {
+            if (currentPartition) {
+                partitions.push(currentPartition.trim());
+                currentPartition = '';
+            }
+            if (estimateTokens(sentence) > maxTokens) {
+                // If a single sentence is too long, split it into words
+                const words = sentence.split(/\s+/);
+                for (const word of words) {
+                    if (estimateTokens(currentPartition + word) > maxTokens) {
+                        partitions.push(currentPartition.trim());
+                        currentPartition = word + ' ';
+                    } else {
+                        currentPartition += word + ' ';
+                    }
+                }
+            } else {
+                currentPartition = sentence + ' ';
+            }
+        } else {
+            currentPartition += sentence + ' ';
+        }
+    }
+    
+    if (currentPartition) {
+        partitions.push(currentPartition.trim());
+    }
+    
+    return partitions;
 }
 
 async function handleApiFailure(context) {
@@ -256,9 +314,34 @@ async function handleApiFailure(context) {
 
 async function useBackupService(context) {
     console.log(`Using backup service for ${context}`);
-    // Implement logic to use a backup service or alternative API
-    // This is a placeholder and should be replaced with actual backup service logic
-    return { status: 'using_backup', message: 'Using backup service due to persistent errors' };
+    
+    // Use Ollama as a backup local LLM service
+    try {
+        const ollamaEndpoint = process.env.LOCAL_OPENAI_ENDPOINT || "http://localhost:11434";
+        const client = new OpenAI({
+            baseURL: ollamaEndpoint,
+            apiKey: "no-key-required" // Ollama doesn't require an API key
+        });
+
+        const response = await client.chat.completions.create({
+            model: "ollama/llama2", // You can change this to any model available in your Ollama setup
+            messages: [{ role: "user", content: context }]
+        });
+
+        console.log(`Successfully used Ollama backup service for ${context}`);
+        return { 
+            status: 'using_backup', 
+            message: 'Using Ollama as backup service',
+            data: response.choices[0].message.content
+        };
+    } catch (error) {
+        console.error(`Error using Ollama backup service: ${error.message}`);
+        return { 
+            status: 'error', 
+            message: 'Failed to use Ollama backup service',
+            error: error.message
+        };
+    }
 }
 
 function findModelWithLargerContext(currentModel) {

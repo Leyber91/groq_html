@@ -23,43 +23,49 @@ header {
 main {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 99vw;
+    height: 70vh;
 }
 
 #moa-interface {
-    position: relative;
-    height: calc(70vh - 60px); /* Adjust based on your title height */
     display: flex;
+    width: 100%;
+    transition: all 0.3s ease;
+    height: calc(100vh - 60px); /* Adjust based on your header height */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 99vw;
 }
 
 #moa-diagram {
-    flex: 0 0 80%;
-    height: 100%;
+    flex: 1;
     overflow: auto;
 }
 
 #moa-controls-container {
-    flex: 0 0 20%;
+    width: var(--controls-width);
+    transition: width 0.3s ease;
     height: 100%;
     overflow-y: auto;
-    background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
-    border-left: 3px solid var(--primary-color);
+    background: var(--background-light);
+    border-left: 1px solid var(--primary-color);
+    width: 10vw;
+}
+
+#moa-controls-container.collapsed {
+    width: var(--controls-width-collapsed);
 }
 
 #chat-interface {
-    height: calc(30vh - 20px); /* Adjust based on spacing */
+    flex: 0 0 35%;
+    height: 95%;
     overflow-y: auto;
-}
-
-#moa-controls-container.expanded {
-    transform: translateX(0);
 }
 
 #toggle-moa-controls {
     position: absolute;
-    top: 20px;
-    left: -140px; /* Adjusted for wider button */
+    top: 70px;
+    right: var(--controls-width);
     padding: 12px 20px;
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: var(--background-dark);
@@ -67,16 +73,15 @@ main {
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 1002;
+    z-index: 1000;
     font-weight: bold;
     font-size: 1rem;
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    transition: right 0.3s ease;
 }
 
-#toggle-moa-controls:hover {
-    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+#toggle-moa-controls.collapsed {
+    right: var(--controls-width-collapsed);
 }
 
 #moa-controls-wrapper {
@@ -109,14 +114,14 @@ main {
 }
 
 #moa-controls {
-    padding: 25px;
+    padding: 1em;
 }
 
 .agent-config, .threshold-control {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 

@@ -14,19 +14,37 @@ const markedOptions = {
 
 marked.setOptions(markedOptions);
 
-export function addMessageToChat(role, content, chatContainer) {
-    if (!chatContainer) {
-        console.error('Chat container is null or undefined');
-        return null;
-    }
+export function addMessageToChat(role, content, container) {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${role}-message`;
-    messageDiv.innerHTML = DOMPurify.sanitize(`
-        <div class="message-header">${role.charAt(0).toUpperCase() + role.slice(1)}</div>
-        <div class="message-content">${formatContent(content)}</div>
-    `);
-    chatContainer.appendChild(messageDiv);
-    smoothScrollToBottom(chatContainer);
+    
+    if (role === 'layer') {
+        const layerNumber = content.match(/<layer(\d+)>/)[1];
+        messageDiv.innerHTML = `
+            <div class="message-header">
+                Layer ${layerNumber}
+                <button class="toggle-agents">Show Agents</button>
+            </div>
+            <div class="message-content">${formatContent(content)}</div>
+            <div class="agents-content" style="display: none;"></div>
+        `;
+        
+        const toggleButton = messageDiv.querySelector('.toggle-agents');
+        const agentsContent = messageDiv.querySelector('.agents-content');
+        
+        toggleButton.addEventListener('click', () => {
+            const isHidden = agentsContent.style.display === 'none';
+            agentsContent.style.display = isHidden ? 'block' : 'none';
+            toggleButton.textContent = isHidden ? 'Hide Agents' : 'Show Agents';
+        });
+    } else {
+        messageDiv.innerHTML = `
+            <div class="message-header">${role.charAt(0).toUpperCase() + role.slice(1)}</div>
+            <div class="message-content">${formatContent(content)}</div>
+        `;
+    }
+    
+    container.appendChild(messageDiv);
     return messageDiv;
 }
 
@@ -47,7 +65,43 @@ export function formatContent(content) {
     if (typeof content !== 'string') {
         content = JSON.stringify(content, null, 2);
     }
-    const formattedContent = marked.parse(content);
+    
+    const layers = content.split(/(?=<layer\d+>)/);
+    
+    let formattedContent = '';
+    layers.forEach((layer) => {
+        if (layer.trim()) {
+            const layerMatch = layer.match(/<layer(\d+)>([\s\S]*?)(?=<\/layer\1>|$)/);
+            if (layerMatch) {
+                const layerNumber = layerMatch[1];
+                const layerContent = layerMatch[2];
+                const agents = layerContent.split(/(?=<agent\d+>)/);
+                
+                let agentsHtml = '';
+                agents.forEach((agent) => {
+                    const agentMatch = agent.match(/<agent(\d+)>([\s\S]*?)(?=<\/agent\1>|$)/);
+                    if (agentMatch) {
+                        const agentNumber = agentMatch[1];
+                        const agentContent = agentMatch[2];
+                        agentsHtml += `
+                            <div class="agent-message">
+                                <div class="agent-header">Agent ${agentNumber}</div>
+                                <div class="agent-content">${marked.parse(agentContent)}</div>
+                            </div>
+                        `;
+                    }
+                });
+                
+                formattedContent += `
+                    <div class="layer-summary">${marked.parse(layerContent.replace(/<agent\d+>[\s\S]*?<\/agent\d+>/g, ''))}</div>
+                    <div class="agents-content" style="display: none;">${agentsHtml}</div>
+                `;
+            } else {
+                formattedContent += marked.parse(layer);
+            }
+        }
+    });
+    
     return DOMPurify.sanitize(formattedContent);
 }
 

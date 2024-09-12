@@ -1,5 +1,5 @@
 import { rateLimits } from '../config/config.js';
-import { availableModels, modelInfo } from './model-info.js';
+import { availableModels, modelInfo } from './modelInfo/model-info.js';
 
 const tokenBuckets = new Map();
 const MILLISECONDS_PER_MINUTE = 60000;

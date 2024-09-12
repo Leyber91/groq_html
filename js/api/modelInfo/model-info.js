@@ -1,3 +1,4 @@
+import { MODEL_INFO } from '../../config/model-config.js';
 // Available models
 export const availableModels = [
     'gemma-7b-it',
@@ -13,100 +14,8 @@ export const availableModels = [
 ];
 
 // Model capabilities and characteristics
-export const modelInfo = {
-    'gemma-7b-it': {
-        description: 'Instruction-tuned model for specific tasks',
-        contextWindow: 8192,
-        bestFor: ['Following detailed instructions', 'Structured output'],
-        strengths: ['Fast inference', 'Efficient for targeted tasks'],
-        weaknesses: ['Limited general knowledge', 'Less versatile than larger models'],
-        tokenLimit: 15000,
-        requestsPerMinute: 30
-    },
-    'gemma2-9b-it': {
-        description: 'Updated instruction-tuned model with improved capabilities',
-        contextWindow: 8192,
-        bestFor: ['Complex instruction following', 'Enhanced structured output'],
-        strengths: ['Improved reasoning', 'Better context understanding'],
-        weaknesses: ['Slightly higher resource requirements than 7B version'],
-        tokenLimit: 15000,
-        requestsPerMinute: 30
-    },
-    'llama-3.1-70b-versatile': {
-        description: 'Large and powerful general-purpose model',
-        contextWindow: 8192,
-        bestFor: ['Complex reasoning', 'Versatile language tasks'],
-        strengths: ['Extensive knowledge base', 'Advanced language understanding'],
-        weaknesses: ['Higher computational requirements', 'Slower inference speed'],
-        tokenLimit: 20000,
-        requestsPerMinute: 30,
-        dailyTokenLimit: 1000000
-    },
-    'llama-3.1-8b-instant': {
-        description: 'Smaller, faster model for quick responses',
-        contextWindow: 8192,
-        bestFor: ['Rapid responses', 'Less complex queries'],
-        strengths: ['Fast inference', 'Low latency'],
-        weaknesses: ['Limited complexity handling', 'Smaller knowledge base'],
-        tokenLimit: 20000,
-        requestsPerMinute: 30,
-        dailyTokenLimit: 1000000
-    },
-    'llama3-70b-8192': {
-        description: 'Large and powerful general-purpose model',
-        contextWindow: 8192,
-        bestFor: ['Complex reasoning', 'Long-form content generation'],
-        strengths: ['Advanced language understanding', 'Versatile applications'],
-        weaknesses: ['High computational requirements', 'Slower inference'],
-        tokenLimit: 6000,
-        requestsPerMinute: 30
-    },
-    'llama3-8b-8192': {
-        description: 'Smaller, faster model for simpler tasks',
-        contextWindow: 8192,
-        bestFor: ['Quick responses', 'Less complex queries'],
-        strengths: ['Fast inference', 'Efficient for simple tasks'],
-        weaknesses: ['Limited complexity handling', 'Less advanced than larger models'],
-        tokenLimit: 30000,
-        requestsPerMinute: 30
-    },
-    'llama3-groq-70b-8192-tool-use-preview': {
-        description: 'Large model optimized for tool use and interaction',
-        contextWindow: 8192,
-        bestFor: ['Tool-based tasks', 'Complex system interactions'],
-        strengths: ['Advanced tool integration', 'Sophisticated reasoning'],
-        weaknesses: ['Higher complexity', 'Requires careful prompt engineering'],
-        tokenLimit: 15000,
-        requestsPerMinute: 30
-    },
-    'llama3-groq-8b-8192-tool-use-preview': {
-        description: 'Smaller model optimized for tool use and interaction',
-        contextWindow: 8192,
-        bestFor: ['Quick tool-based tasks', 'Simple system interactions'],
-        strengths: ['Fast tool integration', 'Efficient for simpler tasks'],
-        weaknesses: ['Limited complexity compared to larger models'],
-        tokenLimit: 15000,
-        requestsPerMinute: 30
-    },
-    'mixtral-8x7b-32768': {
-        description: 'Mixture of experts model with large context window',
-        contextWindow: 32768,
-        bestFor: ['Long document analysis', 'Multi-task processing'],
-        strengths: ['Extensive context handling', 'Diverse task capabilities'],
-        weaknesses: ['Complex architecture', 'Higher resource requirements'],
-        tokenLimit: 5000,
-        requestsPerMinute: 30
-    },
-    'llava-v1.5-7b-4096-preview': {
-        description: 'Vision-language model for image understanding and generation',
-        contextWindow: 4096,
-        bestFor: ['Image analysis', 'Visual question answering', 'Image-based tasks'],
-        strengths: ['Multimodal capabilities', 'Visual and textual understanding'],
-        weaknesses: ['Limited to visual-textual tasks', 'Smaller context window'],
-        tokenLimit: 30000,
-        requestsPerMinute: 30
-    }
-};
+export const modelInfo = MODEL_INFO;
+
 
 /**
  * Get information about a specific model.
@@ -140,9 +49,9 @@ export function isModelAvailable(modelName) {
  * @returns {number|string} The context window size or 'Unknown' if not available.
  */
 export function getModelContextWindow(modelName) {
-    return modelInfo[modelName]?.contextWindow || 'Unknown';
-}
-
+    const modelInfo = MODEL_INFO[modelName];
+    return modelInfo ? modelInfo.contextWindow : 0;
+  }
 /**
  * Get the best use cases for a specific model.
  * @param {string} modelName - The name of the model.
