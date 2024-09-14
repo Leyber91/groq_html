@@ -1,8 +1,8 @@
 import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
 import { createAndProcessBatch } from '../chat/batchProcessor/batch-processor.js';
-import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit } from './modelInfo/model-info.js';
-import { initializeTokenBuckets, refillTokenBuckets, tokenBuckets, rateLimits, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
-import { logError, withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
+import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit, getModelTokenizer} from './modelInfo/model-info.js';
+import { initializeTokenBuckets, refillTokenBuckets, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
+import { withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
 
 const apiQueue = [];
 let isProcessingQueue = false;
@@ -139,19 +139,16 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
     }
 }
 
-function estimateTokens(messages, model) {
-    const averageTokenLength = 4;
+export function estimateTokens(messages, model) {
+    const tokenizer = getModelTokenizer(model);
+    const modelInfo = getModelInfo(model);
     const overheadFactor = 1.1;
-    const modelSpecificFactor = getModelInfo(model).tokenEstimationFactor || 1.0;
-
-    const estimatedTokens = messages.reduce((sum, msg) => {
-        const charCount = msg.content.length;
-        const estimatedTokens = Math.ceil(charCount / averageTokenLength);
-        return sum + estimatedTokens;
-    }, 0);
-
+    const modelSpecificFactor = modelInfo.tokenEstimationFactor || 1.0;
+  
+    const estimatedTokens = tokenizer.encode(messages).length;
+  
     return Math.ceil(estimatedTokens * overheadFactor * modelSpecificFactor);
-}
+  }
 
 export async function processApiQueue() {
     if (isProcessingQueue || apiQueue.length === 0) return;

@@ -1,5 +1,4 @@
-import { rateLimits } from '../config/config.js';
-import { availableModels, modelInfo } from './modelInfo/model-info.js';
+import { RATE_LIMITS, AVAILABLE_MODELS, MODEL_INFO } from '../config/model-config.js';
 
 const tokenBuckets = new Map();
 const MILLISECONDS_PER_MINUTE = 60000;
@@ -7,19 +6,19 @@ const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 
 function initializeTokenBuckets() {
     const now = Date.now();
-    for (const model of availableModels) {
-        const limits = rateLimits[model] || modelInfo[model];
+    for (const model of AVAILABLE_MODELS) {
+        const limits = RATE_LIMITS[model];
         if (limits) {
             tokenBuckets.set(model, {
-                tokens: limits.tokenLimit || limits.tpm,
+                tokens: limits.tpm,
                 lastRefill: now,
-                rpm: limits.requestsPerMinute || limits.rpm,
+                rpm: limits.rpm,
                 requestCount: 0,
-                dailyTokens: limits.dailyTokenLimit || Infinity,
+                dailyTokens: limits.dailyTokens || Infinity,
                 lastDailyReset: now
             });
         } else {
-            console.warn(`No rate limits or model info defined for model: ${model}`);
+            console.warn(`No rate limits defined for model: ${model}`);
         }
     }
 }
@@ -27,15 +26,15 @@ function initializeTokenBuckets() {
 function refillTokenBuckets() {
     const now = Date.now();
     for (const [model, bucket] of tokenBuckets.entries()) {
-        const limits = rateLimits[model] || modelInfo[model];
+        const limits = RATE_LIMITS[model];
         if (!limits) {
-            console.warn(`No rate limits or model info defined for model: ${model}`);
+            console.warn(`No rate limits defined for model: ${model}`);
             continue;
         }
 
         const timePassed = now - bucket.lastRefill;
         const minutesPassed = timePassed / MILLISECONDS_PER_MINUTE;
-        const tokenLimit = limits.tokenLimit || limits.tpm;
+        const tokenLimit = limits.tpm;
         const tokensToAdd = minutesPassed * tokenLimit;
         
         bucket.tokens = Math.min(bucket.tokens + tokensToAdd, tokenLimit);
@@ -43,15 +42,15 @@ function refillTokenBuckets() {
 
         // Reset RPM counter if a minute has passed
         if (timePassed >= MILLISECONDS_PER_MINUTE) {
-            bucket.rpm = limits.requestsPerMinute || limits.rpm;
+            bucket.rpm = limits.rpm;
             bucket.requestCount = 0;
         }
 
         // Handle daily token limit if applicable
-        if (limits.dailyTokenLimit) {
+        if (limits.dailyTokens) {
             const daysPassed = Math.floor((now - bucket.lastDailyReset) / MILLISECONDS_PER_DAY);
             if (daysPassed > 0) {
-                bucket.dailyTokens = limits.dailyTokenLimit;
+                bucket.dailyTokens = limits.dailyTokens;
                 bucket.lastDailyReset = now;
             }
         }
@@ -161,7 +160,7 @@ export {
     initializeTokenBuckets, 
     refillTokenBuckets, 
     tokenBuckets, 
-    rateLimits, 
+    RATE_LIMITS, 
     logApiUsageStats, 
     checkRateLimit, 
     consumeTokens 

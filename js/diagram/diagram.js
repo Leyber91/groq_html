@@ -600,7 +600,6 @@ export function createMOADiagram() {
             'llama3-8b-8192': 1.1,
             'llama3-groq-70b-8192-tool-use-preview': 1.5,
             'llama3-groq-8b-8192-tool-use-preview': 1.1,
-            'llava-v1.5-7b-4096-preview': 1.2,
             'mixtral-8x7b-32768': 1.4
         };
         return baseSize * (sizeMultipliers[modelName] || 1);
@@ -611,10 +610,7 @@ export function createMOADiagram() {
         const symbols = {
             'llama': '\uf1b0', // fa-paw
             'gemma': '\uf0e7', // fa-bolt
-            'gpt': '\uf121', // fa-code
-            'claude': '\uf19d', // fa-graduation-cap
-            'mixtral': '\uf1e6', // fa-plug
-            'llava': '\uf03e', // fa-picture-o
+            'mixtral': '\uf1e6' // fa-plug
         };
         const modelType = Object.keys(symbols).find(type => modelName.toLowerCase().includes(type));
         return symbols[modelType] || '\uf128'; // fa-question as default

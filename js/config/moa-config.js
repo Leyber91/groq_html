@@ -84,7 +84,7 @@ export const MOA_CONFIG = {
         [
             { model_name: 'llama3-8b-8192', temperature: 0.5, weight: 0.2, specialization: 'general_knowledge', adaptive_weight: true },
             { model_name: 'gemma-7b-it', temperature: 0.6, weight: 0.2, specialization: 'instruction_following', adaptive_weight: true },
-            { model_name: 'llava-v1.5-7b-4096-preview', temperature: 0.6, weight: 0.2, specialization: 'visual_understanding', adaptive_weight: true },
+            { model_name: 'llama3-groq-70b-8192-tool-use-preview', temperature: 0.6, weight: 0.2, specialization: 'tool_integration', adaptive_weight: true },
             { model_name: 'llama3-8b-8192', temperature: 0.7, weight: 0.2, specialization: 'creative_thinking', adaptive_weight: true }
         ],
         [

@@ -1,3 +1,8 @@
+import { handleGracefulDegradation } from '../../api/error-handling.js';
+import { queueApiRequest } from '../../api/api-core.js';
+import { AVAILABLE_MODELS, MODEL_INFO, getModelInfo, selectAlternativeModel } from '../../config/model-config.js';
+import { getModelContextWindow, getModelTokenLimit } from '../../api/modelInfo/model-info.js';
+
 /**
  * Processes a batch of promises with optimized performance and advanced error handling.
  * @param {Promise[]} promises - An array of promises to be processed.

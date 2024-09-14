@@ -1,0 +1,67 @@
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\.vscode
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\.env
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\.gitignore
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\FileTreeOutput.txt
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\file_structure.txt
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\FindFunctionsAndConstants.ps1
+  Constants found in C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\FindFunctionsAndConstants.ps1:
+    $outputFile = "$PSScriptRoot\FileTreeOutput.txt"
+    $content = Get-Content -Path $_.FullName
+    $functions = $content | Select-String -Pattern "function\s+\w+" -AllMatches
+    $constants = $content | Select-String -Pattern "\$[A-Za-z0-9_]+\s*
+    $inputs = $content | Select-String -Pattern "param\s*\(" -AllMatches
+    $outputs = $content | Select-String -Pattern "return\s+\$[A-Za-z0-9_]+" -AllMatches
+    $imports = $content | Select-String -Pattern "Import-Module\s+\w+" -AllMatches
+    $exports = $content | Select-String -Pattern "Export-ModuleMember\s+-Function\s+\w+" -AllMatches
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\full_structure.txt
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\index.html
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\package.json
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\project_tree_and_contents.txt
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\PROMPT_GUIDE.MD
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\README.md
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\.vscode\extensions.json
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\animations.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\buttons.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\chat-interface.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\header.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\main.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\moa-diagram.css
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\css\styles.css
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\diagram
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\main
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\utils
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\modelInfo
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\api-core.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\error-handling.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\modular-prompts-puzzle.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\prompt-cell.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\rate-limiting.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\api\modelInfo\model-info.js
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\batchProcessor
+Folder: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\artifact-handling.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\chat.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\message-formatting.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\batchProcessor\batch-processor.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\generateAgentPrompt.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\generateLayerPrompt.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\generateReferenceSystemPrompt.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\generateSystemPrompt.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\generateZerothLawPrompt.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\chat\prompts\prompt-generator.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\api-key.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\config.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\meta-learning.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\moa-config.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\model-config.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\config\system-config.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\diagram\diagram.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\main\main.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\utils\backoff.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\utils\database.js
+File: C:\LocalProjects\FTH\LANGUAGE_PROTOTYPES\PROMPTS\ALEXANDRIA\groq_html\js\utils\idGenerator.js
