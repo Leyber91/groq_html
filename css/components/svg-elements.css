@@ -1,0 +1,110 @@
+/* SVG Styles */
+.node circle {
+    fill: var(--node-fill);
+    stroke: var(--node-stroke);
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.node:hover circle {
+    fill: var(--node-hover-fill);
+    transform: scale(1.1);
+}
+
+.node text {
+    fill: var(--node-text-color) !important; /* Use !important to ensure this color is applied */
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.link {
+    stroke: var(--link-color);
+    stroke-opacity: 0.6;
+    stroke-width: 1.5px;
+    transition: all 0.3s ease;
+}
+
+.link:hover {
+    stroke-opacity: 1;
+    stroke-width: 2px;
+}
+
+/* Button Styles */
+.add-layer-button,
+.add-agent-button,
+.remove-layer-button,
+.remove-agent-button {
+    cursor: pointer;
+}
+
+.add-layer-button rect,
+.add-agent-button rect,
+.remove-layer-button rect,
+.remove-agent-button rect {
+    fill: var(--button-background);
+    rx: 6;
+    ry: 6;
+    transition: all 0.3s ease;
+}
+
+.add-layer-button:hover rect,
+.add-agent-button:hover rect {
+    fill: var(--add-button-color);
+}
+
+.remove-layer-button:hover rect,
+.remove-agent-button:hover rect {
+    fill: var(--remove-button-color);
+}
+
+.add-layer-button text,
+.add-agent-button text,
+.remove-layer-button text,
+.remove-agent-button text {
+    fill: var(--button-text-color) !important; /* Use !important to ensure this color is applied */
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: bold;
+    text-anchor: middle;
+    dominant-baseline: central;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Cross (X) button style */
+.remove-agent-button circle {
+    fill: var(--remove-button-color);
+    transition: all 0.3s ease;
+}
+
+.remove-agent-button:hover circle {
+    fill: var(--remove-button-hover-color);
+}
+
+.remove-agent-button text {
+    fill: var(--button-text-color) !important; /* Use !important to ensure this color is applied */
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Agent model and temperature inputs */
+.node foreignObject select,
+.node foreignObject input {
+    width: 100%;
+    padding: 5px;
+    background-color: var(--input-background);
+    color: var(--input-text-color) !important; /* Use !important to ensure this color is applied */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 12px;
+}
+
+.node foreignObject select:focus,
+.node foreignObject input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-transparent);
+}

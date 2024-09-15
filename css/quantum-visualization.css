@@ -1,0 +1,25 @@
+.quantum-vis {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  #quantum-bits {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .qubit {
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #ccc;
+  }
+  
+  .qubit.active {
+    background-color: #007bff;
+  }
+  

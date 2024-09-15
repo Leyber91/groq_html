@@ -1,9 +1,10 @@
 :root {
     --primary-color: #FF6B6B;
     --secondary-color: #FF9999;
-    --background-dark: #0A0A0A;
-    --background-light: #1A1A1A;
-    --text-color: #F0F0F0;
+    --background-dark: #1A1A1A;
+    --background-light: #F0F0F0;
+    --text-color-dark: #FFFFFF;
+    --text-color-light: #000000;
     --accent-color: #FF4136;
     --border-radius: 8px;
     --transition-speed: 0.3s;
@@ -13,6 +14,19 @@
     --spacing-large: 2rem;
     --font-primary: 'Roboto', sans-serif;
     --font-heading: 'Montserrat', sans-serif;
+    
+    /* Dracula theme colors */
+    --dracula-background: #282a36;
+    --dracula-current-line: #44475a;
+    --dracula-foreground: #f8f8f2;
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
 }
 
 body, html {
@@ -25,15 +39,31 @@ body, html {
 body {
     font-family: var(--font-primary);
     background: linear-gradient(135deg, var(--background-dark), var(--background-light));
-    color: var(--text-color);
+    color: var(--text-color-dark);
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+}
+
+body.light-mode {
+    background-color: var(--background-light);
+    color: var(--text-color-light);
+}
+
+body.dracula-mode {
+    background-color: var(--dracula-background);
+    color: var(--dracula-foreground);
 }
 
 main {
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 75vh;
     width: 100%;
 }
 
@@ -50,7 +80,7 @@ main {
 
 #moa-controls-container {
     width: 250px;
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     border-left: 1px solid var(--primary-color);
     padding: var(--spacing-medium);
     overflow-y: auto;
@@ -58,7 +88,7 @@ main {
 
 #chat-interface {
     height: 100px;
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     border-top: 1px solid var(--primary-color);
     padding: var(--spacing-medium);
     display: flex;
@@ -94,15 +124,15 @@ main {
 #moa-controls label {
     display: block;
     margin-bottom: 5px;
-    color: var(--text-color);
+    color: var(--text-color-dark);
 }
 
 #moa-controls select,
 #moa-controls input[type="checkbox"] {
     width: 100%;
     padding: 5px;
-    background-color: var(--background-light);
-    color: var(--text-color);
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
     border: 1px solid var(--primary-color);
     border-radius: 3px;
 }
@@ -110,7 +140,7 @@ main {
 #moa-controls button {
     padding: 5px 10px;
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: var(--text-color-dark);
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -147,7 +177,7 @@ main {
     border-radius: var(--border-radius);
     background-color: rgba(26, 26, 26, 0.95);
     border: 2px solid var(--primary-color);
-    color: var(--text-color);
+    color: var(--text-color-dark);
     transition: all var(--transition-speed) ease;
     appearance: none;
     -webkit-appearance: none;
@@ -173,7 +203,7 @@ main {
 
 .node foreignObject select option {
     background-color: var(--background-dark);
-    color: var(--text-color);
+    color: var(--text-color-dark);
 }
 
 #moa-diagram svg {
@@ -194,7 +224,6 @@ main {
     text-anchor: middle;
     dominant-baseline: hanging;
 }
-
 .node-controls {
     display: flex;
     flex-direction: column;
@@ -205,24 +234,23 @@ main {
 }
 
 .node circle {
-    fill: var(--primary-color);
-    stroke: var(--secondary-color);
+    fill: var(--node-fill);
+    stroke: var(--node-stroke);
     stroke-width: 2px;
     transition: all var(--transition-speed) ease;
 }
 
 .node:hover circle {
-    fill: var(--secondary-color);
     transform: scale(1.1);
 }
 
 .node text {
     font-family: var(--font-primary);
-    fill: var(--text-color);
+    fill: var(--text-color-dark);
 }
 
 .link {
-    stroke: var(--secondary-color);
+    stroke: var(--link-color);
     stroke-opacity: 0.4;
     stroke-width: 2px;
     transition: all var(--transition-speed) ease;
@@ -401,7 +429,7 @@ main {
 .node-label {
     font-family: var(--font-primary);
     font-size: 14px;
-    fill: var(--text-color);
+    fill: var(--text-color-dark);
     text-anchor: middle;
     dominant-baseline: central;
     transition: all var(--transition-speed) ease;
@@ -415,7 +443,7 @@ main {
 #moa-controls-container {
     width: 10%;
     padding: 10px;
-    background-color: var(--background-light);
+    background-color: var(--background-dark);
     border-left: 1px solid var(--primary-color);
     overflow-y: auto;
 }
@@ -434,7 +462,7 @@ main {
 .moa-controls button {
     padding: 5px 10px;
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: var(--text-color-dark);
     border: none;
     border-radius: 5px;
     cursor: pointer;

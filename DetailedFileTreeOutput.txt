@@ -54,8 +54,10 @@
              File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
              File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
          Folder: .git\objects\02
+             File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
              File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
              File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+             File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
          Folder: .git\objects\05
              File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
          Folder: .git\objects\06
@@ -71,6 +73,8 @@
          Folder: .git\objects\0a
              File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
              File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+         Folder: .git\objects\0c
+             File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
          Folder: .git\objects\0d
              File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
          Folder: .git\objects\0f
@@ -87,14 +91,18 @@
              File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
              File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
          Folder: .git\objects\1a
+             File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
              File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
              File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
          Folder: .git\objects\1b
              File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+             File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
          Folder: .git\objects\22
              File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
          Folder: .git\objects\23
              File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+         Folder: .git\objects\26
+             File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
          Folder: .git\objects\27
              File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
          Folder: .git\objects\28
@@ -124,9 +132,12 @@
              File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
              File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
          Folder: .git\objects\3d
+             File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
              File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+             File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
          Folder: .git\objects\3e
              File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+             File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
          Folder: .git\objects\44
              File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
              File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
@@ -139,6 +150,7 @@
              File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
              File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
              File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+             File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
          Folder: .git\objects\4e
              File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
              File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
@@ -147,6 +159,8 @@
              File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
          Folder: .git\objects\55
              File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+         Folder: .git\objects\59
+             File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
          Folder: .git\objects\5b
              File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
          Folder: .git\objects\5e
@@ -155,6 +169,8 @@
          Folder: .git\objects\60
              File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
              File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+         Folder: .git\objects\65
+             File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
          Folder: .git\objects\66
              File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
          Folder: .git\objects\68
@@ -163,6 +179,7 @@
          Folder: .git\objects\6c
              File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
              File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+             File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
          Folder: .git\objects\71
              File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
          Folder: .git\objects\73
@@ -177,7 +194,10 @@
          Folder: .git\objects\77
              File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
          Folder: .git\objects\7a
+             File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
              File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+         Folder: .git\objects\7b
+             File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
          Folder: .git\objects\7c
              File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
              File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
@@ -193,6 +213,7 @@
          Folder: .git\objects\8a
              File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
              File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+             File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
              File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
          Folder: .git\objects\8c
              File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
@@ -207,6 +228,7 @@
              File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
          Folder: .git\objects\96
              File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+             File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
          Folder: .git\objects\97
              File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
          Folder: .git\objects\98
@@ -230,8 +252,10 @@
              File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
          Folder: .git\objects\a9
              File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+             File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
          Folder: .git\objects\ad
              File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+             File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
              File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
          Folder: .git\objects\ae
              File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
@@ -250,11 +274,17 @@
          Folder: .git\objects\ba
              File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
              File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+         Folder: .git\objects\be
+             File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
          Folder: .git\objects\bf
              File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
              File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
          Folder: .git\objects\c1
              File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+         Folder: .git\objects\c2
+             File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+         Folder: .git\objects\c5
+             File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
          Folder: .git\objects\c6
              File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
              File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
@@ -286,6 +316,7 @@
          Folder: .git\objects\e1
              File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
          Folder: .git\objects\e2
+             File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
              File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
          Folder: .git\objects\e4
              File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
@@ -293,12 +324,14 @@
              File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
              File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
          Folder: .git\objects\e6
+             File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
              File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
              File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
              File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
          Folder: .git\objects\e7
              File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
          Folder: .git\objects\e8
+             File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
              File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
          Folder: .git\objects\ed
              File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
@@ -310,6 +343,7 @@
          Folder: .git\objects\f0
              File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
          Folder: .git\objects\f3
+             File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
              File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
          Folder: .git\objects\f4
              File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
@@ -320,6 +354,8 @@
              File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
          Folder: .git\objects\fc
              File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+         Folder: .git\objects\fe
+             File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
          Folder: .git\objects\info
          Folder: .git\objects\pack
              File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
@@ -327,8 +363,10 @@
              File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
          File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
          File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
+         File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
          File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
          File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+         File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
          File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
          File: .git\objects\06\aca12be4c6ae22d554457028dfb069f5b746a5
          File: .git\objects\07\4bd5dfaead4b57e70ae6156d1f0a677a7e3124
@@ -338,6 +376,7 @@
          File: .git\objects\09\a454f2673f4db4e4969a0407efb770e6991840
          File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
          File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+         File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
          File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
          File: .git\objects\0f\e1ac985401d92594fa773763ddc87d93b7881e
          File: .git\objects\10\5eb218a0904fd86059808975039bf93963570b
@@ -346,11 +385,14 @@
          File: .git\objects\15\c7d2130142af1a776e8cc47dff336b800ac850
          File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
          File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
+         File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
          File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
          File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
          File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+         File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
          File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
          File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+         File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
          File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
          File: .git\objects\28\a06071abf50ddd33d14cadf31d4e17910e26ea
          File: .git\objects\29\2818f1f3e040c645eb163d904472887f9757b9
@@ -366,8 +408,11 @@
          File: .git\objects\38\676ee548f4716a29cd5d00b86d659010aaf193
          File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
          File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
+         File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
          File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+         File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
          File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+         File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
          File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
          File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
          File: .git\objects\44\f2b5a76db4e3fc64ba468b3796f8753a3d83f8
@@ -376,21 +421,25 @@
          File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
          File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
          File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+         File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
          File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
          File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
          File: .git\objects\54\11353dc8b32066477c9369f2a334bcac426f46
          File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
          File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+         File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
          File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
          File: .git\objects\5e\1aa5a74d9005a6baa58106cf9583f17f49f82f
          File: .git\objects\5e\97a7726794ce0bf8d90f477f89f1be9b55335b
          File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
          File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+         File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
          File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
          File: .git\objects\68\2e256c8aca240f2a265415ee68bafa7fa5771a
          File: .git\objects\68\bf8c8fa2e03970e5aa1de623d24fde46fae04e
          File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
          File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+         File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
          File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
          File: .git\objects\73\486ef8d5b9a573e424b79d907427d0fe94176a
          File: .git\objects\74\5f8a7927544bb4a39ac536538a72fdef681699
@@ -398,7 +447,9 @@
          File: .git\objects\76\0e2b4c7f46b57a794d043b718d1119059cc79e
          File: .git\objects\76\f15c0083ed25e416ae657c5150ec93f88ed114
          File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
+         File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
          File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+         File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
          File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
          File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
          File: .git\objects\7e\f2b00614ae6d033daeca392eed0fafe6a1a2ba
@@ -408,6 +459,7 @@
          File: .git\objects\88\9a0cf83c0c5b9f756ef5e3210f23510f38ebf4
          File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
          File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+         File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
          File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
          File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
          File: .git\objects\8f\c7625ae0e1f22d5e81ce9cff406667c8ecc19e
@@ -416,6 +468,7 @@
          File: .git\objects\94\0b0b71f03d9e0b99f3212c9c838614b14486c4
          File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
          File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+         File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
          File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
          File: .git\objects\98\ca2fe400ba3dddd7bc832086edca18f6a86a1d
          File: .git\objects\9d\2478ddc4a2a85d4738b8802a59cf74fa9d0506
@@ -429,7 +482,9 @@
          File: .git\objects\a3\0fcd45f6bee64da812dd784e73986f6726e500
          File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
          File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+         File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
          File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+         File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
          File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
          File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
          File: .git\objects\ae\2a1d702fdcbc7df37d6c3e78e9fd98cb9f183a
@@ -441,9 +496,12 @@
          File: .git\objects\b7\c95d80eed4da3bc54e796be7238eca9b69848e
          File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
          File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+         File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
          File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
          File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
          File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+         File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+         File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
          File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
          File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
          File: .git\objects\c7\823209f4c86a49cc203bd8f8e41c4e59c67b59
@@ -461,26 +519,31 @@
          File: .git\objects\dd\5a26e4274e4c088ac07494b9b421c609a99d49
          File: .git\objects\de\ccd1aca1db6641717fb14a19e906b72ea98591
          File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
+         File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
          File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
          File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
          File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
          File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
+         File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
          File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
          File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
          File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
          File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
+         File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
          File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
          File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
          File: .git\objects\ed\3f68fc3b69ec7bcd032d78dc00bf93a9a5c2e5
          File: .git\objects\ee\54bd9701dfb257f20c4f31a990846f543a86a6
          File: .git\objects\ef\6b7803c13b276a95859d79e577fdebc7bae928
          File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
+         File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
          File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
          File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
          File: .git\objects\f7\7293edb45d9c09b63613b02901e84c715c274e
          File: .git\objects\f7\de1928ce0599af399a297c4fa69e8782a6fe6e
          File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
          File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+         File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.pack
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
@@ -558,8 +621,10 @@
          File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
          File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
      Folder: .git\objects\02
+         File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
          File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
          File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+         File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
      Folder: .git\objects\05
          File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
      Folder: .git\objects\06
@@ -575,6 +640,8 @@
      Folder: .git\objects\0a
          File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
          File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+     Folder: .git\objects\0c
+         File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
      Folder: .git\objects\0d
          File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
      Folder: .git\objects\0f
@@ -591,14 +658,18 @@
          File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
          File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
      Folder: .git\objects\1a
+         File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
          File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
          File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
      Folder: .git\objects\1b
          File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+         File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
      Folder: .git\objects\22
          File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
      Folder: .git\objects\23
          File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+     Folder: .git\objects\26
+         File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
      Folder: .git\objects\27
          File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
      Folder: .git\objects\28
@@ -628,9 +699,12 @@
          File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
          File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
      Folder: .git\objects\3d
+         File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
          File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+         File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
      Folder: .git\objects\3e
          File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+         File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
      Folder: .git\objects\44
          File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
          File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
@@ -643,6 +717,7 @@
          File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
          File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
          File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+         File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
      Folder: .git\objects\4e
          File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
          File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
@@ -651,6 +726,8 @@
          File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
      Folder: .git\objects\55
          File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+     Folder: .git\objects\59
+         File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
      Folder: .git\objects\5b
          File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
      Folder: .git\objects\5e
@@ -659,6 +736,8 @@
      Folder: .git\objects\60
          File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
          File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+     Folder: .git\objects\65
+         File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
      Folder: .git\objects\66
          File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
      Folder: .git\objects\68
@@ -667,6 +746,7 @@
      Folder: .git\objects\6c
          File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
          File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+         File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
      Folder: .git\objects\71
          File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
      Folder: .git\objects\73
@@ -681,7 +761,10 @@
      Folder: .git\objects\77
          File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
      Folder: .git\objects\7a
+         File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
          File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+     Folder: .git\objects\7b
+         File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
      Folder: .git\objects\7c
          File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
          File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
@@ -697,6 +780,7 @@
      Folder: .git\objects\8a
          File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
          File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+         File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
          File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
      Folder: .git\objects\8c
          File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
@@ -711,6 +795,7 @@
          File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
      Folder: .git\objects\96
          File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+         File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
      Folder: .git\objects\97
          File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
      Folder: .git\objects\98
@@ -734,8 +819,10 @@
          File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
      Folder: .git\objects\a9
          File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+         File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
      Folder: .git\objects\ad
          File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+         File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
          File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
      Folder: .git\objects\ae
          File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
@@ -754,11 +841,17 @@
      Folder: .git\objects\ba
          File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
          File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+     Folder: .git\objects\be
+         File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
      Folder: .git\objects\bf
          File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
          File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
      Folder: .git\objects\c1
          File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+     Folder: .git\objects\c2
+         File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+     Folder: .git\objects\c5
+         File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
      Folder: .git\objects\c6
          File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
          File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
@@ -790,6 +883,7 @@
      Folder: .git\objects\e1
          File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
      Folder: .git\objects\e2
+         File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
          File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
      Folder: .git\objects\e4
          File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
@@ -797,12 +891,14 @@
          File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
          File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
      Folder: .git\objects\e6
+         File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
          File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
          File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
          File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
      Folder: .git\objects\e7
          File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
      Folder: .git\objects\e8
+         File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
          File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
      Folder: .git\objects\ed
          File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
@@ -814,6 +910,7 @@
      Folder: .git\objects\f0
          File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
      Folder: .git\objects\f3
+         File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
          File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
      Folder: .git\objects\f4
          File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
@@ -824,6 +921,8 @@
          File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
      Folder: .git\objects\fc
          File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+     Folder: .git\objects\fe
+         File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
      Folder: .git\objects\info
      Folder: .git\objects\pack
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
@@ -831,8 +930,10 @@
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
      File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
      File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
+     File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
      File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
      File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+     File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
      File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
      File: .git\objects\06\aca12be4c6ae22d554457028dfb069f5b746a5
      File: .git\objects\07\4bd5dfaead4b57e70ae6156d1f0a677a7e3124
@@ -842,6 +943,7 @@
      File: .git\objects\09\a454f2673f4db4e4969a0407efb770e6991840
      File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
      File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+     File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
      File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
      File: .git\objects\0f\e1ac985401d92594fa773763ddc87d93b7881e
      File: .git\objects\10\5eb218a0904fd86059808975039bf93963570b
@@ -850,11 +952,14 @@
      File: .git\objects\15\c7d2130142af1a776e8cc47dff336b800ac850
      File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
      File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
+     File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
      File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
      File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
      File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+     File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
      File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
      File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+     File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
      File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
      File: .git\objects\28\a06071abf50ddd33d14cadf31d4e17910e26ea
      File: .git\objects\29\2818f1f3e040c645eb163d904472887f9757b9
@@ -870,8 +975,11 @@
      File: .git\objects\38\676ee548f4716a29cd5d00b86d659010aaf193
      File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
      File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
+     File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
      File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+     File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
      File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+     File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
      File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
      File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
      File: .git\objects\44\f2b5a76db4e3fc64ba468b3796f8753a3d83f8
@@ -880,21 +988,25 @@
      File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
      File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
      File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+     File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
      File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
      File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
      File: .git\objects\54\11353dc8b32066477c9369f2a334bcac426f46
      File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
      File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+     File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
      File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
      File: .git\objects\5e\1aa5a74d9005a6baa58106cf9583f17f49f82f
      File: .git\objects\5e\97a7726794ce0bf8d90f477f89f1be9b55335b
      File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
      File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+     File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
      File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
      File: .git\objects\68\2e256c8aca240f2a265415ee68bafa7fa5771a
      File: .git\objects\68\bf8c8fa2e03970e5aa1de623d24fde46fae04e
      File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
      File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+     File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
      File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
      File: .git\objects\73\486ef8d5b9a573e424b79d907427d0fe94176a
      File: .git\objects\74\5f8a7927544bb4a39ac536538a72fdef681699
@@ -902,7 +1014,9 @@
      File: .git\objects\76\0e2b4c7f46b57a794d043b718d1119059cc79e
      File: .git\objects\76\f15c0083ed25e416ae657c5150ec93f88ed114
      File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
+     File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
      File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+     File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
      File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
      File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
      File: .git\objects\7e\f2b00614ae6d033daeca392eed0fafe6a1a2ba
@@ -912,6 +1026,7 @@
      File: .git\objects\88\9a0cf83c0c5b9f756ef5e3210f23510f38ebf4
      File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
      File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+     File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
      File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
      File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
      File: .git\objects\8f\c7625ae0e1f22d5e81ce9cff406667c8ecc19e
@@ -920,6 +1035,7 @@
      File: .git\objects\94\0b0b71f03d9e0b99f3212c9c838614b14486c4
      File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
      File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+     File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
      File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
      File: .git\objects\98\ca2fe400ba3dddd7bc832086edca18f6a86a1d
      File: .git\objects\9d\2478ddc4a2a85d4738b8802a59cf74fa9d0506
@@ -933,7 +1049,9 @@
      File: .git\objects\a3\0fcd45f6bee64da812dd784e73986f6726e500
      File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
      File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+     File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
      File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+     File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
      File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
      File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
      File: .git\objects\ae\2a1d702fdcbc7df37d6c3e78e9fd98cb9f183a
@@ -945,9 +1063,12 @@
      File: .git\objects\b7\c95d80eed4da3bc54e796be7238eca9b69848e
      File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
      File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+     File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
      File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
      File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
      File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+     File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+     File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
      File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
      File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
      File: .git\objects\c7\823209f4c86a49cc203bd8f8e41c4e59c67b59
@@ -965,26 +1086,31 @@
      File: .git\objects\dd\5a26e4274e4c088ac07494b9b421c609a99d49
      File: .git\objects\de\ccd1aca1db6641717fb14a19e906b72ea98591
      File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
+     File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
      File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
      File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
      File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
      File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
+     File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
      File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
      File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
      File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
      File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
+     File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
      File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
      File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
      File: .git\objects\ed\3f68fc3b69ec7bcd032d78dc00bf93a9a5c2e5
      File: .git\objects\ee\54bd9701dfb257f20c4f31a990846f543a86a6
      File: .git\objects\ef\6b7803c13b276a95859d79e577fdebc7bae928
      File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
+     File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
      File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
      File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
      File: .git\objects\f7\7293edb45d9c09b63613b02901e84c715c274e
      File: .git\objects\f7\de1928ce0599af399a297c4fa69e8782a6fe6e
      File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
      File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+     File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.pack
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
@@ -1006,13 +1132,31 @@
  Folder: .vscode
      File: .vscode\extensions.json
  Folder: css
+     Folder: css\components
+         File: css\components\buttons.css
+         File: css\components\chat-interface.css
+         File: css\components\header.css
+         File: css\components\moa-controls.css
+         File: css\components\moa-diagram.css
+         File: css\components\svg-elements.css
      File: css\animations.css
      File: css\buttons.css
-     File: css\chat-interface.css
-     File: css\header.css
+     File: css\global.css
+     File: css\keyframes.css
      File: css\main.css
-     File: css\moa-diagram.css
+     File: css\reset.css
+     File: css\root.css
      File: css\styles.css
+     File: css\themes.css
+     File: css\typography.css
+     File: css\utilities.css
+     File: css\variables.css
+     File: css\components\buttons.css
+     File: css\components\chat-interface.css
+     File: css\components\header.css
+     File: css\components\moa-controls.css
+     File: css\components\moa-diagram.css
+     File: css\components\svg-elements.css
  Folder: js
      Folder: js\api
          Folder: js\api\modelInfo
@@ -1021,9 +1165,9 @@
                     function getModelInfo(
                     function isModelAvailable(
                     function getModelContextWindow(
-                    function estimateTokens(
                     function getModelTokenizer(
                     function getModelTokenLimit(
+                    function findModelWithLargerContext(
          File: js\api\api-core.js
               Functions found in js\api\api-core.js:
                 function queueApiRequest(
@@ -1052,7 +1196,6 @@
                 function handleTokenLimitExceeded(
                 function partitionInput(
                 function handleApiFailure(
-                function findModelWithLargerContext(
          File: js\api\modular-prompts-puzzle.js
          File: js\api\prompt-cell.js
          File: js\api\rate-limiting.js
@@ -1060,20 +1203,17 @@
                 function initializeTokenBuckets(
                 function refillTokenBuckets(
                 function logApiUsageStats(
-                function sendStatsToFreeMonitoringService(
-                function logToWinston(
+                function sendStatsToMonitoringService(
                 function checkRateLimit(
                 function consumeTokens(
-              Imports found in js\api\rate-limiting.js:
-                require('winston')
          File: js\api\modelInfo\model-info.js
               Functions found in js\api\modelInfo\model-info.js:
                 function getModelInfo(
                 function isModelAvailable(
                 function getModelContextWindow(
-                function estimateTokens(
                 function getModelTokenizer(
                 function getModelTokenLimit(
+                function findModelWithLargerContext(
      Folder: js\chat
          Folder: js\chat\batchProcessor
              File: js\chat\batchProcessor\batch-processor.js
@@ -1106,13 +1246,23 @@
                 function updateButtonState(
                 function handleArtifact(
                 function updateArtifact(
-         File: js\chat\chat.js
-              Functions found in js\chat\chat.js:
-                function chunkInput(
-                function compressContext(
+         File: js\chat\artifacts.js
+              Functions found in js\chat\artifacts.js:
+                function generateArtifacts(
+                function addArtifactsToChat(
+                function copyToClipboard(
+                function updateButtonState(
+                function handleArtifact(
+                function updateArtifact(
+         File: js\chat\batchProcessing.js
+              Functions found in js\chat\batchProcessing.js:
+                function processBatchedRequests(
+         File: js\chat\caching.js
+              Functions found in js\chat\caching.js:
                 function storeCacheEntryInDatabase(
-                function updateInMemoryCache(
+                function compressContext(
                 function estimateCompressedSize(
+                function updateInMemoryCache(
                 function optimizeCacheStorage(
                 function implementLRUEviction(
                 function prioritizeCacheEntries(
@@ -1121,17 +1271,27 @@
                 function updateCacheStatistics(
                 function shouldRebalanceCache(
                 function rebalanceCache(
+         File: js\chat\chat.js
+         File: js\chat\chatInteractions.js
+              Functions found in js\chat\chatInteractions.js:
                 function chatWithMOA(
+         File: js\chat\cognitive-resonance.js
+              Functions found in js\chat\cognitive-resonance.js:
+                function cognitiveResonanceChamber(
+                function analyzeEmergentPatterns(
          File: js\chat\message-formatting.js
               Functions found in js\chat\message-formatting.js:
                 function addMessageToChat(
                 function updateMessageContent(
                 function formatContent(
+                function capitalizeFirstLetter(
                 function smoothScrollToBottom(
-                function animation(
-                function easeInOutQuad(
                 function createCodeBlock(
                 function formatError(
+                function executeCode(
+         File: js\chat\utils.js
+              Functions found in js\chat\utils.js:
+                function chunkInput(
          File: js\chat\batchProcessor\batch-processor.js
               Functions found in js\chat\batchProcessor\batch-processor.js:
                 function batchProcess(
@@ -1163,8 +1323,8 @@
                 function isValidConfig(
                 function recalculateAdaptiveThresholds(
                 function updateVisualizationSettings(
-                function updateMOADiagram(
                 function updateMOAControls(
+                function updateMOADiagram(
          File: js\config\meta-learning.js
               Functions found in js\config\meta-learning.js:
                 function initializeMetaLearningModel(
@@ -1225,41 +1385,68 @@
                 function shouldEnableTelemetry(
                 function validateConfig(
      Folder: js\diagram
+         File: js\diagram\controlButtons.js
+              Functions found in js\diagram\controlButtons.js:
+                function createControlButtons(
+                function createAddLayerButton(
+                function createAddAgentButton(
+                function createRemoveLayerButton(
+                function createRemoveAgentButton(
          File: js\diagram\diagram.js
               Functions found in js\diagram\diagram.js:
-                function debounce(
-                function executedFunction(
-                function responsivefy(
-                function resize(
                 function createMOADiagram(
-                function calculateConnectionStrength(
-                function calculateTaskCompatibility(
-                function ticked(
-                function dragstarted(
-                function dragged(
-                function dragended(
-                function handleModelSelection(
-                function createNode(
-                function updateTemperatureLabel(
-                function updateNodeAppearance(
-                function getModelColor(
-                function getModelSize(
-                function getModelSymbol(
-                function updateMOAConfig(
-                function initializeNewConfig(
-                function updateConfigForNode(
-                function updateLayerConfig(
-                function updateMainModelConfig(
+         File: js\diagram\diagramActions.js
+              Functions found in js\diagram\diagramActions.js:
                 function addLayer(
                 function addAgent(
                 function removeLayer(
                 function removeAgent(
+                function updateMOAConfig(
                 function animateAgent(
-                function animateLayerNodes(
-                function animateLayerLinks(
-                function animateMainModelIfLastLayer(
                 function updateDiagram(
                 function updateNodeConnections(
+         File: js\diagram\eventListeners.js
+              Functions found in js\diagram\eventListeners.js:
+                function addEventListeners(
+         File: js\diagram\forceSimulation.js
+              Functions found in js\diagram\forceSimulation.js:
+                function createForceSimulation(
+                function ticked(
+         File: js\diagram\helpers.js
+              Functions found in js\diagram\helpers.js:
+                function calculateConnectionStrength(
+                function calculateTaskCompatibility(
+                function responsivefy(
+                function resize(
+         File: js\diagram\linkElements.js
+              Functions found in js\diagram\linkElements.js:
+                function createLinkElements(
+         File: js\diagram\nodeElements.js
+              Functions found in js\diagram\nodeElements.js:
+                function createNodeElements(
+                function addNodeCircles(
+                function addNodeLabels(
+                function addNodeForms(
+                function createModelSelectHTML(
+                function createTemperatureInputHTML(
+                function createNodeDragBehavior(
+         File: js\diagram\nodeMap.js
+         File: js\diagram\nodesAndLinks.js
+              Functions found in js\diagram\nodesAndLinks.js:
+                function createNodesAndLinks(
+         File: js\diagram\styles.js
+              Functions found in js\diagram\styles.js:
+                function addGlowEffects(
+                function styleFormElements(
+         File: js\diagram\stylesConstants.js
+         File: js\diagram\svgSetup.js
+              Functions found in js\diagram\svgSetup.js:
+                function initializeSVG(
+                function calculateDiagramDimensions(
+         File: js\diagram\utils.js
+              Functions found in js\diagram\utils.js:
+                function debounce(
+                function executedFunction(
      Folder: js\main
          File: js\main\main.js
               Functions found in js\main\main.js:
@@ -1287,15 +1474,20 @@
          File: js\utils\idGenerator.js
               Functions found in js\utils\idGenerator.js:
                 function generateUniqueId(
+     File: js\theme-toggle.js
+          Functions found in js\theme-toggle.js:
+            function setTheme(
+            function updateToggleButton(
+            function initializeThemeToggle(
      Folder: js\api\modelInfo
          File: js\api\modelInfo\model-info.js
               Functions found in js\api\modelInfo\model-info.js:
                 function getModelInfo(
                 function isModelAvailable(
                 function getModelContextWindow(
-                function estimateTokens(
                 function getModelTokenizer(
                 function getModelTokenLimit(
+                function findModelWithLargerContext(
      File: js\api\api-core.js
           Functions found in js\api\api-core.js:
             function queueApiRequest(
@@ -1324,7 +1516,6 @@
             function handleTokenLimitExceeded(
             function partitionInput(
             function handleApiFailure(
-            function findModelWithLargerContext(
      File: js\api\modular-prompts-puzzle.js
      File: js\api\prompt-cell.js
      File: js\api\rate-limiting.js
@@ -1332,20 +1523,17 @@
             function initializeTokenBuckets(
             function refillTokenBuckets(
             function logApiUsageStats(
-            function sendStatsToFreeMonitoringService(
-            function logToWinston(
+            function sendStatsToMonitoringService(
             function checkRateLimit(
             function consumeTokens(
-          Imports found in js\api\rate-limiting.js:
-            require('winston')
      File: js\api\modelInfo\model-info.js
           Functions found in js\api\modelInfo\model-info.js:
             function getModelInfo(
             function isModelAvailable(
             function getModelContextWindow(
-            function estimateTokens(
             function getModelTokenizer(
             function getModelTokenLimit(
+            function findModelWithLargerContext(
      Folder: js\chat\batchProcessor
          File: js\chat\batchProcessor\batch-processor.js
               Functions found in js\chat\batchProcessor\batch-processor.js:
@@ -1377,13 +1565,23 @@
             function updateButtonState(
             function handleArtifact(
             function updateArtifact(
-     File: js\chat\chat.js
-          Functions found in js\chat\chat.js:
-            function chunkInput(
-            function compressContext(
+     File: js\chat\artifacts.js
+          Functions found in js\chat\artifacts.js:
+            function generateArtifacts(
+            function addArtifactsToChat(
+            function copyToClipboard(
+            function updateButtonState(
+            function handleArtifact(
+            function updateArtifact(
+     File: js\chat\batchProcessing.js
+          Functions found in js\chat\batchProcessing.js:
+            function processBatchedRequests(
+     File: js\chat\caching.js
+          Functions found in js\chat\caching.js:
             function storeCacheEntryInDatabase(
-            function updateInMemoryCache(
+            function compressContext(
             function estimateCompressedSize(
+            function updateInMemoryCache(
             function optimizeCacheStorage(
             function implementLRUEviction(
             function prioritizeCacheEntries(
@@ -1392,17 +1590,27 @@
             function updateCacheStatistics(
             function shouldRebalanceCache(
             function rebalanceCache(
+     File: js\chat\chat.js
+     File: js\chat\chatInteractions.js
+          Functions found in js\chat\chatInteractions.js:
             function chatWithMOA(
+     File: js\chat\cognitive-resonance.js
+          Functions found in js\chat\cognitive-resonance.js:
+            function cognitiveResonanceChamber(
+            function analyzeEmergentPatterns(
      File: js\chat\message-formatting.js
           Functions found in js\chat\message-formatting.js:
             function addMessageToChat(
             function updateMessageContent(
             function formatContent(
+            function capitalizeFirstLetter(
             function smoothScrollToBottom(
-            function animation(
-            function easeInOutQuad(
             function createCodeBlock(
             function formatError(
+            function executeCode(
+     File: js\chat\utils.js
+          Functions found in js\chat\utils.js:
+            function chunkInput(
      File: js\chat\batchProcessor\batch-processor.js
           Functions found in js\chat\batchProcessor\batch-processor.js:
             function batchProcess(
@@ -1433,8 +1641,8 @@
             function isValidConfig(
             function recalculateAdaptiveThresholds(
             function updateVisualizationSettings(
-            function updateMOADiagram(
             function updateMOAControls(
+            function updateMOADiagram(
      File: js\config\meta-learning.js
           Functions found in js\config\meta-learning.js:
             function initializeMetaLearningModel(
@@ -1494,41 +1702,68 @@
             function getLogLevel(
             function shouldEnableTelemetry(
             function validateConfig(
+     File: js\diagram\controlButtons.js
+          Functions found in js\diagram\controlButtons.js:
+            function createControlButtons(
+            function createAddLayerButton(
+            function createAddAgentButton(
+            function createRemoveLayerButton(
+            function createRemoveAgentButton(
      File: js\diagram\diagram.js
           Functions found in js\diagram\diagram.js:
-            function debounce(
-            function executedFunction(
-            function responsivefy(
-            function resize(
             function createMOADiagram(
-            function calculateConnectionStrength(
-            function calculateTaskCompatibility(
-            function ticked(
-            function dragstarted(
-            function dragged(
-            function dragended(
-            function handleModelSelection(
-            function createNode(
-            function updateTemperatureLabel(
-            function updateNodeAppearance(
-            function getModelColor(
-            function getModelSize(
-            function getModelSymbol(
-            function updateMOAConfig(
-            function initializeNewConfig(
-            function updateConfigForNode(
-            function updateLayerConfig(
-            function updateMainModelConfig(
+     File: js\diagram\diagramActions.js
+          Functions found in js\diagram\diagramActions.js:
             function addLayer(
             function addAgent(
             function removeLayer(
             function removeAgent(
+            function updateMOAConfig(
             function animateAgent(
-            function animateLayerNodes(
-            function animateLayerLinks(
-            function animateMainModelIfLastLayer(
             function updateDiagram(
             function updateNodeConnections(
+     File: js\diagram\eventListeners.js
+          Functions found in js\diagram\eventListeners.js:
+            function addEventListeners(
+     File: js\diagram\forceSimulation.js
+          Functions found in js\diagram\forceSimulation.js:
+            function createForceSimulation(
+            function ticked(
+     File: js\diagram\helpers.js
+          Functions found in js\diagram\helpers.js:
+            function calculateConnectionStrength(
+            function calculateTaskCompatibility(
+            function responsivefy(
+            function resize(
+     File: js\diagram\linkElements.js
+          Functions found in js\diagram\linkElements.js:
+            function createLinkElements(
+     File: js\diagram\nodeElements.js
+          Functions found in js\diagram\nodeElements.js:
+            function createNodeElements(
+            function addNodeCircles(
+            function addNodeLabels(
+            function addNodeForms(
+            function createModelSelectHTML(
+            function createTemperatureInputHTML(
+            function createNodeDragBehavior(
+     File: js\diagram\nodeMap.js
+     File: js\diagram\nodesAndLinks.js
+          Functions found in js\diagram\nodesAndLinks.js:
+            function createNodesAndLinks(
+     File: js\diagram\styles.js
+          Functions found in js\diagram\styles.js:
+            function addGlowEffects(
+            function styleFormElements(
+     File: js\diagram\stylesConstants.js
+     File: js\diagram\svgSetup.js
+          Functions found in js\diagram\svgSetup.js:
+            function initializeSVG(
+            function calculateDiagramDimensions(
+     File: js\diagram\utils.js
+          Functions found in js\diagram\utils.js:
+            function debounce(
+            function executedFunction(
      File: js\main\main.js
           Functions found in js\main\main.js:
             function syncDiagramWithConfig(
@@ -1731,8 +1966,10 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
          File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
      Folder: .git\objects\02
+         File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
          File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
          File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+         File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
      Folder: .git\objects\05
          File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
      Folder: .git\objects\06
@@ -1748,6 +1985,8 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\0a
          File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
          File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+     Folder: .git\objects\0c
+         File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
      Folder: .git\objects\0d
          File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
      Folder: .git\objects\0f
@@ -1764,14 +2003,18 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
          File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
      Folder: .git\objects\1a
+         File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
          File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
          File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
      Folder: .git\objects\1b
          File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+         File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
      Folder: .git\objects\22
          File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
      Folder: .git\objects\23
          File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+     Folder: .git\objects\26
+         File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
      Folder: .git\objects\27
          File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
      Folder: .git\objects\28
@@ -1801,9 +2044,12 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
          File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
      Folder: .git\objects\3d
+         File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
          File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+         File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
      Folder: .git\objects\3e
          File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+         File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
      Folder: .git\objects\44
          File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
          File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
@@ -1816,6 +2062,7 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
          File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
          File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+         File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
      Folder: .git\objects\4e
          File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
          File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
@@ -1824,6 +2071,8 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
      Folder: .git\objects\55
          File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+     Folder: .git\objects\59
+         File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
      Folder: .git\objects\5b
          File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
      Folder: .git\objects\5e
@@ -1832,6 +2081,8 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\60
          File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
          File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+     Folder: .git\objects\65
+         File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
      Folder: .git\objects\66
          File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
      Folder: .git\objects\68
@@ -1840,6 +2091,7 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\6c
          File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
          File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+         File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
      Folder: .git\objects\71
          File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
      Folder: .git\objects\73
@@ -1854,7 +2106,10 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\77
          File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
      Folder: .git\objects\7a
+         File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
          File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+     Folder: .git\objects\7b
+         File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
      Folder: .git\objects\7c
          File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
          File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
@@ -1870,6 +2125,7 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\8a
          File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
          File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+         File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
          File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
      Folder: .git\objects\8c
          File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
@@ -1884,6 +2140,7 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
      Folder: .git\objects\96
          File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+         File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
      Folder: .git\objects\97
          File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
      Folder: .git\objects\98
@@ -1907,8 +2164,10 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
      Folder: .git\objects\a9
          File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+         File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
      Folder: .git\objects\ad
          File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+         File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
          File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
      Folder: .git\objects\ae
          File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
@@ -1927,11 +2186,17 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\ba
          File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
          File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+     Folder: .git\objects\be
+         File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
      Folder: .git\objects\bf
          File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
          File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
      Folder: .git\objects\c1
          File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+     Folder: .git\objects\c2
+         File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+     Folder: .git\objects\c5
+         File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
      Folder: .git\objects\c6
          File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
          File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
@@ -1963,6 +2228,7 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\e1
          File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
      Folder: .git\objects\e2
+         File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
          File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
      Folder: .git\objects\e4
          File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
@@ -1970,12 +2236,14 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
          File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
      Folder: .git\objects\e6
+         File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
          File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
          File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
          File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
      Folder: .git\objects\e7
          File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
      Folder: .git\objects\e8
+         File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
          File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
      Folder: .git\objects\ed
          File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
@@ -1987,6 +2255,7 @@ Write-Host "Detailed results have been written to $outputFile"
      Folder: .git\objects\f0
          File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
      Folder: .git\objects\f3
+         File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
          File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
      Folder: .git\objects\f4
          File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
@@ -1997,6 +2266,8 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
      Folder: .git\objects\fc
          File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+     Folder: .git\objects\fe
+         File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
      Folder: .git\objects\info
      Folder: .git\objects\pack
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
@@ -2004,8 +2275,10 @@ Write-Host "Detailed results have been written to $outputFile"
          File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
      File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
      File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
+     File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
      File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
      File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+     File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
      File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
      File: .git\objects\06\aca12be4c6ae22d554457028dfb069f5b746a5
      File: .git\objects\07\4bd5dfaead4b57e70ae6156d1f0a677a7e3124
@@ -2015,6 +2288,7 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\09\a454f2673f4db4e4969a0407efb770e6991840
      File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
      File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+     File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
      File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
      File: .git\objects\0f\e1ac985401d92594fa773763ddc87d93b7881e
      File: .git\objects\10\5eb218a0904fd86059808975039bf93963570b
@@ -2023,11 +2297,14 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\15\c7d2130142af1a776e8cc47dff336b800ac850
      File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
      File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
+     File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
      File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
      File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
      File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+     File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
      File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
      File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+     File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
      File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
      File: .git\objects\28\a06071abf50ddd33d14cadf31d4e17910e26ea
      File: .git\objects\29\2818f1f3e040c645eb163d904472887f9757b9
@@ -2043,8 +2320,11 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\38\676ee548f4716a29cd5d00b86d659010aaf193
      File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
      File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
+     File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
      File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+     File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
      File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+     File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
      File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
      File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
      File: .git\objects\44\f2b5a76db4e3fc64ba468b3796f8753a3d83f8
@@ -2053,21 +2333,25 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
      File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
      File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+     File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
      File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
      File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
      File: .git\objects\54\11353dc8b32066477c9369f2a334bcac426f46
      File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
      File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+     File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
      File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
      File: .git\objects\5e\1aa5a74d9005a6baa58106cf9583f17f49f82f
      File: .git\objects\5e\97a7726794ce0bf8d90f477f89f1be9b55335b
      File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
      File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+     File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
      File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
      File: .git\objects\68\2e256c8aca240f2a265415ee68bafa7fa5771a
      File: .git\objects\68\bf8c8fa2e03970e5aa1de623d24fde46fae04e
      File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
      File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+     File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
      File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
      File: .git\objects\73\486ef8d5b9a573e424b79d907427d0fe94176a
      File: .git\objects\74\5f8a7927544bb4a39ac536538a72fdef681699
@@ -2075,7 +2359,9 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\76\0e2b4c7f46b57a794d043b718d1119059cc79e
      File: .git\objects\76\f15c0083ed25e416ae657c5150ec93f88ed114
      File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
+     File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
      File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+     File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
      File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
      File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
      File: .git\objects\7e\f2b00614ae6d033daeca392eed0fafe6a1a2ba
@@ -2085,6 +2371,7 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\88\9a0cf83c0c5b9f756ef5e3210f23510f38ebf4
      File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
      File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+     File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
      File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
      File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
      File: .git\objects\8f\c7625ae0e1f22d5e81ce9cff406667c8ecc19e
@@ -2093,6 +2380,7 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\94\0b0b71f03d9e0b99f3212c9c838614b14486c4
      File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
      File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+     File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
      File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
      File: .git\objects\98\ca2fe400ba3dddd7bc832086edca18f6a86a1d
      File: .git\objects\9d\2478ddc4a2a85d4738b8802a59cf74fa9d0506
@@ -2106,7 +2394,9 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\a3\0fcd45f6bee64da812dd784e73986f6726e500
      File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
      File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+     File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
      File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+     File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
      File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
      File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
      File: .git\objects\ae\2a1d702fdcbc7df37d6c3e78e9fd98cb9f183a
@@ -2118,9 +2408,12 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\b7\c95d80eed4da3bc54e796be7238eca9b69848e
      File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
      File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+     File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
      File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
      File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
      File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+     File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+     File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
      File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
      File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
      File: .git\objects\c7\823209f4c86a49cc203bd8f8e41c4e59c67b59
@@ -2138,26 +2431,31 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\dd\5a26e4274e4c088ac07494b9b421c609a99d49
      File: .git\objects\de\ccd1aca1db6641717fb14a19e906b72ea98591
      File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
+     File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
      File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
      File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
      File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
      File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
+     File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
      File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
      File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
      File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
      File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
+     File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
      File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
      File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
      File: .git\objects\ed\3f68fc3b69ec7bcd032d78dc00bf93a9a5c2e5
      File: .git\objects\ee\54bd9701dfb257f20c4f31a990846f543a86a6
      File: .git\objects\ef\6b7803c13b276a95859d79e577fdebc7bae928
      File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
+     File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
      File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
      File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
      File: .git\objects\f7\7293edb45d9c09b63613b02901e84c715c274e
      File: .git\objects\f7\de1928ce0599af399a297c4fa69e8782a6fe6e
      File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
      File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+     File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.pack
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
@@ -2235,8 +2533,10 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
      File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
  Folder: .git\objects\02
+     File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
      File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
      File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+     File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
  Folder: .git\objects\05
      File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
  Folder: .git\objects\06
@@ -2252,6 +2552,8 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\0a
      File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
      File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+ Folder: .git\objects\0c
+     File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
  Folder: .git\objects\0d
      File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
  Folder: .git\objects\0f
@@ -2268,14 +2570,18 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
      File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
  Folder: .git\objects\1a
+     File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
      File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
      File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
  Folder: .git\objects\1b
      File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+     File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
  Folder: .git\objects\22
      File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
  Folder: .git\objects\23
      File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+ Folder: .git\objects\26
+     File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
  Folder: .git\objects\27
      File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
  Folder: .git\objects\28
@@ -2305,9 +2611,12 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
      File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
  Folder: .git\objects\3d
+     File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
      File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+     File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
  Folder: .git\objects\3e
      File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+     File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
  Folder: .git\objects\44
      File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
      File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
@@ -2320,6 +2629,7 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
      File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
      File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+     File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
  Folder: .git\objects\4e
      File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
      File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
@@ -2328,6 +2638,8 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
  Folder: .git\objects\55
      File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+ Folder: .git\objects\59
+     File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
  Folder: .git\objects\5b
      File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
  Folder: .git\objects\5e
@@ -2336,6 +2648,8 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\60
      File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
      File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+ Folder: .git\objects\65
+     File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
  Folder: .git\objects\66
      File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
  Folder: .git\objects\68
@@ -2344,6 +2658,7 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\6c
      File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
      File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+     File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
  Folder: .git\objects\71
      File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
  Folder: .git\objects\73
@@ -2358,7 +2673,10 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\77
      File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
  Folder: .git\objects\7a
+     File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
      File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+ Folder: .git\objects\7b
+     File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
  Folder: .git\objects\7c
      File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
      File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
@@ -2374,6 +2692,7 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\8a
      File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
      File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+     File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
      File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
  Folder: .git\objects\8c
      File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
@@ -2388,6 +2707,7 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
  Folder: .git\objects\96
      File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+     File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
  Folder: .git\objects\97
      File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
  Folder: .git\objects\98
@@ -2411,8 +2731,10 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
  Folder: .git\objects\a9
      File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+     File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
  Folder: .git\objects\ad
      File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+     File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
      File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
  Folder: .git\objects\ae
      File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
@@ -2431,11 +2753,17 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\ba
      File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
      File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+ Folder: .git\objects\be
+     File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
  Folder: .git\objects\bf
      File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
      File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
  Folder: .git\objects\c1
      File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+ Folder: .git\objects\c2
+     File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+ Folder: .git\objects\c5
+     File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
  Folder: .git\objects\c6
      File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
      File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
@@ -2467,6 +2795,7 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\e1
      File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
  Folder: .git\objects\e2
+     File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
      File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
  Folder: .git\objects\e4
      File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
@@ -2474,12 +2803,14 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
      File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
  Folder: .git\objects\e6
+     File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
      File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
      File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
      File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
  Folder: .git\objects\e7
      File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
  Folder: .git\objects\e8
+     File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
      File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
  Folder: .git\objects\ed
      File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
@@ -2491,6 +2822,7 @@ Write-Host "Detailed results have been written to $outputFile"
  Folder: .git\objects\f0
      File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
  Folder: .git\objects\f3
+     File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
      File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
  Folder: .git\objects\f4
      File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
@@ -2501,6 +2833,8 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
  Folder: .git\objects\fc
      File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+ Folder: .git\objects\fe
+     File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
  Folder: .git\objects\info
  Folder: .git\objects\pack
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
@@ -2508,8 +2842,10 @@ Write-Host "Detailed results have been written to $outputFile"
      File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
  File: .git\objects\00\1be5b07cd5aa7e8b0e48c6ae75cbb36e241934
  File: .git\objects\00\66872fe70bf09759e414f3f7be35e6db97a8f4
+ File: .git\objects\02\2f793d6c41fcdccf5f63e8f8c3bf26b40f024e
  File: .git\objects\02\386737ca37bf84ade6712becfbb1a9356f3cf4
  File: .git\objects\02\594c01a92e57df755f902289a8415b82e1be44
+ File: .git\objects\02\9364e26c3fd531ce958c745a2fe13f91f08f91
  File: .git\objects\05\e6b565915383139be998c91c6de33013a5fb64
  File: .git\objects\06\aca12be4c6ae22d554457028dfb069f5b746a5
  File: .git\objects\07\4bd5dfaead4b57e70ae6156d1f0a677a7e3124
@@ -2519,6 +2855,7 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\09\a454f2673f4db4e4969a0407efb770e6991840
  File: .git\objects\0a\4de260aa12df1e61da9a3422d5473944f9823d
  File: .git\objects\0a\aa815b8ff058955f66c4ab00f8c61f823522b7
+ File: .git\objects\0c\8eee67a613ed6f9f9232734a31f7c24c3b8b28
  File: .git\objects\0d\d348d60be30161813ccd79ef870efbda701aad
  File: .git\objects\0f\e1ac985401d92594fa773763ddc87d93b7881e
  File: .git\objects\10\5eb218a0904fd86059808975039bf93963570b
@@ -2527,11 +2864,14 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\15\c7d2130142af1a776e8cc47dff336b800ac850
  File: .git\objects\18\47f7ba3175e101a9377dcfcb597a9902dfd810
  File: .git\objects\18\5af706ed43e7e2387a2231063ccdd2b1c7b667
+ File: .git\objects\1a\2de3862c26512fd3d5f8c96c51b5e913032aec
  File: .git\objects\1a\745cd975787c7d05a5a84e0c6ee9054b025342
  File: .git\objects\1a\e29d34d932ee8d7707893e0c6b24ed707142ac
  File: .git\objects\1b\4dfb4a6e084ef85e6abae5566b9d69cab430f9
+ File: .git\objects\1b\ab9a1b2ff31f5f0610d140988e51468df824d4
  File: .git\objects\22\219e0bd3587936fa5c3b5fb1ea0df0dd38df67
  File: .git\objects\23\a9c112042dfb5e50d52f19df2ca5e4578102d9
+ File: .git\objects\26\a7f6a05a6e4391d6d02de6955781480a974cbc
  File: .git\objects\27\c9c3a35fb920e32e6a6e19f924cc65d00aafb7
  File: .git\objects\28\a06071abf50ddd33d14cadf31d4e17910e26ea
  File: .git\objects\29\2818f1f3e040c645eb163d904472887f9757b9
@@ -2547,8 +2887,11 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\38\676ee548f4716a29cd5d00b86d659010aaf193
  File: .git\objects\3b\94d8f5ea1536976c32c426383138521ce148ee
  File: .git\objects\3b\d4df4c3f8bd0846029c61a1e056963e6dd38fc
+ File: .git\objects\3d\1e6ff36ce4e8fa265954980eee02e48e008502
  File: .git\objects\3d\3ea02406d125804ae5c03d2db0604a1df5d9dc
+ File: .git\objects\3d\c6522b8ce33c043e0a8fe3eb6e2960e9953ee2
  File: .git\objects\3e\27f3b53f9e3280ffa42657080e7dffa890f495
+ File: .git\objects\3e\e1e7ad317c55d38775d7d8b6edf946b7f129c6
  File: .git\objects\44\8ac998588c3bce329cbafd5471bb5fc207447c
  File: .git\objects\44\bc2dcc48e9489077811e49b80c0bbf813140cf
  File: .git\objects\44\f2b5a76db4e3fc64ba468b3796f8753a3d83f8
@@ -2557,21 +2900,25 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\4c\b5e91e3a08faa36b1a5ffe4cc06730845ec217
  File: .git\objects\4c\c768f0a155366a8064e64207bd13f123fd203d
  File: .git\objects\4c\e57eb952dbb9f457e57145f32a3d70926a1eae
+ File: .git\objects\4c\f9da2120047dcec83c180a60cfdf5a85026e56
  File: .git\objects\4e\653a374396beddc5b1cfd355ebdc265656ba0e
  File: .git\objects\4e\f3b6998a7d83ffde7874fa00620b5080b5d2e3
  File: .git\objects\54\11353dc8b32066477c9369f2a334bcac426f46
  File: .git\objects\54\1b26cba5a215cbf796a61d4b667e17d21b2b6c
  File: .git\objects\55\7ced981c2c4e6cb46d9ce7422fddaeea5cd1c7
+ File: .git\objects\59\a0d7af9623b424ab1075f2583b2969ef7bfbd7
  File: .git\objects\5b\81116e4331024fd0bf46cafded95cb28a285ea
  File: .git\objects\5e\1aa5a74d9005a6baa58106cf9583f17f49f82f
  File: .git\objects\5e\97a7726794ce0bf8d90f477f89f1be9b55335b
  File: .git\objects\60\2348074176fb0d6b5eee46bd52f359f59eca02
  File: .git\objects\60\fd55d8fabb53d9f13a0d83a48a0c9270336e2a
+ File: .git\objects\65\de440bfb0a98aa699b916bc42e0d0da2a0712f
  File: .git\objects\66\adbcf97579d4292da3be869057daaa3da33f6f
  File: .git\objects\68\2e256c8aca240f2a265415ee68bafa7fa5771a
  File: .git\objects\68\bf8c8fa2e03970e5aa1de623d24fde46fae04e
  File: .git\objects\6c\06949090d3cd4375ebc2237ad51181cff1c2c8
  File: .git\objects\6c\45ae6630e35996cf3f79aeed892166ee8849fe
+ File: .git\objects\6c\7ef0e35532331166ddeda916575c26227cd422
  File: .git\objects\71\a62724b000d704492280d2aab0bcf0e35d1320
  File: .git\objects\73\486ef8d5b9a573e424b79d907427d0fe94176a
  File: .git\objects\74\5f8a7927544bb4a39ac536538a72fdef681699
@@ -2579,7 +2926,9 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\76\0e2b4c7f46b57a794d043b718d1119059cc79e
  File: .git\objects\76\f15c0083ed25e416ae657c5150ec93f88ed114
  File: .git\objects\77\2b8b0aac70e3c9fbea7bd2a5f3f5c09ac3b1e5
+ File: .git\objects\7a\248df216510eb53e9e466fddd99bcc5b96a3ac
  File: .git\objects\7a\40be36917dd727febf5e7d28b7f67e76a10ca7
+ File: .git\objects\7b\67519b65b8b982b15ad2148b86d950b3bddfe3
  File: .git\objects\7c\284d0e72e58257eedebd0093765d0cf7fe6c1e
  File: .git\objects\7c\fbce1816c9fa216677084d60ebd17a7084543a
  File: .git\objects\7e\f2b00614ae6d033daeca392eed0fafe6a1a2ba
@@ -2589,6 +2938,7 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\88\9a0cf83c0c5b9f756ef5e3210f23510f38ebf4
  File: .git\objects\8a\67946b247a0087a26acff0626b7e28c26ba29c
  File: .git\objects\8a\c1157ed642f723bd2144cb10482f8e34c8fae2
+ File: .git\objects\8a\d6b83c02df1be66e82172aca8a83c5e1ad8d1c
  File: .git\objects\8a\fd9f7321b114d046deb14ef78a84ada87a3540
  File: .git\objects\8c\0694f610a3a6365a5ecc378d47366060d168c2
  File: .git\objects\8f\c7625ae0e1f22d5e81ce9cff406667c8ecc19e
@@ -2597,6 +2947,7 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\94\0b0b71f03d9e0b99f3212c9c838614b14486c4
  File: .git\objects\94\2a6197b6df4697e21c12667f9a6d1e004e9e48
  File: .git\objects\96\075e02c6f6207bc6faf1cfba0ce70257659abd
+ File: .git\objects\96\c39082ea5ee307248c3ceccdb22aa9325844c5
  File: .git\objects\97\914dc1bb9b9c5e64b422e8409e768e61895b7f
  File: .git\objects\98\ca2fe400ba3dddd7bc832086edca18f6a86a1d
  File: .git\objects\9d\2478ddc4a2a85d4738b8802a59cf74fa9d0506
@@ -2610,7 +2961,9 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\a3\0fcd45f6bee64da812dd784e73986f6726e500
  File: .git\objects\a8\32660fdd4d53037353732c8819e64b71494384
  File: .git\objects\a9\58828e73210e62b505929560b96e2e4f32913d
+ File: .git\objects\a9\fa69873b7bff1da3f51e24c3cb06080f005555
  File: .git\objects\ad\42b683542d167a0f734b082d84d54c19d1bcc5
+ File: .git\objects\ad\65a5a5e97c94125ae985f3dc20262f9d442332
  File: .git\objects\ad\e82d0a5d736a7ea1ca89942219afad393d16be
  File: .git\objects\ae\00067e1a6ca428386d2be590a01a07b9446c64
  File: .git\objects\ae\2a1d702fdcbc7df37d6c3e78e9fd98cb9f183a
@@ -2622,9 +2975,12 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\b7\c95d80eed4da3bc54e796be7238eca9b69848e
  File: .git\objects\ba\69a3cd438b894fad2b731daa6d02ccb56a46cc
  File: .git\objects\ba\b21ef3feaf2c6c3f21509270bff510c0c44760
+ File: .git\objects\be\4c6dd089828d6c41a4da73a4fef1a526ca2a23
  File: .git\objects\bf\487fbe34a0729d50eca951c22d12f4d3f162fd
  File: .git\objects\bf\56b180548a42b78eca8ec27043462626ef7b3b
  File: .git\objects\c1\89ff3400f4535902009502cfac924fd73bca74
+ File: .git\objects\c2\b23857efb920ef80e02357d6ef08b87be446fc
+ File: .git\objects\c5\4baf628b13460b90617fde5feed27441c5229e
  File: .git\objects\c6\2b8938d6294c76933ec212abdffe412828f906
  File: .git\objects\c6\9e7635f61c3062ffc03c959a5181610c1db13b
  File: .git\objects\c7\823209f4c86a49cc203bd8f8e41c4e59c67b59
@@ -2642,26 +2998,31 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\objects\dd\5a26e4274e4c088ac07494b9b421c609a99d49
  File: .git\objects\de\ccd1aca1db6641717fb14a19e906b72ea98591
  File: .git\objects\e1\7ddb3a8d7172166524750536ae002302377b37
+ File: .git\objects\e2\021c5fc9e6cece9f3f8ebe80eb516f5e2418f1
  File: .git\objects\e2\c643ca5dda9b726832ad9dd43e58126c605c3e
  File: .git\objects\e4\e22025baae13a0e440f7a9e12529d59fec532f
  File: .git\objects\e5\129637e05e874c956ed8244154cd236d02fd45
  File: .git\objects\e5\de782421f0cecec1c784a864f47cb6fa7283bb
+ File: .git\objects\e6\9de29bb2d1d6434b8b29ae775ad8c2e48c5391
  File: .git\objects\e6\c8187530404a53ef623fcacaed04ebbaa2c12f
  File: .git\objects\e6\e3dc2feb97aad141b96a3e96b9ef7ed0b545e4
  File: .git\objects\e6\e9aea926a321c93272b6b6893c219098010c25
  File: .git\objects\e7\d766805a7c133d31b75f2dc9dc532bdecfa6a0
+ File: .git\objects\e8\1c142276b049f6aaa21426ca726b8e69b8de44
  File: .git\objects\e8\8323de552a7353dac46bc29434897dc9e7c7b7
  File: .git\objects\ed\373ff17cf07b0a7216f3cad77ba622b764fc2b
  File: .git\objects\ed\3f68fc3b69ec7bcd032d78dc00bf93a9a5c2e5
  File: .git\objects\ee\54bd9701dfb257f20c4f31a990846f543a86a6
  File: .git\objects\ef\6b7803c13b276a95859d79e577fdebc7bae928
  File: .git\objects\f0\fa79559345bbd4f3446d44da98296e3738c591
+ File: .git\objects\f3\408accb91c5907377da01006cd90068806ba83
  File: .git\objects\f3\96c317247f65ce56c8006013436f67904c7205
  File: .git\objects\f4\4da029cfe93b9e04b7335b747c2a77ae6bc8d1
  File: .git\objects\f7\7293edb45d9c09b63613b02901e84c715c274e
  File: .git\objects\f7\de1928ce0599af399a297c4fa69e8782a6fe6e
  File: .git\objects\f8\c4071f5810c23a21fab579682f49f16707fcc0
  File: .git\objects\fc\ebe801109b22a1969301082dc8d597aab97e4f
+ File: .git\objects\fe\4ed64bff07ae32b7e0ecdaa3894f4a775e0a34
  File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.idx
  File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.pack
  File: .git\objects\pack\pack-c80b794933aab32712957dad8dff63ac234f4cf8.rev
@@ -2681,13 +3042,31 @@ Write-Host "Detailed results have been written to $outputFile"
  File: .git\refs\remotes\origin\HEAD
  File: .git\refs\remotes\origin\main
  File: .vscode\extensions.json
+ Folder: css\components
+     File: css\components\buttons.css
+     File: css\components\chat-interface.css
+     File: css\components\header.css
+     File: css\components\moa-controls.css
+     File: css\components\moa-diagram.css
+     File: css\components\svg-elements.css
  File: css\animations.css
  File: css\buttons.css
- File: css\chat-interface.css
- File: css\header.css
+ File: css\global.css
+ File: css\keyframes.css
  File: css\main.css
- File: css\moa-diagram.css
+ File: css\reset.css
+ File: css\root.css
  File: css\styles.css
+ File: css\themes.css
+ File: css\typography.css
+ File: css\utilities.css
+ File: css\variables.css
+ File: css\components\buttons.css
+ File: css\components\chat-interface.css
+ File: css\components\header.css
+ File: css\components\moa-controls.css
+ File: css\components\moa-diagram.css
+ File: css\components\svg-elements.css
  Folder: js\api
      Folder: js\api\modelInfo
          File: js\api\modelInfo\model-info.js
@@ -2695,9 +3074,9 @@ Write-Host "Detailed results have been written to $outputFile"
                 function getModelInfo(
                 function isModelAvailable(
                 function getModelContextWindow(
-                function estimateTokens(
                 function getModelTokenizer(
                 function getModelTokenLimit(
+                function findModelWithLargerContext(
      File: js\api\api-core.js
           Functions found in js\api\api-core.js:
             function queueApiRequest(
@@ -2726,7 +3105,6 @@ Write-Host "Detailed results have been written to $outputFile"
             function handleTokenLimitExceeded(
             function partitionInput(
             function handleApiFailure(
-            function findModelWithLargerContext(
      File: js\api\modular-prompts-puzzle.js
      File: js\api\prompt-cell.js
      File: js\api\rate-limiting.js
@@ -2734,20 +3112,17 @@ Write-Host "Detailed results have been written to $outputFile"
             function initializeTokenBuckets(
             function refillTokenBuckets(
             function logApiUsageStats(
-            function sendStatsToFreeMonitoringService(
-            function logToWinston(
+            function sendStatsToMonitoringService(
             function checkRateLimit(
             function consumeTokens(
-          Imports found in js\api\rate-limiting.js:
-            require('winston')
      File: js\api\modelInfo\model-info.js
           Functions found in js\api\modelInfo\model-info.js:
             function getModelInfo(
             function isModelAvailable(
             function getModelContextWindow(
-            function estimateTokens(
             function getModelTokenizer(
             function getModelTokenLimit(
+            function findModelWithLargerContext(
  Folder: js\chat
      Folder: js\chat\batchProcessor
          File: js\chat\batchProcessor\batch-processor.js
@@ -2780,13 +3155,23 @@ Write-Host "Detailed results have been written to $outputFile"
             function updateButtonState(
             function handleArtifact(
             function updateArtifact(
-     File: js\chat\chat.js
-          Functions found in js\chat\chat.js:
-            function chunkInput(
-            function compressContext(
+     File: js\chat\artifacts.js
+          Functions found in js\chat\artifacts.js:
+            function generateArtifacts(
+            function addArtifactsToChat(
+            function copyToClipboard(
+            function updateButtonState(
+            function handleArtifact(
+            function updateArtifact(
+     File: js\chat\batchProcessing.js
+          Functions found in js\chat\batchProcessing.js:
+            function processBatchedRequests(
+     File: js\chat\caching.js
+          Functions found in js\chat\caching.js:
             function storeCacheEntryInDatabase(
-            function updateInMemoryCache(
+            function compressContext(
             function estimateCompressedSize(
+            function updateInMemoryCache(
             function optimizeCacheStorage(
             function implementLRUEviction(
             function prioritizeCacheEntries(
@@ -2795,17 +3180,27 @@ Write-Host "Detailed results have been written to $outputFile"
             function updateCacheStatistics(
             function shouldRebalanceCache(
             function rebalanceCache(
+     File: js\chat\chat.js
+     File: js\chat\chatInteractions.js
+          Functions found in js\chat\chatInteractions.js:
             function chatWithMOA(
+     File: js\chat\cognitive-resonance.js
+          Functions found in js\chat\cognitive-resonance.js:
+            function cognitiveResonanceChamber(
+            function analyzeEmergentPatterns(
      File: js\chat\message-formatting.js
           Functions found in js\chat\message-formatting.js:
             function addMessageToChat(
             function updateMessageContent(
             function formatContent(
+            function capitalizeFirstLetter(
             function smoothScrollToBottom(
-            function animation(
-            function easeInOutQuad(
             function createCodeBlock(
             function formatError(
+            function executeCode(
+     File: js\chat\utils.js
+          Functions found in js\chat\utils.js:
+            function chunkInput(
      File: js\chat\batchProcessor\batch-processor.js
           Functions found in js\chat\batchProcessor\batch-processor.js:
             function batchProcess(
@@ -2837,8 +3232,8 @@ Write-Host "Detailed results have been written to $outputFile"
             function isValidConfig(
             function recalculateAdaptiveThresholds(
             function updateVisualizationSettings(
-            function updateMOADiagram(
             function updateMOAControls(
+            function updateMOADiagram(
      File: js\config\meta-learning.js
           Functions found in js\config\meta-learning.js:
             function initializeMetaLearningModel(
@@ -2899,41 +3294,68 @@ Write-Host "Detailed results have been written to $outputFile"
             function shouldEnableTelemetry(
             function validateConfig(
  Folder: js\diagram
+     File: js\diagram\controlButtons.js
+          Functions found in js\diagram\controlButtons.js:
+            function createControlButtons(
+            function createAddLayerButton(
+            function createAddAgentButton(
+            function createRemoveLayerButton(
+            function createRemoveAgentButton(
      File: js\diagram\diagram.js
           Functions found in js\diagram\diagram.js:
-            function debounce(
-            function executedFunction(
-            function responsivefy(
-            function resize(
             function createMOADiagram(
-            function calculateConnectionStrength(
-            function calculateTaskCompatibility(
-            function ticked(
-            function dragstarted(
-            function dragged(
-            function dragended(
-            function handleModelSelection(
-            function createNode(
-            function updateTemperatureLabel(
-            function updateNodeAppearance(
-            function getModelColor(
-            function getModelSize(
-            function getModelSymbol(
-            function updateMOAConfig(
-            function initializeNewConfig(
-            function updateConfigForNode(
-            function updateLayerConfig(
-            function updateMainModelConfig(
+     File: js\diagram\diagramActions.js
+          Functions found in js\diagram\diagramActions.js:
             function addLayer(
             function addAgent(
             function removeLayer(
             function removeAgent(
+            function updateMOAConfig(
             function animateAgent(
-            function animateLayerNodes(
-            function animateLayerLinks(
-            function animateMainModelIfLastLayer(
             function updateDiagram(
             function updateNodeConnections(
+     File: js\diagram\eventListeners.js
+          Functions found in js\diagram\eventListeners.js:
+            function addEventListeners(
+     File: js\diagram\forceSimulation.js
+          Functions found in js\diagram\forceSimulation.js:
+            function createForceSimulation(
+            function ticked(
+     File: js\diagram\helpers.js
+          Functions found in js\diagram\helpers.js:
+            function calculateConnectionStrength(
+            function calculateTaskCompatibility(
+            function responsivefy(
+            function resize(
+     File: js\diagram\linkElements.js
+          Functions found in js\diagram\linkElements.js:
+            function createLinkElements(
+     File: js\diagram\nodeElements.js
+          Functions found in js\diagram\nodeElements.js:
+            function createNodeElements(
+            function addNodeCircles(
+            function addNodeLabels(
+            function addNodeForms(
+            function createModelSelectHTML(
+            function createTemperatureInputHTML(
+            function createNodeDragBehavior(
+     File: js\diagram\nodeMap.js
+     File: js\diagram\nodesAndLinks.js
+          Functions found in js\diagram\nodesAndLinks.js:
+            function createNodesAndLinks(
+     File: js\diagram\styles.js
+          Functions found in js\diagram\styles.js:
+            function addGlowEffects(
+            function styleFormElements(
+     File: js\diagram\stylesConstants.js
+     File: js\diagram\svgSetup.js
+          Functions found in js\diagram\svgSetup.js:
+            function initializeSVG(
+            function calculateDiagramDimensions(
+     File: js\diagram\utils.js
+          Functions found in js\diagram\utils.js:
+            function debounce(
+            function executedFunction(
  Folder: js\main
      File: js\main\main.js
           Functions found in js\main\main.js:
@@ -2961,15 +3383,20 @@ Write-Host "Detailed results have been written to $outputFile"
      File: js\utils\idGenerator.js
           Functions found in js\utils\idGenerator.js:
             function generateUniqueId(
+ File: js\theme-toggle.js
+      Functions found in js\theme-toggle.js:
+        function setTheme(
+        function updateToggleButton(
+        function initializeThemeToggle(
  Folder: js\api\modelInfo
      File: js\api\modelInfo\model-info.js
           Functions found in js\api\modelInfo\model-info.js:
             function getModelInfo(
             function isModelAvailable(
             function getModelContextWindow(
-            function estimateTokens(
             function getModelTokenizer(
             function getModelTokenLimit(
+            function findModelWithLargerContext(
  File: js\api\api-core.js
       Functions found in js\api\api-core.js:
         function queueApiRequest(
@@ -2998,7 +3425,6 @@ Write-Host "Detailed results have been written to $outputFile"
         function handleTokenLimitExceeded(
         function partitionInput(
         function handleApiFailure(
-        function findModelWithLargerContext(
  File: js\api\modular-prompts-puzzle.js
  File: js\api\prompt-cell.js
  File: js\api\rate-limiting.js
@@ -3006,20 +3432,17 @@ Write-Host "Detailed results have been written to $outputFile"
         function initializeTokenBuckets(
         function refillTokenBuckets(
         function logApiUsageStats(
-        function sendStatsToFreeMonitoringService(
-        function logToWinston(
+        function sendStatsToMonitoringService(
         function checkRateLimit(
         function consumeTokens(
-      Imports found in js\api\rate-limiting.js:
-        require('winston')
  File: js\api\modelInfo\model-info.js
       Functions found in js\api\modelInfo\model-info.js:
         function getModelInfo(
         function isModelAvailable(
         function getModelContextWindow(
-        function estimateTokens(
         function getModelTokenizer(
         function getModelTokenLimit(
+        function findModelWithLargerContext(
  Folder: js\chat\batchProcessor
      File: js\chat\batchProcessor\batch-processor.js
           Functions found in js\chat\batchProcessor\batch-processor.js:
@@ -3051,13 +3474,23 @@ Write-Host "Detailed results have been written to $outputFile"
         function updateButtonState(
         function handleArtifact(
         function updateArtifact(
- File: js\chat\chat.js
-      Functions found in js\chat\chat.js:
-        function chunkInput(
-        function compressContext(
+ File: js\chat\artifacts.js
+      Functions found in js\chat\artifacts.js:
+        function generateArtifacts(
+        function addArtifactsToChat(
+        function copyToClipboard(
+        function updateButtonState(
+        function handleArtifact(
+        function updateArtifact(
+ File: js\chat\batchProcessing.js
+      Functions found in js\chat\batchProcessing.js:
+        function processBatchedRequests(
+ File: js\chat\caching.js
+      Functions found in js\chat\caching.js:
         function storeCacheEntryInDatabase(
-        function updateInMemoryCache(
+        function compressContext(
         function estimateCompressedSize(
+        function updateInMemoryCache(
         function optimizeCacheStorage(
         function implementLRUEviction(
         function prioritizeCacheEntries(
@@ -3066,17 +3499,27 @@ Write-Host "Detailed results have been written to $outputFile"
         function updateCacheStatistics(
         function shouldRebalanceCache(
         function rebalanceCache(
+ File: js\chat\chat.js
+ File: js\chat\chatInteractions.js
+      Functions found in js\chat\chatInteractions.js:
         function chatWithMOA(
+ File: js\chat\cognitive-resonance.js
+      Functions found in js\chat\cognitive-resonance.js:
+        function cognitiveResonanceChamber(
+        function analyzeEmergentPatterns(
  File: js\chat\message-formatting.js
       Functions found in js\chat\message-formatting.js:
         function addMessageToChat(
         function updateMessageContent(
         function formatContent(
+        function capitalizeFirstLetter(
         function smoothScrollToBottom(
-        function animation(
-        function easeInOutQuad(
         function createCodeBlock(
         function formatError(
+        function executeCode(
+ File: js\chat\utils.js
+      Functions found in js\chat\utils.js:
+        function chunkInput(
  File: js\chat\batchProcessor\batch-processor.js
       Functions found in js\chat\batchProcessor\batch-processor.js:
         function batchProcess(
@@ -3107,8 +3550,8 @@ Write-Host "Detailed results have been written to $outputFile"
         function isValidConfig(
         function recalculateAdaptiveThresholds(
         function updateVisualizationSettings(
-        function updateMOADiagram(
         function updateMOAControls(
+        function updateMOADiagram(
  File: js\config\meta-learning.js
       Functions found in js\config\meta-learning.js:
         function initializeMetaLearningModel(
@@ -3168,41 +3611,68 @@ Write-Host "Detailed results have been written to $outputFile"
         function getLogLevel(
         function shouldEnableTelemetry(
         function validateConfig(
+ File: js\diagram\controlButtons.js
+      Functions found in js\diagram\controlButtons.js:
+        function createControlButtons(
+        function createAddLayerButton(
+        function createAddAgentButton(
+        function createRemoveLayerButton(
+        function createRemoveAgentButton(
  File: js\diagram\diagram.js
       Functions found in js\diagram\diagram.js:
-        function debounce(
-        function executedFunction(
-        function responsivefy(
-        function resize(
         function createMOADiagram(
-        function calculateConnectionStrength(
-        function calculateTaskCompatibility(
-        function ticked(
-        function dragstarted(
-        function dragged(
-        function dragended(
-        function handleModelSelection(
-        function createNode(
-        function updateTemperatureLabel(
-        function updateNodeAppearance(
-        function getModelColor(
-        function getModelSize(
-        function getModelSymbol(
-        function updateMOAConfig(
-        function initializeNewConfig(
-        function updateConfigForNode(
-        function updateLayerConfig(
-        function updateMainModelConfig(
+ File: js\diagram\diagramActions.js
+      Functions found in js\diagram\diagramActions.js:
         function addLayer(
         function addAgent(
         function removeLayer(
         function removeAgent(
+        function updateMOAConfig(
         function animateAgent(
-        function animateLayerNodes(
-        function animateLayerLinks(
-        function animateMainModelIfLastLayer(
         function updateDiagram(
         function updateNodeConnections(
+ File: js\diagram\eventListeners.js
+      Functions found in js\diagram\eventListeners.js:
+        function addEventListeners(
+ File: js\diagram\forceSimulation.js
+      Functions found in js\diagram\forceSimulation.js:
+        function createForceSimulation(
+        function ticked(
+ File: js\diagram\helpers.js
+      Functions found in js\diagram\helpers.js:
+        function calculateConnectionStrength(
+        function calculateTaskCompatibility(
+        function responsivefy(
+        function resize(
+ File: js\diagram\linkElements.js
+      Functions found in js\diagram\linkElements.js:
+        function createLinkElements(
+ File: js\diagram\nodeElements.js
+      Functions found in js\diagram\nodeElements.js:
+        function createNodeElements(
+        function addNodeCircles(
+        function addNodeLabels(
+        function addNodeForms(
+        function createModelSelectHTML(
+        function createTemperatureInputHTML(
+        function createNodeDragBehavior(
+ File: js\diagram\nodeMap.js
+ File: js\diagram\nodesAndLinks.js
+      Functions found in js\diagram\nodesAndLinks.js:
+        function createNodesAndLinks(
+ File: js\diagram\styles.js
+      Functions found in js\diagram\styles.js:
+        function addGlowEffects(
+        function styleFormElements(
+ File: js\diagram\stylesConstants.js
+ File: js\diagram\svgSetup.js
+      Functions found in js\diagram\svgSetup.js:
+        function initializeSVG(
+        function calculateDiagramDimensions(
+ File: js\diagram\utils.js
+      Functions found in js\diagram\utils.js:
+        function debounce(
+        function executedFunction(
  File: js\main\main.js
       Functions found in js\main\main.js:
         function syncDiagramWithConfig(

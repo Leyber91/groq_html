@@ -1,0 +1,7 @@
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    /* Add responsive styles here */
+}

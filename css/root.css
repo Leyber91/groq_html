@@ -1,0 +1,58 @@
+:root {
+    /* Dracula Theme Colors */
+    --dracula-background: #282a36;
+    --dracula-current-line: #44475a;
+    --dracula-foreground: #f8f8f2;
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
+
+    /* Base colors */
+    --background-dark: var(--dracula-background);
+    --background-light: var(--dracula-current-line);
+    --text-color-dark: var(--dracula-foreground);
+    --text-color-light: var(--dracula-foreground);
+    --primary-color: var(--dracula-pink);
+    --secondary-color: var(--dracula-purple);
+    --accent-color: var(--dracula-cyan);
+
+    /* UI elements */
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Fonts */
+    --font-primary: 'Fira Code', monospace;
+    --font-heading: 'Fira Code', monospace;
+    --font-code: 'Fira Code', monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --line-height-base: 1.5;
+
+    /* Layout */
+    --header-height: 60px;
+    --footer-height: 40px;
+    --controls-width: 250px;
+    --controls-width-collapsed: 50px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.15), 0 6px 6px rgba(0,0,0,0.1);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--dracula-pink), var(--dracula-purple));
+    --gradient-secondary: linear-gradient(135deg, var(--dracula-cyan), var(--dracula-green));
+}

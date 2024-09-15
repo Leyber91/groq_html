@@ -1,12 +1,25 @@
-import { RATE_LIMITS, AVAILABLE_MODELS, MODEL_INFO } from '../config/model-config.js';
+import { RATE_LIMITS, AVAILABLE_MODELS } from '../config/model-config.js';
+
+/**
+ * @typedef {Object} TokenBucket
+ * @property {number} tokens - Available tokens.
+ * @property {number} lastRefill - Timestamp of the last refill.
+ * @property {number} rpm - Requests per minute limit.
+ * @property {number} requestCount - Number of requests made in the current minute.
+ * @property {number} dailyTokens - Remaining daily tokens.
+ * @property {number} lastDailyReset - Timestamp of the last daily reset.
+ */
 
 const tokenBuckets = new Map();
 const MILLISECONDS_PER_MINUTE = 60000;
-const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+const MILLISECONDS_PER_DAY = 86400000;
 
+/**
+ * Initializes token buckets for all available models.
+ */
 function initializeTokenBuckets() {
     const now = Date.now();
-    for (const model of AVAILABLE_MODELS) {
+    AVAILABLE_MODELS.forEach(model => {
         const limits = RATE_LIMITS[model];
         if (limits) {
             tokenBuckets.set(model, {
@@ -20,110 +33,91 @@ function initializeTokenBuckets() {
         } else {
             console.warn(`No rate limits defined for model: ${model}`);
         }
-    }
+    });
 }
 
+/**
+ * Refills tokens in all token buckets based on elapsed time.
+ */
 function refillTokenBuckets() {
     const now = Date.now();
-    for (const [model, bucket] of tokenBuckets.entries()) {
+    tokenBuckets.forEach((bucket, model) => {
         const limits = RATE_LIMITS[model];
         if (!limits) {
             console.warn(`No rate limits defined for model: ${model}`);
-            continue;
+            return;
         }
 
         const timePassed = now - bucket.lastRefill;
         const minutesPassed = timePassed / MILLISECONDS_PER_MINUTE;
-        const tokenLimit = limits.tpm;
-        const tokensToAdd = minutesPassed * tokenLimit;
-        
-        bucket.tokens = Math.min(bucket.tokens + tokensToAdd, tokenLimit);
+        const tokensToAdd = minutesPassed * limits.tpm;
+
+        bucket.tokens = Math.min(bucket.tokens + tokensToAdd, limits.tpm);
         bucket.lastRefill = now;
 
         // Reset RPM counter if a minute has passed
         if (timePassed >= MILLISECONDS_PER_MINUTE) {
-            bucket.rpm = limits.rpm;
             bucket.requestCount = 0;
         }
 
-        // Handle daily token limit if applicable
-        if (limits.dailyTokens) {
+        // Handle daily token limit reset
+        if (limits.dailyTokens !== Infinity) {
             const daysPassed = Math.floor((now - bucket.lastDailyReset) / MILLISECONDS_PER_DAY);
             if (daysPassed > 0) {
                 bucket.dailyTokens = limits.dailyTokens;
                 bucket.lastDailyReset = now;
             }
         }
-    }
+    });
 }
 
+/**
+ * Logs API usage statistics.
+ */
 function logApiUsageStats() {
     const stats = {
         timestamp: new Date().toISOString(),
         modelStats: {}
     };
-    for (const [model, bucket] of tokenBuckets.entries()) {
+    tokenBuckets.forEach((bucket, model) => {
         stats.modelStats[model] = {
             availableTokens: bucket.tokens.toFixed(2),
-            requestsPerMinute: bucket.rpm,
-            requestsMadeThisMinute: bucket.requestCount,
+            requestsRemaining: bucket.rpm - bucket.requestCount,
             dailyTokensRemaining: bucket.dailyTokens.toFixed(2),
             lastRefill: new Date(bucket.lastRefill).toISOString(),
             lastDailyReset: new Date(bucket.lastDailyReset).toISOString()
         };
-    }
+    });
     console.log('API Usage Stats:', JSON.stringify(stats, null, 2));
-    
-    // Send stats to a free monitoring service without API requirements
-    sendStatsToFreeMonitoringService(stats);
+    sendStatsToMonitoringService(stats);
 }
 
-function sendStatsToFreeMonitoringService(stats) {
-    // Using console.log as a simple, free way to output stats
-    console.log('=== API Usage Stats for Free Monitoring ===');
-    console.log(`Timestamp: ${new Date().toISOString()}`);
-    console.log(`Environment: ${typeof window !== 'undefined' ? 'browser' : 'node'}`);
-    
-    for (const [model, modelStats] of Object.entries(stats.modelStats)) {
+/**
+ * Sends API usage statistics to a monitoring service.
+ * @param {Object} stats - The statistics to send.
+ */
+function sendStatsToMonitoringService(stats) {
+    // Placeholder for integrating with an actual monitoring service
+    console.log('=== API Usage Stats for Monitoring ===');
+    console.log(`Timestamp: ${stats.timestamp}`);
+    Object.entries(stats.modelStats).forEach(([model, modelStats]) => {
         console.log(`\nModel: ${model}`);
         console.log(`  Available Tokens: ${modelStats.availableTokens}`);
-        console.log(`  Requests Per Minute: ${modelStats.requestsPerMinute}`);
-        console.log(`  Requests Made This Minute: ${modelStats.requestsMadeThisMinute}`);
+        console.log(`  Requests Remaining This Minute: ${modelStats.requestsRemaining}`);
         console.log(`  Daily Tokens Remaining: ${modelStats.dailyTokensRemaining}`);
         console.log(`  Last Refill: ${modelStats.lastRefill}`);
         console.log(`  Last Daily Reset: ${modelStats.lastDailyReset}`);
-    }
-    
+    });
     console.log('=== End of API Usage Stats ===\n');
-
-    // Optionally, you can use a free logging service like Winston
-    // which doesn't require an API key for basic logging
-    logToWinston(stats);
 }
 
-function logToWinston(stats) {
-    // Check if we're in a Node.js environment
-    if (typeof window === 'undefined') {
-        const winston = require('winston');
-        
-        // Configure Winston logger
-        const logger = winston.createLogger({
-            level: 'info',
-            format: winston.format.json(),
-            defaultMeta: { service: 'api-usage-stats' },
-            transports: [
-                new winston.transports.File({ filename: 'api-usage-stats.log' }),
-                new winston.transports.Console()
-            ],
-        });
-
-        // Log the stats
-        logger.info('API Usage Stats', { stats });
-    } else {
-        console.log('Winston logging is not available in the browser environment');
-    }
-}
-
+/**
+ * Checks if the rate limit is exceeded for a model.
+ * @param {string} model - The model name.
+ * @param {number} estimatedTokens - Estimated tokens for the request.
+ * @returns {boolean} True if within limits.
+ * @throws Will throw an error if any limit is exceeded.
+ */
 function checkRateLimit(model, estimatedTokens) {
     const bucket = tokenBuckets.get(model);
     if (!bucket) {
@@ -145,6 +139,11 @@ function checkRateLimit(model, estimatedTokens) {
     return true;
 }
 
+/**
+ * Consumes tokens and increments request count.
+ * @param {string} model - The model name.
+ * @param {number} tokensUsed - Tokens to consume.
+ */
 function consumeTokens(model, tokensUsed) {
     const bucket = tokenBuckets.get(model);
     if (!bucket) {
@@ -156,12 +155,12 @@ function consumeTokens(model, tokensUsed) {
     bucket.requestCount++;
 }
 
-export { 
-    initializeTokenBuckets, 
-    refillTokenBuckets, 
-    tokenBuckets, 
-    RATE_LIMITS, 
-    logApiUsageStats, 
-    checkRateLimit, 
-    consumeTokens 
+export {
+    initializeTokenBuckets,
+    refillTokenBuckets,
+    tokenBuckets,
+    RATE_LIMITS,
+    logApiUsageStats,
+    checkRateLimit,
+    consumeTokens
 };

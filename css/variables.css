@@ -1,0 +1,142 @@
+:root {
+    /* Colors */
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --background-dark: #1a1a1a;
+    --background-light: #f0f0f0;
+    --text-color-dark: #ffffff;
+    --text-color-light: #000000;
+    --accent-color: #ff4136;
+
+    /* Dracula Theme Colors */
+    --dracula-background: #282a36;
+    --dracula-current-line: #44475a;
+    --dracula-foreground: #f8f8f2;
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
+
+    /* Fonts */
+    --font-primary: 'Fira Code', monospace;
+    --font-heading: 'Fira Code', monospace;
+    --font-code: 'Fira Code', monospace;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --line-height-base: 1.5;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Layout */
+    --header-height: 60px;
+    --footer-height: 40px;
+    --controls-width: 250px;
+    --controls-width-collapsed: 50px;
+
+    /* UI elements */
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.15), 0 6px 6px rgba(0,0,0,0.1);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --gradient-secondary: linear-gradient(135deg, var(--dracula-pink), var(--dracula-purple));
+
+    /* SVG Diagram Styles */
+    --node-fill: var(--dracula-purple);
+    --node-stroke: var(--dracula-pink);
+    --node-hover-fill: var(--dracula-pink);
+    --node-text-color: var(--dracula-foreground);
+    --link-color: var(--dracula-comment);
+    --add-button-color: var(--dracula-green);
+    --remove-button-color: var(--dracula-red);
+    --remove-button-hover-color: var(--dracula-orange);
+    --button-text-color: var(--dracula-background);
+
+    /* Input styles */
+    --input-background: var(--dracula-current-line);
+    --input-text-color: var(--dracula-foreground);
+    --border-color: var(--dracula-comment);
+
+    /* Button styles */
+    --button-background: var(--dracula-purple);
+    --button-text-color: var(--dracula-foreground);
+
+    /* Button notch styles */
+    --button-notch-background: rgba(255, 255, 255, 0.1);
+}
+
+/* Add theme-specific overrides */
+body.light-mode {
+    --node-fill: #4ecdc4;
+    --node-stroke: #45b7a7;
+    --node-hover-fill: #45b7a7;
+    --node-text-color: #000000;
+    --link-color: #666666;
+    --input-background: #ffffff;
+    --input-text-color: #000000;
+    --border-color: #cccccc;
+    --button-background: #4ecdc4;
+    --button-text-color: #ffffff;
+    --add-button-color: #2ecc71;
+    --remove-button-color: #e74c3c;
+    --remove-button-hover-color: #c0392b;
+    --button-notch-background: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --background-dark: #1a1a1a;
+    --background-light: #2c3e50;
+    --text-color-dark: #e0e0e0;
+    --text-color-light: #bdc3c7;
+    --primary-color: #ff79c6;
+    --secondary-color: #8be9fd;
+    --accent-color: #50fa7b;
+    --node-fill: #6272a4;
+    --node-stroke: #bd93f9;
+    --node-hover-fill: #bd93f9;
+    --node-text-color: #f8f8f2;
+    --link-color: #6272a4;
+    --input-background: #282a36;
+    --input-text-color: #f8f8f2;
+    --border-color: #44475a;
+    --button-background: #6272a4;
+    --button-text-color: #f8f8f2;
+    --add-button-color: #50fa7b;
+    --remove-button-color: #ff5555;
+    --remove-button-hover-color: #ff79c6;
+    --button-notch-background: rgba(255, 255, 255, 0.1);
+}
+
+body.dracula-mode {
+    --node-fill: var(--dracula-purple);
+    --node-stroke: var(--dracula-pink);
+    --node-hover-fill: var(--dracula-pink);
+    --node-text-color: var(--dracula-foreground);
+    --link-color: var(--dracula-comment);
+    --input-background: var(--dracula-current-line);
+    --input-text-color: var(--dracula-foreground);
+    --border-color: var(--dracula-comment);
+    --button-background: var(--dracula-purple);
+    --button-text-color: var(--dracula-foreground);
+    --add-button-color: var(--dracula-green);
+    --remove-button-color: var(--dracula-red);
+    --remove-button-hover-color: var(--dracula-orange);
+    --button-notch-background: rgba(255, 255, 255, 0.1);
+}

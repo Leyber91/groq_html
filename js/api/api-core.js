@@ -1,12 +1,31 @@
 import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
 import { createAndProcessBatch } from '../chat/batchProcessor/batch-processor.js';
-import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit, getModelTokenizer} from './modelInfo/model-info.js';
-import { initializeTokenBuckets, refillTokenBuckets, checkRateLimit, consumeTokens, logApiUsageStats } from './rate-limiting.js';
-import { withErrorHandling, handleGracefulDegradation, handleApiFailure } from './error-handling.js';
+import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit, getModelTokenizer } from './modelInfo/model-info.js';
+import { 
+    initializeTokenBuckets, 
+    refillTokenBuckets, 
+    checkRateLimit, 
+    consumeTokens, 
+    logApiUsageStats 
+} from './rate-limiting.js';
+import { 
+    withErrorHandling, 
+    handleGracefulDegradation, 
+    handleApiFailure 
+} from './error-handling.js';
 
 const apiQueue = [];
 let isProcessingQueue = false;
 
+/**
+ * Queues an API request for processing.
+ * @param {string} model - The model name.
+ * @param {Array<Object>} messages - Array of message objects.
+ * @param {number} temperature - Sampling temperature.
+ * @param {Function} updateCallback - Callback for partial responses.
+ * @param {string} [priority='normal'] - Priority of the request.
+ * @returns {Promise<string|Object>} Result of the API call.
+ */
 export async function queueApiRequest(model, messages, temperature, updateCallback, priority = 'normal') {
     return new Promise((resolve, reject) => {
         const request = { model, messages, temperature, updateCallback, resolve, reject, priority, timestamp: Date.now() };
@@ -15,8 +34,15 @@ export async function queueApiRequest(model, messages, temperature, updateCallba
     });
 }
 
+/**
+ * Inserts a request into the API queue based on priority.
+ * @param {Object} request - The API request object.
+ */
 function insertRequestIntoQueue(request) {
-    const index = apiQueue.findIndex(item => item.priority === 'low' || (item.priority === 'normal' && request.priority === 'high'));
+    const index = apiQueue.findIndex(item => 
+        (item.priority === 'low') || 
+        (item.priority === 'normal' && request.priority === 'high')
+    );
     if (index === -1) {
         apiQueue.push(request);
     } else {
@@ -24,6 +50,10 @@ function insertRequestIntoQueue(request) {
     }
 }
 
+/**
+ * Processes a single API request.
+ * @param {Object} request - The API request object.
+ */
 async function processSingleRequest({ model, messages, temperature, updateCallback, resolve, reject }) {
     if (!model) {
         reject(new Error('Model parameter is missing or undefined'));
@@ -54,6 +84,14 @@ async function processSingleRequest({ model, messages, temperature, updateCallba
     }
 }
 
+/**
+ * Streams data from the Groq API with proper handling.
+ * @param {string} model - The model name.
+ * @param {Array<Object>} messages - Array of message objects.
+ * @param {number} temperature - Sampling temperature.
+ * @param {Function} updateCallback - Callback for partial responses.
+ * @returns {Promise<string>} The full response from the API.
+ */
 async function streamGroqAPI(model, messages, temperature, updateCallback) {
     if (!model) {
         throw new Error('Model parameter is missing or undefined');
@@ -80,12 +118,17 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
 
     try {
         const timeoutMs = typeof systemSettings.apiTimeout === 'number' ? systemSettings.apiTimeout : 30000; // Default to 30 seconds
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), timeoutMs);
+
         const response = await fetch(url, { 
             method: 'POST', 
             headers, 
             body,
-            signal: AbortSignal.timeout(timeoutMs)
+            signal: controller.signal
         });
+
+        clearTimeout(timeout);
 
         if (!response.ok) {
             const errorBody = await response.json();
@@ -105,11 +148,11 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
             buffer += decoder.decode(value, { stream: true });
             let newlineIndex;
             while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
-                const line = buffer.slice(0, newlineIndex);
+                const line = buffer.slice(0, newlineIndex).trim();
                 buffer = buffer.slice(newlineIndex + 1);
                 if (line.startsWith('data: ')) {
                     const jsonData = line.slice(6);
-                    if (jsonData.trim() === '[DONE]') break;
+                    if (jsonData === '[DONE]') break;
                     try {
                         const parsedData = JSON.parse(jsonData);
                         if (parsedData.choices && parsedData.choices.length > 0) {
@@ -131,25 +174,34 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
         return fullResponse;
     } catch (error) {
         if (error.name === 'AbortError') {
-            console.error(`API request timed out after ${timeoutMs}ms for model ${model}`);
-            throw new Error(`API request timed out after ${timeoutMs}ms for model ${model}`);
+            console.error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
+            throw new Error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
         }
         console.error(`Error in API request for model ${model}:`, error);
         throw error;
     }
 }
 
-export function estimateTokens(messages, model) {
-    const tokenizer = getModelTokenizer(model);
-    const modelInfo = getModelInfo(model);
+/**
+ * Estimates the number of tokens required for the given messages.
+ * @param {Array<Object>} messages - Array of message objects.
+ * @param {string} modelName - The model name.
+ * @returns {number} Estimated token count.
+ */
+export function estimateTokens(messages, modelName) {
+    const tokenizer = getModelTokenizer(modelName);
     const overheadFactor = 1.1;
+    const modelInfo = getModelInfo(modelName);
     const modelSpecificFactor = modelInfo.tokenEstimationFactor || 1.0;
-  
-    const estimatedTokens = tokenizer.encode(messages).length;
-  
-    return Math.ceil(estimatedTokens * overheadFactor * modelSpecificFactor);
-  }
 
+    const estimatedTokens = tokenizer.encode(messages).length;
+
+    return Math.ceil(estimatedTokens * overheadFactor * modelSpecificFactor);
+}
+
+/**
+ * Processes the API queue by handling batch requests.
+ */
 export async function processApiQueue() {
     if (isProcessingQueue || apiQueue.length === 0) return;
     
@@ -164,7 +216,7 @@ export async function processApiQueue() {
             retryAttempts: systemSettings.apiRetryAttempts || 3,
             retryDelay: systemSettings.apiRetryDelay || 1000,
             maxConcurrent: systemSettings.apiMaxConcurrent || 3,
-            progressCallback: (progress) => console.log(`Batch progress: ${progress * 100}%`)
+            progressCallback: (progress) => console.log(`Batch progress: ${Math.round(progress * 100)}%`)
         });
     } catch (error) {
         await handleGracefulDegradation(error, 'processApiQueue');
@@ -174,8 +226,9 @@ export async function processApiQueue() {
     setTimeout(processApiQueue, systemSettings.apiQueueInterval || 100);
 }
 
-export const safeProcessApiQueue = withErrorHandling(processApiQueue, 'safeProcessApiQueue');
-
+/**
+ * Enhanced streaming API with error handling.
+ */
 const enhancedStreamGroqAPI = withErrorHandling(
     async (model, messages, temperature, updateCallback) => {
         if (!model) {
@@ -186,13 +239,13 @@ const enhancedStreamGroqAPI = withErrorHandling(
     'enhancedStreamGroqAPI'
 );
 
-
+export const safeProcessApiQueue = withErrorHandling(processApiQueue, 'safeProcessApiQueue');
 
 // Initialize token buckets when the module loads
 initializeTokenBuckets();
 
 // Periodically refill token buckets and log usage statistics
-setInterval(refillTokenBuckets, systemSettings.tokenRefillInterval || 60000); // Run every minute by default
-setInterval(logApiUsageStats, systemSettings.apiStatsLogInterval || 300000); // Log stats every 5 minutes by default
+setInterval(refillTokenBuckets, systemSettings.tokenRefillInterval || 60000); // Every minute by default
+setInterval(logApiUsageStats, systemSettings.apiStatsLogInterval || 300000); // Every 5 minutes by default
 
-export { logApiUsageStats, handleApiFailure };
+export { handleApiFailure };

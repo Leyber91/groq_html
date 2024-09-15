@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groq MOA - Mixture of Agents</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/tokenizer-js@1.0.3/dist/tokenizer.min.js"></script>
+
 </head>
 <body>
     <header>
-        <h1>Groq MOA - Mixture of Agents</h1>
+        <h1>GROQ MOA - MIXTURE OF AGENTS</h1>
     </header>
     <main>
         <div id="moa-interface">
@@ -17,41 +19,41 @@
             <div id="moa-controls">
                 <h3>MOA Controls</h3>
                 <div class="control-group">
-                            <label for="main-model-select">Main Model:</label>
-                            <select id="main-model-select"></select>
-                        </div>
-                        <div>
-                            <label for="main-temperature">Temperature:</label>
-                            <input type="range" id="main-temperature" min="0" max="1" step="0.1">
-                            <span id="main-temperature-value"></span>
-                        </div>
-                        <div id="adaptive-threshold-controls">
-                            <h4>Adaptive Thresholds</h4>
-                            <div>
-                                <label for="processing-time">Processing Time (ms):</label>
-                                <input type="range" id="processing-time" min="1000" max="30000" step="1000">
-                                <span id="processing-time-value"></span>
-                            </div>
-                            <div>
-                                <label for="output-quality">Output Quality:</label>
-                                <input type="range" id="output-quality" min="0" max="1" step="0.1">
-                                <span id="output-quality-value"></span>
-                            </div>
-                            <div>
-                                    <label for="max-retries">Max Retries:</label>
-                                    <input type="number" id="max-retries" min="1" max="10" step="1">
-                                </div>
-                                <div>
-                                    <label for="backoff-factor">Backoff Factor:</label>
-                                    <input type="number" id="backoff-factor" min="1" max="3" step="0.1">
-                                </div>
-                                <div>
-                                    <label for="dynamic-adjustment">Dynamic Adjustment:</label>
-                                    <input type="checkbox" id="dynamic-adjustment">
-                                </div>
-                            </div>
-                            <div>
-                                <button id="add-layer-button">Add Layer</button>
+                    <label for="main-model-select">Main Model:</label>
+                    <select id="main-model-select"></select>
+                </div>
+                <div>
+                    <label for="main-temperature">Temperature:</label>
+                    <input type="range" id="main-temperature" min="0" max="1" step="0.1">
+                    <span id="main-temperature-value"></span>
+                </div>
+                <div id="adaptive-threshold-controls">
+                    <h4>Adaptive Thresholds</h4>
+                    <div>
+                        <label for="processing-time">Processing Time (ms):</label>
+                        <input type="range" id="processing-time" min="1000" max="30000" step="1000">
+                        <span id="processing-time-value"></span>
+                    </div>
+                    <div>
+                        <label for="output-quality">Output Quality:</label>
+                        <input type="range" id="output-quality" min="0" max="1" step="0.1">
+                        <span id="output-quality-value"></span>
+                    </div>
+                    <div>
+                        <label for="max-retries">Max Retries:</label>
+                        <input type="number" id="max-retries" min="1" max="10" step="1">
+                    </div>
+                    <div>
+                        <label for="backoff-factor">Backoff Factor:</label>
+                        <input type="number" id="backoff-factor" min="1" max="3" step="0.1">
+                    </div>
+                    <div>
+                        <label for="dynamic-adjustment">Dynamic Adjustment:</label>
+                        <input type="checkbox" id="dynamic-adjustment">
+                    </div>
+                </div>
+                <div>
+                    <button id="add-layer-button">Add Layer</button>
                     <button id="add-agent-button">Add Agent</button>
                     <button id="remove-layer-button">Remove Layer</button>
                     <button id="remove-agent-button">Remove Agent</button>
@@ -66,12 +68,18 @@
                 <button id="send-message">Send</button>
             </div>
         </div>
+        
     </main>
-    
+    <footer>
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+    </footer>
+    <!-- External Libraries -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
+    
+    <!-- Your JavaScript Modules -->
     <script type="module" src="js/main/main.js"></script>
+
 </body>
 </html>

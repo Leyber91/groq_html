@@ -1,240 +1,64 @@
-:root {
-    --primary-color: #FF6B6B;
-    --secondary-color: #FF9999;
-    --background-dark: #0A0A0A;
-    --background-light: #1A1A1A;
-    --text-color: #F0F0F0;
-    --accent-color: #FF4136;
-    --border-radius: 8px;
-    --transition-speed: 0.3s;
-    --max-width: 100%;
-    --spacing-small: 0.5rem;
-    --spacing-medium: 1rem;
-    --spacing-large: 2rem;
-    --font-primary: 'Roboto', sans-serif;
-    --font-heading: 'Montserrat', sans-serif;
-    --controls-width: 250px;
-    --controls-width-collapsed: 50px;
-}
+@import 'variables.css';
+@import 'reset.css';
+@import 'global.css';
+@import 'typography.css';
+@import 'components/header.css';
+@import 'components/buttons.css';
+@import 'components/chat-interface.css';
+@import 'components/moa-diagram.css';
+@import 'components/moa-controls.css';
+@import 'components/svg-elements.css';
+@import 'animations.css';
+@import 'themes.css';
+@import 'utilities.css';
 
-body, html {
-    height: 95%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
+/* Base styles */
 body {
-    font-family: var(--font-primary);
-    background: linear-gradient(135deg, var(--background-dark), var(--background-light));
-    color: var(--text-color);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 95vh;
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+    font-family: var(--font-primary);
 }
 
 main {
     flex: 1;
     display: flex;
-    height: calc(100vh - 60px); /* Adjust based on your header height */
-}
-
-#moa-interface {
-    display: flex;
+    flex-direction: row;
     width: 100%;
-    transition: all 0.3s ease;
 }
 
 #moa-diagram {
-    flex: 1;
-    height: 100%;
-}
-
-#moa-controls-container {
-    width: var(--controls-width);
-    transition: width 0.3s ease;
-    background: var(--background-light);
-    border-left: 1px solid var(--primary-color);
-    overflow-y: auto;
-}
-
-#moa-controls-container.collapsed {
-    width: var(--controls-width-collapsed);
-}
-
-#toggle-moa-controls {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-    background: rgba(255, 65, 54, 0.8);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: slideDown 0.5s ease-out, fadeIn 0.5s ease-out;
-}
-
-#toggle-moa-controls:hover {
-    background: rgba(255, 65, 54, 1);
-    transform: scale(1.1);
-}
-
-#chat-interface {
-    flex: 95%;
-    display: flex;
-    flex-direction: column;
+    flex: 0 0 85%;
+    overflow: auto;
+    padding: var(--spacing-md);
     background-color: var(--background-dark);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
+#moa-controls-container {
+    flex: 0 0 14%;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: var(--background-light);
+    border-left: 1px solid var(--text-color-light);
 }
 
-h1 {
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-#moa-controls {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+#chat-interface {
+    flex: 0 0 40%;
     height: 100%;
     overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: var(--background-dark);
+    border-left: 1px solid var(--text-color-light);
 }
 
-label, input, select, button {
-    display: block;
-    width: 100%;
-    margin-bottom: var(--spacing-medium);
-    font-family: var(--font-primary);
-}
-
-input, select {
-    padding: 0.75rem;
-    border-radius: var(--border-radius);
-    border: 2px solid var(--secondary-color);
-    background-color: rgba(30, 30, 30, 0.8);
-    color: var(--text-color);
-}
-
-/* Responsive design */
-@media (max-width: 1200px) {
-    #moa-interface {
-        flex-direction: column;
-    }
-
-    #moa-diagram,
-    #moa-controls,
-    #chat-interface {
-        flex: none;
-        width: 100%;
-    }
-
-    #moa-controls-wrapper {
-        border-left: none;
-        border-right: none;
-        border-top: 3px solid var(--primary-color);
-        border-bottom: 3px solid var(--primary-color);
-    }
-}
-
-/* Scrollbar Styles */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--background-light);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
-}
-
-/* Node styles */
-.node circle {
-    fill: url(#node-gradient);
-    stroke: var(--secondary-color);
-    stroke-width: 2px;
-    transition: all var(--transition-speed) ease;
-}
-
-.node:hover circle {
-    transform: scale(1.1);
-}
-
-.node text {
-    font-family: var(--font-primary);
-    fill: var(--text-color);
-}
-
-/* Link styles */
-.link {
-    stroke: var(--secondary-color);
-    stroke-opacity: 0.4;
-    stroke-width: 2px;
-    transition: all var(--transition-speed) ease;
-}
-
-.link:hover {
-    stroke-opacity: 1;
-    stroke-width: 3px;
-}
-
-/* Button styles for diagram */
-.diagram-button {
-    fill: var(--accent-color);
-    cursor: pointer;
-    transition: all var(--transition-speed) ease;
-}
-
-.diagram-button:hover {
-    fill: #FF5146;
-    transform: scale(1.1);
-}
-
-.diagram-button text {
-    fill: var(--text-color);
-    font-family: var(--font-primary);
-    font-weight: bold;
-}
-
-#toggle-moa-controls {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-    background: rgba(255, 65, 54, 0.8);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: slideDown 0.5s ease-out, fadeIn 0.5s ease-out;
-}
-
-#toggle-moa-controls:hover {
-    background: rgba(255, 65, 54, 1);
-    transform: scale(1.1);
+footer {
+    height: var(--footer-height);
+    background-color: var(--background-light);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 var(--spacing-md);
 }
 

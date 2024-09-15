@@ -1,0 +1,261 @@
+/* MOA Controls Container */
+#moa-controls-container {
+    flex: 0 0 14%;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: var(--dracula-background);
+    border-left: 1px solid var(--dracula-comment);
+    color: var(--dracula-foreground);
+}
+
+/* MOA Controls Styles */
+.moa-control {
+    margin-bottom: var(--spacing-md);
+}
+
+.moa-control label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--dracula-purple);
+}
+
+.moa-control select,
+.moa-control input[type="number"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--dracula-current-line);
+    border: 1px solid var(--dracula-comment);
+    border-radius: 4px;
+    color: var(--dracula-foreground);
+}
+
+.moa-control select:focus,
+.moa-control input[type="number"]:focus {
+    outline: none;
+    border-color: var(--dracula-purple);
+}
+
+/* Add/Remove Layer/Agent Buttons */
+.moa-button {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-right: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    background-color: var(--dracula-purple);
+    color: var(--dracula-foreground);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.moa-button:hover {
+    background-color: var(--dracula-pink);
+}
+
+.moa-button.remove {
+    background-color: var(--dracula-red);
+}
+
+.moa-button.remove:hover {
+    background-color: var(--dracula-orange);
+}
+
+/* SVG Styles */
+.node circle {
+    fill: var(--dracula-cyan);
+    stroke: var(--dracula-purple);
+    stroke-width: 2px;
+}
+
+.node text {
+    fill: var(--dracula-foreground);
+    font-weight: bold;
+}
+
+.link {
+    stroke: var(--dracula-comment);
+}
+
+/* ... existing code ... */
+
+#moa-controls {
+    background-color: var(--background-dark);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+    color: var(--text-color-dark);
+}
+
+#moa-controls h3 {
+    color: var(--primary-color);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+#moa-controls h4 {
+    color: var(--secondary-color);
+    font-size: var(--font-size-md);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.control-group {
+    margin-bottom: var(--spacing-md);
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+}
+
+#moa-controls label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color-dark);
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#moa-controls select,
+#moa-controls input[type="number"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    background-color: var(--input-background);
+    color: var(--input-text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-sm);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#moa-controls select:focus,
+#moa-controls input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-transparent);
+}
+
+#moa-controls input[type="range"] {
+    width: 100%;
+    margin-top: var(--spacing-xs);
+    margin-bottom: var(--spacing-xs);
+}
+
+#moa-controls input[type="checkbox"] {
+    margin-right: var(--spacing-xs);
+    accent-color: var(--primary-color);
+}
+
+#moa-controls span {
+    display: inline-block;
+    min-width: 40px;
+    text-align: right;
+    margin-left: var(--spacing-xs);
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#adaptive-threshold-controls {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Button grid layout */
+#moa-controls .button-grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+    background-color: var(--background-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+#moa-controls button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#moa-controls button:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+#add-layer-button, #add-agent-button {
+    background-color: var(--add-button-color);
+}
+
+#remove-layer-button, #remove-agent-button {
+    background-color: var(--remove-button-color);
+}
+
+/* Custom styles for range inputs */
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--background-light);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-moz-range-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #moa-controls .button-grid {
+        grid-template-columns: 1fr;
+    }
+}

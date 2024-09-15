@@ -1,0 +1,16 @@
+button {
+    display: block;
+    width: 100%;
+    margin-bottom: var(--spacing-medium);
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    color: #ffffff;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+}
+
+/* Add specific button styles here */
