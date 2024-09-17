@@ -1,0 +1,81 @@
+{
+  "models": {
+    "available": [
+      "gemma-7b-it",
+      "gemma2-9b-it",
+      "llama-3.1-70b-versatile",
+      "llama-3.1-8b-instant",
+      "llama3-70b-8192",
+      "llama3-8b-8192",
+      "llama3-groq-70b-8192-tool-use-preview",
+      "llama3-groq-8b-8192-tool-use-preview",
+      "mixtral-8x7b-32768"
+    ],
+    "default": "mixtral-8x7b-32768",
+    "info": {
+      "gemma-7b-it": {
+        "description": "Lightweight model for general tasks",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "gemma2-9b-it": {
+        "description": "Improved version of Gemma with enhanced capabilities",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "llama-3.1-70b-versatile": {
+        "description": "Highly versatile large language model",
+        "contextWindow": 131072,
+        "tokenLimit": 131072
+      },
+      "llama-3.1-8b-instant": {
+        "description": "Fast and efficient model for quick responses",
+        "contextWindow": 131072,
+        "tokenLimit": 131072
+      },
+      "llama3-70b-8192": {
+        "description": "Large-scale model with advanced capabilities",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "llama3-8b-8192": {
+        "description": "Balanced model offering good performance with lower resource requirements",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "llama3-groq-70b-8192-tool-use-preview": {
+        "description": "Advanced model with tool use capabilities",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "llama3-groq-8b-8192-tool-use-preview": {
+        "description": "Efficient model with tool use capabilities",
+        "contextWindow": 8192,
+        "tokenLimit": 8192
+      },
+      "mixtral-8x7b-32768": {
+        "description": "Large mixture-of-experts model with extended context window",
+        "contextWindow": 32768,
+        "tokenLimit": 32768
+      }
+    },
+    "rateLimits": {
+      "gemma-7b-it": { "rpm": 30, "tpm": 15000 },
+      "gemma2-9b-it": { "rpm": 30, "tpm": 15000 },
+      "llama-3.1-70b-versatile": { "rpm": 30, "tpm": 20000, "dailyTokens": 1000000 },
+      "llama-3.1-8b-instant": { "rpm": 30, "tpm": 20000, "dailyTokens": 1000000 },
+      "llama3-70b-8192": { "rpm": 30, "tpm": 6000 },
+      "llama3-8b-8192": { "rpm": 30, "tpm": 30000 },
+      "llama3-groq-70b-8192-tool-use-preview": { "rpm": 30, "tpm": 15000 },
+      "llama3-groq-8b-8192-tool-use-preview": { "rpm": 30, "tpm": 15000 },
+      "mixtral-8x7b-32768": { "rpm": 30, "tpm": 5000 }
+    }
+  },
+  "api": {
+    "baseUrl": "https://api.groq.com/openai/v1",
+    "endpoints": {
+      "chat": "/chat/completions",
+      "models": "/models"
+    }
+  }
+}

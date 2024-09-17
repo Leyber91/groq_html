@@ -13,6 +13,8 @@ import {
     handleGracefulDegradation, 
     handleApiFailure 
 } from './error-handling.js';
+import { logger } from '../utils/logger.js';
+import { executeWithRetryAndCircuitBreaker } from '../utils/retry.js';
 
 const apiQueue = [];
 let isProcessingQueue = false;
@@ -70,7 +72,11 @@ async function processSingleRequest({ model, messages, temperature, updateCallba
         const estimatedTokens = estimateTokens(messages, model);
         await checkRateLimit(model, estimatedTokens);
 
-        const result = await enhancedStreamGroqAPI(model, messages, temperature, updateCallback);
+        const result = await executeWithRetryAndCircuitBreaker(
+            () => enhancedStreamGroqAPI(model, messages, temperature, updateCallback),
+            systemSettings.apiRetryAttempts || 3,
+            systemSettings.apiRetryDelay || 1000
+        );
 
         await consumeTokens(model, estimatedTokens);
         resolve(result);
@@ -114,7 +120,7 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
         max_tokens: maxTokens
     });
 
-    console.log(`Sending request for model ${model}:`, { url, headers, body: JSON.parse(body) });
+    logger.debug(`Sending request for model ${model}:`, { url, headers, body: JSON.parse(body) });
 
     try {
         const timeoutMs = typeof systemSettings.apiTimeout === 'number' ? systemSettings.apiTimeout : 30000; // Default to 30 seconds
@@ -132,7 +138,7 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
 
         if (!response.ok) {
             const errorBody = await response.json();
-            console.error(`API request failed for model ${model}. Status: ${response.status}. Response:`, errorBody);
+            logger.error(`API request failed for model ${model}. Status: ${response.status}. Response:`, errorBody);
             throw new Error(`API request failed: ${errorBody.error.message} (${response.status})`);
         }
 
@@ -162,10 +168,10 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
                                 updateCallback(content);
                             }
                         } else {
-                            console.warn('Received unexpected data structure:', parsedData);
+                            logger.warn('Received unexpected data structure:', parsedData);
                         }
                     } catch (error) {
-                        console.error('Error parsing JSON:', error, 'Raw data:', jsonData);
+                        logger.error('Error parsing JSON:', error, 'Raw data:', jsonData);
                     }
                 }
             }
@@ -174,10 +180,10 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
         return fullResponse;
     } catch (error) {
         if (error.name === 'AbortError') {
-            console.error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
+            logger.error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
             throw new Error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
         }
-        console.error(`Error in API request for model ${model}:`, error);
+        logger.error(`Error in API request for model ${model}:`, error);
         throw error;
     }
 }
@@ -216,7 +222,7 @@ export async function processApiQueue() {
             retryAttempts: systemSettings.apiRetryAttempts || 3,
             retryDelay: systemSettings.apiRetryDelay || 1000,
             maxConcurrent: systemSettings.apiMaxConcurrent || 3,
-            progressCallback: (progress) => console.log(`Batch progress: ${Math.round(progress * 100)}%`)
+            progressCallback: (progress) => logger.debug(`Batch progress: ${Math.round(progress * 100)}%`)
         });
     } catch (error) {
         await handleGracefulDegradation(error, 'processApiQueue');

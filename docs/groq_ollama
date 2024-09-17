@@ -1,0 +1,1281 @@
+# Groq API Manual for JavaScript and Python
+
+Welcome to the **Groq API Manual**! This comprehensive guide will help you interact with Groq's powerful AI models using **JavaScript** and **Python**. Whether you're building chatbots, transcribing audio, translating languages, or creating complex AI systems, this manual provides the necessary information to leverage Groq's latest supported models, manage rate limits, and implement advanced multi-model AI architectures.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Authentication](#authentication)
+- [Supported Models](#supported-models)
+- [Rate Limits](#rate-limits)
+- [API Endpoints](#api-endpoints)
+  - [Create Chat Completion](#create-chat-completion)
+  - [Create Transcription](#create-transcription)
+  - [Create Translation](#create-translation)
+  - [List Models](#list-models)
+  - [Retrieve Model](#retrieve-model)
+- [Building Advanced AI Systems](#building-advanced-ai-systems)
+  - [Multi-Model Mixture of Agents](#multi-model-mixture-of-agents)
+  - [Self-Growing AI Systems](#self-growing-ai-systems)
+- [Parameters Overview](#parameters-overview)
+- [Case Examples](#case-examples)
+  - [Chat Completion Example](#chat-completion-example)
+  - [Audio Transcription Example](#audio-transcription-example)
+  - [Audio Translation Example](#audio-translation-example)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Conclusion](#conclusion)
+- [Additional Resources](#additional-resources)
+
+---
+
+## Introduction
+
+Groq provides a suite of AI models accessible via a robust API. Whether you're building chatbots, transcribing audio, translating languages, or creating complex AI systems, Groq's API offers the tools you need. This manual will guide you through making API calls using **JavaScript** and **Python**, understanding the parameters, managing rate limits, and leveraging Groq's latest powerful models to build advanced AI applications.
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **JavaScript Users:**
+  - **Node.js**: Ensure you have Node.js installed. Download it from [here](https://nodejs.org/).
+
+- **Python Users:**
+  - **Python**: Ensure you have Python 3.7 or later installed. Download it from [here](https://www.python.org/downloads/).
+
+- **Groq API Key**: Obtain your API key from the Groq dashboard.
+
+### Installation
+
+#### JavaScript
+
+1. **Initialize Your Project**
+
+   ```bash
+   mkdir groq-project
+   cd groq-project
+   npm init -y
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   npm install groq-sdk dotenv
+   ```
+
+3. **Setup Environment Variables**
+
+   Create a `.env` file in the root of your project:
+
+   ```env
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+#### Python
+
+1. **Create a Virtual Environment**
+
+   ```bash
+   python -m venv groq-env
+   cd groq-env
+   source bin/activate  # On Windows: .\Scripts\activate
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+   pip install groq-sdk python-dotenv
+   ```
+
+3. **Setup Environment Variables**
+
+   Create a `.env` file in the root of your project:
+
+   ```env
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+
+### Authentication
+
+Groq uses API keys for authentication. Ensure your API key is stored securely, preferably using environment variables.
+
+**JavaScript Example using `dotenv`:**
+
+```javascript
+// index.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+```
+
+**Python Example using `python-dotenv`:**
+
+```python
+# main.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+```
+
+---
+
+## Supported Models
+
+GroqCloud currently supports the following models:
+
+### Chat and Audio Models
+
+| **Model Name**                             | **Model ID**                                      | **Developer** | **Context Window / Max File Size** |
+|--------------------------------------------|---------------------------------------------------|---------------|-------------------------------------|
+| **Distil-Whisper English**                 | `distil-whisper-large-v3-en`                      | HuggingFace   | Max File Size: 25 MB                |
+| **Gemma 2 9B**                              | `gemma2-9b-it`                                     | Google        | 8,192 tokens                        |
+| **Gemma 7B**                                | `gemma-7b-it`                                      | Google        | 8,192 tokens                        |
+| **Llama 3 Groq 70B Tool Use (Preview)**     | `llama3-groq-70b-8192-tool-use-preview`            | Groq          | 8,192 tokens                        |
+| **Llama 3 Groq 8B Tool Use (Preview)**      | `llama3-groq-8b-8192-tool-use-preview`             | Groq          | 8,192 tokens                        |
+| **Llama 3.1 405B**                          | `llama3-1-405b`                                    | Meta          | 131,072 tokens                       |
+| **Llama 3.1 70B (Preview)**                 | `llama-3.1-70b-versatile`                          | Meta          | 131,072 tokens                       |
+| **Llama 3.1 8B (Preview)**                  | `llama-3.1-8b-instant`                              | Meta          | 131,072 tokens                       |
+| **Llama Guard 3 8B**                        | `llama-guard-3-8b`                                  | Meta          | 8,192 tokens                         |
+| **LLaVA 1.5 7B**                            | `llava-v1.5-7b-4096-preview`                        | Haotian Liu   | 4,096 tokens                         |
+| **Meta Llama 3 70B**                        | `llama3-70b-8192`                                   | Meta          | 8,192 tokens                         |
+| **Meta Llama 3 8B**                         | `llama3-8b-8192`                                    | Meta          | 8,192 tokens                         |
+| **Mixtral 8x7B**                            | `mixtral-8x7b-32768`                                | Mistral       | 32,768 tokens                        |
+| **Whisper**                                 | `whisper-large-v3`                                  | OpenAI        | Max File Size: 25 MB                 |
+
+> **Note:** During the preview launch, we are limiting 3.1 models to `max_tokens` of 8k.
+
+These models are accessible through the GroqCloud Models API endpoint using their respective model IDs.
+
+---
+
+## Rate Limits
+
+Understanding rate limits is crucial to effectively manage your API usage and avoid service interruptions. Below are the rate limits for each model in your organization:
+
+### Chat Completion Rate Limits
+
+| **Model ID**                              | **Requests per Minute** | **Requests per Day** | **Tokens per Minute** | **Tokens per Day** |
+|-------------------------------------------|-------------------------|----------------------|-----------------------|--------------------|
+| `gemma-7b-it`                             | 30                      | 14,400               | 15,000                | No limit           |
+| `gemma2-9b-it`                            | 30                      | 14,400               | 15,000                | No limit           |
+| `llama-3.1-70b-versatile`                 | 30                      | 14,400               | 20,000                | 1,000,000          |
+| `llama-3.1-8b-instant`                    | 30                      | 14,400               | 20,000                | 1,000,000          |
+| `llama-guard-3-8b`                         | 30                      | 14,400               | 15,000                | No limit           |
+| `llama3-70b-8192`                          | 30                      | 14,400               | 6,000                 | No limit           |
+| `llama3-8b-8192`                           | 30                      | 14,400               | 30,000                | No limit           |
+| `llama3-groq-70b-8192-tool-use-preview`     | 30                      | 14,400               | 15,000                | No limit           |
+| `llama3-groq-8b-8192-tool-use-preview`      | 30                      | 14,400               | 15,000                | No limit           |
+| `llava-v1.5-7b-4096-preview`                | 30                      | 14,400               | 30,000                | No limit           |
+| `mixtral-8x7b-32768`                        | 30                      | 14,400               | 5,000                 | No limit           |
+
+### Speech to Text Rate Limits
+
+| **Model ID**                       | **Requests per Minute** | **Requests per Day** | **Audio Seconds per Hour** | **Audio Seconds per Day** |
+|------------------------------------|-------------------------|----------------------|----------------------------|---------------------------|
+| `distil-whisper-large-v3-en`        | 20                      | 2,000                | 7,200                      | 28,800                     |
+| `whisper-large-v3`                   | 20                      | 2,000                | 7,200                      | 28,800                     |
+
+> **Note:** These limits are subject to change. Always refer to the [official Groq documentation](https://api.groq.com/openai/v1/docs) for the most up-to-date information.
+
+---
+
+## API Endpoints
+
+Groq offers several endpoints to interact with its AI models. Below are the primary endpoints you'll use, along with code examples in both **JavaScript** and **Python**.
+
+### Create Chat Completion
+
+**Endpoint:**
+
+```
+POST https://api.groq.com/openai/v1/chat/completions
+```
+
+**Description:**
+
+Generates a model response based on the provided chat conversation.
+
+**Request Body Parameters:**
+
+- `model` (string, required): ID of the model to use.
+- `messages` (array, required): List of messages in the conversation.
+- `max_tokens` (integer, optional): Max tokens to generate.
+- `temperature` (number, optional): Sampling temperature (0-2).
+- `top_p` (number, optional): Nucleus sampling parameter (0-1).
+- `frequency_penalty` (number, optional): Penalizes new tokens based on existing frequency (-2.0 to 2.0).
+- `presence_penalty` (number, optional): Penalizes new tokens based on their presence in the text so far (-2.0 to 2.0).
+- `stream` (boolean, optional): Enables streaming response.
+- `tools` (array, optional): List of tools (functions) the model can call.
+- ... and more (refer to [Parameters Overview](#parameters-overview)).
+
+#### JavaScript Example
+
+```javascript
+// chatCompletion.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function createChatCompletion() {
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "mixtral-8x7b-32768", // Using the powerful Mixtral 8x7B model
+      messages: [
+        {
+          role: "user",
+          content: "Explain the importance of fast language models",
+        },
+      ],
+      max_tokens: 500,
+      temperature: 0.7,
+      top_p: 0.9,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+
+    console.log(completion.choices[0]?.message?.content || "");
+  } catch (error) {
+    console.error("Error creating chat completion:", error);
+  }
+}
+
+createChatCompletion();
+```
+
+#### Python Example
+
+```python
+# chat_completion.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def create_chat_completion():
+    try:
+        chat_completion = groq.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Explain the importance of fast language models",
+                }
+            ],
+            model="mixtral-8x7b-32768",  # Using the powerful Mixtral 8x7B model
+            max_tokens=500,
+            temperature=0.7,
+            top_p=0.9,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+
+        print(chat_completion.choices[0].message.content)
+    except Exception as e:
+        print("Error creating chat completion:", e)
+
+if __name__ == "__main__":
+    create_chat_completion()
+```
+
+### Create Transcription
+
+**Endpoint:**
+
+```
+POST https://api.groq.com/openai/v1/audio/transcriptions
+```
+
+**Description:**
+
+Transcribes audio into the input language.
+
+**Request Body Parameters:**
+
+- `file` (file, required): Audio file to transcribe.
+- `model` (string, required): ID of the transcription model (e.g., `whisper-large-v3`).
+- `language` (string, optional): Language of the input audio (ISO-639-1 format).
+- `prompt` (string, optional): Text to guide the model's style or continue a previous segment.
+- `response_format` (string, optional): `json`, `text`, or `verbose_json`.
+- `temperature` (number, optional): Sampling temperature (0-1).
+- ... and more.
+
+#### JavaScript Example
+
+```javascript
+// transcription.js
+import fs from "fs";
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function transcribeAudio() {
+  try {
+    const transcription = await groq.audio.transcriptions.create({
+      file: fs.createReadStream("sample_audio.m4a"), // Replace with your audio file path
+      model: "whisper-large-v3", // Using the Whisper large-v3 model
+      language: "en",
+      response_format: "json",
+      temperature: 0.0,
+    });
+
+    console.log(transcription.text);
+  } catch (error) {
+    console.error("Error transcribing audio:", error);
+  }
+}
+
+transcribeAudio();
+```
+
+#### Python Example
+
+```python
+# transcription.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def transcribe_audio():
+    try:
+        with open("sample_audio.m4a", "rb") as audio_file:  # Replace with your audio file path
+            transcription = groq.audio.transcriptions.create(
+                file=audio_file,
+                model="whisper-large-v3",  # Using the Whisper large-v3 model
+                language="en",
+                response_format="json",
+                temperature=0.0,
+            )
+
+        print(transcription.text)
+    except Exception as e:
+        print("Error transcribing audio:", e)
+
+if __name__ == "__main__":
+    transcribe_audio()
+```
+
+### Create Translation
+
+**Endpoint:**
+
+```
+POST https://api.groq.com/openai/v1/audio/translations
+```
+
+**Description:**
+
+Translates audio into English.
+
+**Request Body Parameters:**
+
+- `file` (file, required): Audio file to translate.
+- `model` (string, required): ID of the translation model (`whisper-large-v3`).
+- `prompt` (string, optional): Text to guide the model's style or continue a previous segment.
+- `response_format` (string, optional): `json`, `text`, or `verbose_json`.
+- `temperature` (number, optional): Sampling temperature (0-1).
+- ... and more.
+
+#### JavaScript Example
+
+```javascript
+// translation.js
+import fs from "fs";
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function translateAudio() {
+  try {
+    const translation = await groq.audio.translations.create({
+      file: fs.createReadStream("sample_audio.m4a"), // Replace with your audio file path
+      model: "whisper-large-v3", // Using the Whisper large-v3 model
+      prompt: "Specify context or spelling", // Optional
+      response_format: "json",
+      temperature: 0.0,
+    });
+
+    console.log(translation.text);
+  } catch (error) {
+    console.error("Error translating audio:", error);
+  }
+}
+
+translateAudio();
+```
+
+#### Python Example
+
+```python
+# translation.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def translate_audio():
+    try:
+        with open("sample_audio.m4a", "rb") as audio_file:  # Replace with your audio file path
+            translation = groq.audio.translations.create(
+                file=audio_file,
+                model="whisper-large-v3",  # Using the Whisper large-v3 model
+                prompt="Specify context or spelling",  # Optional
+                response_format="json",
+                temperature=0.0,
+            )
+
+        print(translation.text)
+    except Exception as e:
+        print("Error translating audio:", e)
+
+if __name__ == "__main__":
+    translate_audio()
+```
+
+### List Models
+
+**Endpoint:**
+
+```
+GET https://api.groq.com/openai/v1/models
+```
+
+**Description:**
+
+Retrieves a list of available models.
+
+**Response:**
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "id": "gemma-7b-it",
+      "object": "model",
+      "created": 1693721698,
+      "owned_by": "Google",
+      "active": true,
+      "context_window": 8192
+    },
+    {
+      "id": "llama2-70b-4096",
+      "object": "model",
+      "created": 1693721698,
+      "owned_by": "Meta",
+      "active": true,
+      "context_window": 4096
+    },
+    {
+      "id": "mixtral-8x7b-32768",
+      "object": "model",
+      "created": 1693721698,
+      "owned_by": "Mistral AI",
+      "active": true,
+      "context_window": 32768
+    }
+    // ... more models
+  ]
+}
+```
+
+#### JavaScript Example
+
+```javascript
+// listModels.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function listModels() {
+  try {
+    const models = await groq.models.list();
+    console.log("Available Models:");
+    models.data.forEach((model) => {
+      console.log(`- ${model.id} (Owner: ${model.owned_by}, Context Window: ${model.context_window} tokens)`);
+    });
+  } catch (error) {
+    console.error("Error listing models:", error);
+  }
+}
+
+listModels();
+```
+
+#### Python Example
+
+```python
+# list_models.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def list_models():
+    try:
+        models = groq.models.list()
+        print("Available Models:")
+        for model in models.data:
+            print(f"- {model.id} (Owner: {model.owned_by}, Context Window: {model.context_window} tokens)")
+    except Exception as e:
+        print("Error listing models:", e)
+
+if __name__ == "__main__":
+    list_models()
+```
+
+### Retrieve Model
+
+**Endpoint:**
+
+```
+GET https://api.groq.com/openai/v1/models/{model}
+```
+
+**Description:**
+
+Retrieves details of a specific model.
+
+**Response:**
+
+```json
+{
+  "id": "llama2-70b-4096",
+  "object": "model",
+  "created": 1693721698,
+  "owned_by": "Meta",
+  "active": true,
+  "context_window": 4096
+}
+```
+
+#### JavaScript Example
+
+```javascript
+// retrieveModel.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function retrieveModel(modelId) {
+  try {
+    const model = await groq.models.retrieve(modelId);
+    console.log("Model Details:");
+    console.log(`ID: ${model.id}`);
+    console.log(`Owner: ${model.owned_by}`);
+    console.log(`Context Window: ${model.context_window} tokens`);
+    console.log(`Active: ${model.active}`);
+  } catch (error) {
+    console.error("Error retrieving model:", error);
+  }
+}
+
+// Example usage
+retrieveModel("llama3-8b-8192");
+```
+
+#### Python Example
+
+```python
+# retrieve_model.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def retrieve_model(model_id):
+    try:
+        model = groq.models.retrieve(model_id)
+        print("Model Details:")
+        print(f"ID: {model.id}")
+        print(f"Owner: {model.owned_by}")
+        print(f"Context Window: {model.context_window} tokens")
+        print(f"Active: {model.active}")
+    except Exception as e:
+        print("Error retrieving model:", e)
+
+if __name__ == "__main__":
+    retrieve_model("llama3-8b-8192")
+```
+
+---
+
+## Building Advanced AI Systems
+
+Groq's API allows for the creation of sophisticated AI systems. Below are strategies to leverage multiple models, manage rate limits, and build self-growing AI using the latest powerful models.
+
+### Multi-Model Mixture of Agents
+
+**Concept:**
+
+Combine multiple AI models to perform complex tasks by delegating different responsibilities to specialized models.
+
+**Benefits:**
+
+- **Specialization:** Use models optimized for specific tasks.
+- **Scalability:** Handle more complex scenarios by distributing tasks.
+- **Redundancy:** Improve reliability through multiple models.
+
+**Implementation Steps:**
+
+1. **Identify Tasks:** Break down your AI application into sub-tasks (e.g., transcription, translation, sentiment analysis).
+
+2. **Select Models:** Choose appropriate models for each sub-task from Groq's supported model list.
+
+3. **Create a Coordinator:** Develop a system that directs tasks to the relevant models based on the task type.
+
+4. **Aggregate Results:** Combine outputs from different models to form a cohesive response.
+
+**Example Architecture:**
+
+```plaintext
+User Input
+     |
+     v
+[Coordinator]
+     |
+     |-- Transcription Model (whisper-large-v3)
+     |-- Translation Model (whisper-large-v3)
+     |-- Chat Completion Model (mixtral-8x7b-32768)
+     |
+     v
+Aggregated Response
+```
+
+**Mixture of Agents Using Hermes 3.1 8B and Groq Models:**
+
+Based on the provided information, here's a proposed mixture of agents:
+
+1. **Local Ollama Models:**
+
+   - **Hermes 3.1 8B (`hermes-3-llama3-1-8b`)**:
+     - **Use Case:** General-purpose tasks, reasoning, creative writing, multi-turn conversations, role-playing scenarios.
+     - **Advantages:** Efficient with reduced VRAM and disk space requirements.
+
+   - **Llama3-Groq-8B-Tool-Use (`llama3-groq-8b-8192-tool-use-preview`)**:
+     - **Use Case:** Data annotation, data labeling, structuring tasks.
+     - **Advantages:** Specialized for tool use and function calling tasks.
+
+2. **Groq API Models:**
+
+   - **Llama3-Groq-70B-Tool-Use (`llama3-groq-70b-8192-tool-use-preview`)**:
+     - **Use Case:** Complex tool use, function calling, high-demand tasks.
+     - **Advantages:** Top-performing model for tool use and function calling.
+
+**Mixture of Agents Setup:**
+
+| **Agent**                     | **Model ID**                          | **Deployment** | **Use Case**                                      |
+|-------------------------------|---------------------------------------|-----------------|---------------------------------------------------|
+| **Core Model**                | `llama3-8b-8192`                      | Local (Ollama)  | General tasks, coordination                       |
+| **Code Generation Agent**     | `hermes-3-llama3-1-8b`                 | Local (Ollama)  | Code-related tasks, software development          |
+| **Conversational Agent**      | `llama3-8b-8192`                       | Local (Ollama)  | Natural language interactions, general conversation|
+| **Data Annotation Agent**     | `llama3-groq-8b-8192-tool-use-preview` | Local (Ollama)  | Data labeling and structuring tasks                |
+| **Function Calling Agent**    | `llama3-groq-70b-8192-tool-use-preview`| Groq API        | Complex tool use and function calling tasks        |
+| **Roleplaying Agent**         | `hermes-3-llama3-1-8b`                 | Local (Ollama)  | Role-playing scenarios                             |
+
+**Implementation Steps:**
+
+1. **Set Up Local Ollama Models:**
+   - Install and configure Ollama with the following models:
+     - `hermes-3-llama3-1-8b`
+     - `llama3-8b-8192`
+     - `llama3-groq-8b-8192-tool-use-preview`
+
+2. **Integrate Groq's API for Advanced Models:**
+   - Use Groq's API to access `llama3-groq-70b-8192-tool-use-preview`.
+
+3. **Develop a Routing System:**
+   - Implement logic to route incoming tasks to the appropriate agent based on task type and required capabilities.
+
+4. **Handle Rate Limits:**
+   - Monitor and manage API usage to stay within the defined rate limits. Implement retries or backoff strategies as needed.
+
+5. **Aggregate Responses:**
+   - Collect and combine outputs from different agents to provide a unified response to the user.
+
+**Example Code Snippet (JavaScript):**
+
+```javascript
+// coordinator.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+import { exec } from "child_process";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+// Function to interact with local Ollama models
+async function queryLocalModel(modelId, messages) {
+  // Replace with actual Ollama API calls or CLI commands
+  return new Promise((resolve, reject) => {
+    exec(`ollama run ${modelId} --messages '${JSON.stringify(messages)}'`, (error, stdout, stderr) => {
+      if (error) {
+        reject(stderr);
+      } else {
+        resolve(JSON.parse(stdout));
+      }
+    });
+  });
+}
+
+// Function to interact with Groq API models
+async function queryGroqAPI(modelId, messages) {
+  try {
+    const completion = await groq.chat.completions.create({
+      model: modelId,
+      messages: messages,
+      max_tokens: 500,
+      temperature: 0.7,
+      top_p: 0.9,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+    return completion.choices[0]?.message?.content || "";
+  } catch (error) {
+    console.error("Error querying Groq API:", error);
+    return null;
+  }
+}
+
+// Coordinator function
+async function handleUserInput(userInput) {
+  // Determine task type based on userInput
+  if (userInput.includes("code")) {
+    // Route to Code Generation Agent
+    const response = await queryLocalModel("hermes-3-llama3-1-8b", [
+      { role: "user", content: userInput },
+    ]);
+    return response;
+  } else if (userInput.includes("translate")) {
+    // Route to Function Calling Agent via Groq API
+    const response = await queryGroqAPI("llama3-groq-70b-8192-tool-use-preview", [
+      { role: "user", content: userInput },
+    ]);
+    return response;
+  } else {
+    // Route to Conversational Agent
+    const response = await queryLocalModel("llama3-8b-8192", [
+      { role: "user", content: userInput },
+    ]);
+    return response;
+  }
+}
+
+// Example usage
+handleUserInput("Can you help me write a Python function?").then((response) => {
+  console.log("Response:", response);
+});
+```
+
+**Example Code Snippet (Python):**
+
+```python
+# coordinator.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+import subprocess
+import json
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+# Function to interact with local Ollama models
+def query_local_model(model_id, messages):
+    try:
+        # Replace with actual Ollama API calls or CLI commands
+        command = f"ollama run {model_id} --messages '{json.dumps(messages)}'"
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return json.loads(result.stdout)
+    except subprocess.CalledProcessError as e:
+        print("Error querying local model:", e.stderr.decode())
+        return None
+
+# Function to interact with Groq API models
+def query_groq_api(model_id, messages):
+    try:
+        chat_completion = groq.chat.completions.create(
+            model=model_id,
+            messages=messages,
+            max_tokens=500,
+            temperature=0.7,
+            top_p=0.9,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        print("Error querying Groq API:", e)
+        return None
+
+# Coordinator function
+def handle_user_input(user_input):
+    # Determine task type based on user_input
+    if "code" in user_input.lower():
+        # Route to Code Generation Agent
+        response = query_local_model("hermes-3-llama3-1-8b", [{"role": "user", "content": user_input}])
+        return response
+    elif "translate" in user_input.lower():
+        # Route to Function Calling Agent via Groq API
+        response = query_groq_api("llama3-groq-70b-8192-tool-use-preview", [{"role": "user", "content": user_input}])
+        return response
+    else:
+        # Route to Conversational Agent
+        response = query_local_model("llama3-8b-8192", [{"role": "user", "content": user_input}])
+        return response
+
+# Example usage
+if __name__ == "__main__":
+    user_input = "Can you help me write a Python function?"
+    response = handle_user_input(user_input)
+    print("Response:", response)
+```
+
+### Self-Growing AI Systems
+
+**Concept:**
+
+Develop AI systems that can learn and adapt over time, improving their performance based on interactions and data.
+
+**Components:**
+
+- **Feedback Loop:** Collect feedback on AI responses to refine future outputs.
+- **Dynamic Model Selection:** Switch between models based on performance metrics.
+- **Automated Training Pipelines:** Integrate new data to retrain or fine-tune models.
+
+**Implementation Steps:**
+
+1. **Monitor Performance:** Track metrics like response accuracy, user satisfaction, and latency.
+2. **Collect Feedback:** Use user inputs and feedback to identify areas of improvement.
+3. **Update Models:** Regularly update your models with new data or switch to better-performing models.
+4. **Automate Processes:** Use scripts to automate monitoring, feedback collection, and model updates.
+
+**Example Workflow:**
+
+```plaintext
+User Interaction
+       |
+       v
+[AI System]
+       |
+       v
+Performance Monitoring --> Feedback Collection
+       |                         |
+       v                         v
+Model Evaluation <------ Data Aggregation
+       |
+       v
+Update or Retrain Models
+```
+
+**Implementation Tips:**
+
+- **Logging:** Implement comprehensive logging to capture all interactions and feedback.
+- **Versioning:** Maintain different versions of models to facilitate rollback if necessary.
+- **Continuous Integration:** Integrate automated testing to ensure updates do not break existing functionalities.
+- **Scalability:** Design your system to handle increased loads as the system grows.
+
+---
+
+## Parameters Overview
+
+Understanding API parameters is crucial for optimizing your AI interactions. Below is an overview of commonly used parameters across different endpoints.
+
+### Common Parameters
+
+- **model** (`string`, required): ID of the model to use.
+- **messages** (`array`, required for chat): List of message objects in a conversation.
+- **file** (`file`, required for audio): Audio file to process.
+- **language** (`string`, optional): Language code (ISO-639-1).
+- **prompt** (`string`, optional): Text prompt to guide the model.
+- **response_format** (`string`, optional): `json`, `text`, or `verbose_json`.
+- **temperature** (`number`, optional): Controls randomness (0-2).
+- **top_p** (`number`, optional): Nucleus sampling parameter (0-1).
+- **max_tokens** (`integer`, optional): Maximum tokens to generate.
+- **frequency_penalty** (`number`, optional): Penalizes token frequency (-2.0 to 2.0).
+- **presence_penalty** (`number`, optional): Penalizes new topic introduction (-2.0 to 2.0).
+- **stream** (`boolean`, optional): Enables streaming responses.
+- **tools** (`array`, optional): List of tools (functions) the model can use.
+- **tool_choice** (`string/object`, optional): Controls tool usage (`none`, `auto`, or specify tool).
+- **seed** (`integer`, optional): Enables deterministic sampling.
+- **stop** (`string/array`, optional): Sequences where generation stops.
+- **logit_bias** (`object`, optional): Modify token likelihoods.
+- **logprobs** (`boolean`, optional): Return log probabilities of tokens.
+- **parallel_tool_calls** (`boolean`, optional): Enable parallel function calls.
+
+---
+
+## Case Examples
+
+Practical examples can help you understand how to implement Groq API calls effectively. Below are detailed examples in both **JavaScript** and **Python**.
+
+### Chat Completion Example
+
+**Objective:**
+
+Create a chat completion that explains the importance of fast language models using the **Mixtral 8x7B** model.
+
+#### JavaScript Example
+
+```javascript
+// chatCompletion.js
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function createChatCompletion() {
+  try {
+    const completion = await groq.chat.completions.create({
+      model: "mixtral-8x7b-32768",
+      messages: [
+        {
+          role: "user",
+          content: "Explain the importance of fast language models",
+        },
+      ],
+      max_tokens: 500,
+      temperature: 0.7,
+      top_p: 0.9,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+
+    console.log(completion.choices[0]?.message?.content || "");
+  } catch (error) {
+    console.error("Error creating chat completion:", error);
+  }
+}
+
+createChatCompletion();
+```
+
+#### Python Example
+
+```python
+# chat_completion.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def create_chat_completion():
+    try:
+        chat_completion = groq.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": "Explain the importance of fast language models",
+                }
+            ],
+            model="mixtral-8x7b-32768",
+            max_tokens=500,
+            temperature=0.7,
+            top_p=0.9,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+
+        print(chat_completion.choices[0].message.content)
+    except Exception as e:
+        print("Error creating chat completion:", e)
+
+if __name__ == "__main__":
+    create_chat_completion()
+```
+
+**Output:**
+
+```plaintext
+Low latency Large Language Models (LLMs) are important in the field of artificial intelligence and natural language processing (NLP) for several reasons:
+...
+```
+
+### Audio Transcription Example
+
+**Objective:**
+
+Transcribe an audio file `sample_audio.m4a` using the **Whisper large-v3** model.
+
+#### JavaScript Example
+
+```javascript
+// transcription.js
+import fs from "fs";
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function transcribeAudio() {
+  try {
+    const transcription = await groq.audio.transcriptions.create({
+      file: fs.createReadStream("sample_audio.m4a"), // Replace with your audio file path
+      model: "whisper-large-v3",
+      language: "en",
+      response_format: "json",
+      temperature: 0.0,
+    });
+
+    console.log(transcription.text);
+  } catch (error) {
+    console.error("Error transcribing audio:", error);
+  }
+}
+
+transcribeAudio();
+```
+
+#### Python Example
+
+```python
+# transcription.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def transcribe_audio():
+    try:
+        with open("sample_audio.m4a", "rb") as audio_file:  # Replace with your audio file path
+            transcription = groq.audio.transcriptions.create(
+                file=audio_file,
+                model="whisper-large-v3",
+                language="en",
+                response_format="json",
+                temperature=0.0,
+            )
+
+        print(transcription.text)
+    except Exception as e:
+        print("Error transcribing audio:", e)
+
+if __name__ == "__main__":
+    transcribe_audio()
+```
+
+**Output:**
+
+```plaintext
+Your transcribed text appears here...
+```
+
+### Audio Translation Example
+
+**Objective:**
+
+Translate an audio file `sample_audio.m4a` into English using the **Whisper large-v3** model.
+
+#### JavaScript Example
+
+```javascript
+// translation.js
+import fs from "fs";
+import Groq from "groq-sdk";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function translateAudio() {
+  try {
+    const translation = await groq.audio.translations.create({
+      file: fs.createReadStream("sample_audio.m4a"), // Replace with your audio file path
+      model: "whisper-large-v3",
+      prompt: "Specify context or spelling", // Optional
+      response_format: "json",
+      temperature: 0.0,
+    });
+
+    console.log(translation.text);
+  } catch (error) {
+    console.error("Error translating audio:", error);
+  }
+}
+
+translateAudio();
+```
+
+#### Python Example
+
+```python
+# translation.py
+import os
+from dotenv import load_dotenv
+from groq import Groq
+
+load_dotenv()
+
+groq = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+def translate_audio():
+    try:
+        with open("sample_audio.m4a", "rb") as audio_file:  # Replace with your audio file path
+            translation = groq.audio.translations.create(
+                file=audio_file,
+                model="whisper-large-v3",
+                prompt="Specify context or spelling",  # Optional
+                response_format="json",
+                temperature=0.0,
+            )
+
+        print(translation.text)
+    except Exception as e:
+        print("Error translating audio:", e)
+
+if __name__ == "__main__":
+    translate_audio()
+```
+
+**Output:**
+
+```plaintext
+Your translated text appears here...
+```
+
+---
+
+## Best Practices
+
+- **Secure API Keys:** Always store API keys securely using environment variables or secret managers. Never hard-code them into your source code.
+
+- **Handle Errors Gracefully:** Implement comprehensive error handling to manage API failures or unexpected responses. Use try-catch blocks and validate responses.
+
+- **Optimize Parameters:** Experiment with parameters like `temperature` and `top_p` to fine-tune model responses for your specific use case.
+
+- **Monitor Usage:** Keep track of your API usage to avoid exceeding rate limits or incurring unexpected costs. Utilize logging and monitoring tools.
+
+- **Stay Updated:** Regularly check Groq's documentation for updates or new features to ensure you're leveraging the latest capabilities.
+
+- **Preprocess Data:** For audio processing, consider downsampling audio files to reduce size and improve processing speed, as recommended by Groq.
+
+- **Use JSON Mode Carefully:** When using JSON mode, ensure your prompts and expected JSON structures are correctly formatted to avoid validation errors.
+
+---
+
+## Troubleshooting
+
+- **Invalid API Key:** Ensure your API key is correct and has the necessary permissions. Double-check the `.env` file and environment variable configurations.
+
+- **Exceeded Rate Limits:** If you encounter rate limit errors, consider optimizing your requests, implementing exponential backoff strategies, or upgrading your plan.
+
+- **Unsupported File Format:** Verify that your audio files are in supported formats (e.g., flac, mp3, m4a). Refer to the [Supported Models](#supported-models) section.
+
+- **Model Not Found:** Ensure you're using the correct model ID from the [List Models](#list-models) endpoint.
+
+- **Unexpected Responses:** Check your request parameters for accuracy and completeness. Validate JSON structures if using JSON mode.
+
+- **JSON Validation Errors:** When using JSON mode, ensure your prompts and expected JSON structures adhere to the specified schemas to prevent validation failures.
+
+- **Streaming Issues:** If streaming responses are not working as expected, ensure the `stream` parameter is correctly set and your implementation can handle streamed data.
+
+---
+
+## Conclusion
+
+Groq's API offers a versatile platform for building advanced AI applications. By understanding how to interact with the various endpoints, managing rate limits, and leveraging multiple models, you can create sophisticated, self-growing AI systems tailored to your specific needs. Utilize the provided examples in both **JavaScript** and **Python** as a foundation, and explore Groq's full potential to innovate and enhance your projects.
+
+For more information and updates, refer to the [Groq API Documentation](https://api.groq.com/openai/v1/docs).
+
+Happy Coding!
+
+---
+
+## Additional Resources
+
+- **Playground:** Experiment with Groq models in an interactive environment.
+- **Documentation:** Comprehensive guides and references for all features.
+- **API Reference:** Detailed API endpoint specifications.
+- **API Keys:** Manage your API access credentials.
+- **Settings:** Configure your Groq account and preferences.
+- **Discord:** Join our community on Discord for support and discussions.
+
+---
+
+## Stay Connected
+
+![Discord Logo](https://cdn.discordapp.com/icons/discord-icon.png) **[Chat with us](https://discord.gg/your-discord-link)**
+
+---
+
+## Feature Requests
+
+If you'd like to see support for additional features, such as advanced speech-to-text functionalities or enhanced JSON handling, please reach out to us by submitting a "Feature Request" via the "Chat with us" option located on the left sidebar. We value your feedback and strive to continuously improve our offerings.
+
+---
+
+## Quick Links
+
+- [Get Started](#getting-started)
+- [Supported Models](#supported-models)
+- [Rate Limits](#rate-limits)
+- [API Endpoints](#api-endpoints)
+- [Errors](#troubleshooting)
+- [Changelog](#changelog)
+- [Examples and Demos](#case-examples)
+- [Showcase Applications](#showcase-applications)
+- [Features](#features)
+- [Content Moderation](#content-moderation)
+- [Integrations](#integrations)
+- [Groq Libraries](#groq-libraries)
+- [Accounts](#accounts)
+- [Legal](#legal)
+- [Policies & Notices](#policies--notices)
+
+---
+
+**Note:** This manual is continuously updated to reflect the latest features and models. Ensure you refer to the official [Groq API Documentation](https://api.groq.com/openai/v1/docs) for the most recent information.

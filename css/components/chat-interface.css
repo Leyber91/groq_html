@@ -117,19 +117,16 @@ main {
 }
 
 #chat-messages {
-    flex: 1;
+    height: 300px; /* Adjust as needed */
     overflow-y: auto;
-    padding: var(--spacing-md);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
 .message {
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-sm);
-    max-width: 85%;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
 .user-message {

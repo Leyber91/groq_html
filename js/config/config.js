@@ -1,5 +1,4 @@
 // config.js
-
 // Import configurations from other files
 import {
     RATE_LIMITS,
@@ -20,6 +19,8 @@ import {
     isProduction,
     getApiKey,
   } from './system-config.js';
+
+  import { createMOADiagram } from '../diagram/diagram.js';
   
   // Export configurations
   export const rateLimits = RATE_LIMITS;
@@ -37,6 +38,13 @@ import {
   export let moaConfig = {
     ...initialMoaConfig,
     connections: initialMoaConfig.connections || [],
+    error_handling: {
+        graceful_degradation: {
+            enabled: true,
+            fallback_chain: ['llama3-8b-8192', 'gemma-7b-it', 'llama3-70b-8192'], // Example fallback chain
+            fallback_model: 'llama3-8b-8192' // Default fallback if chain is exhausted
+        }
+    },
   };
   
   // Update the MOA configuration function
@@ -224,4 +232,3 @@ import {
   if (!moaConfig.connections) {
     moaConfig.connections = [];
   }
-  

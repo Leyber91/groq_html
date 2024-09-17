@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Groq MOA - Mixture of Agents</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/tokenizer-js@1.0.3/dist/tokenizer.min.js"></script>
+    <script src="js/lib/tokenizer.min.js"></script>
+    <script src="js/lib/groq.min.js" type="application/javascript"></script>
+    <script src="js/lib/dotenv.min.js" type="application/javascript"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bottleneck@2/bottleneck.min.js"></script>
+    <style>
+        .hidden { display: none; }
+    </style>
 </head>
-<body>
+<body class="hidden">
     <header>
         <h1>GROQ MOA - MIXTURE OF AGENTS</h1>
     </header>
@@ -65,7 +69,7 @@
             <div id="chat-messages"></div>
             <div id="chat-input">
                 <textarea id="user-input" placeholder="Type your message here..." rows="3"></textarea>
-                <button id="send-message">Send</button>
+                <button id="send-button">Send</button>
             </div>
         </div>
         
@@ -73,13 +77,27 @@
     <footer>
         <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
     </footer>
+    
     <!-- External Libraries -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fflate@0.7.4/umd/index.min.js"></script>
     
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+    
     <!-- Your JavaScript Modules -->
     <script type="module" src="js/main/main.js"></script>
-
+    
+    <script>
+        // Ensure layout is properly initialized before displaying content
+        window.addEventListener('load', function() {
+            document.body.classList.remove('hidden');
+        });
+    </script>
+    <script id="dotenv-config" type="application/x-dotenv">
+        let GROQ_API_KEY='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'
+    </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ import { chatWithMOA } from '../chat/chat.js';
 
 export function setupChatInterface() {
     const userInput = document.getElementById('user-input');
-    const sendButton = document.getElementById('send-message');
+    const sendButton = document.getElementById('send-button');
 
     if (!userInput || !sendButton) {
         console.error('Chat interface elements not found');

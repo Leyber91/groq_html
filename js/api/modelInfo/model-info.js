@@ -1,4 +1,5 @@
 import { MODEL_INFO } from '../../config/model-config.js';
+import { logger } from '../../utils/logger.js';
 
 /**
  * @typedef {Object} ModelInfo
@@ -17,7 +18,11 @@ export const availableModels = Object.keys(MODEL_INFO);
  * @returns {ModelInfo|null} The model information or null if not found.
  */
 export function getModelInfo(modelName) {
-    return MODEL_INFO[modelName] || null;
+    const modelInfo = MODEL_INFO[modelName];
+    if (!modelInfo) {
+        logger.warn(`Model information not found for: ${modelName}`);
+    }
+    return modelInfo || null;
 }
 
 /**
@@ -26,7 +31,11 @@ export function getModelInfo(modelName) {
  * @returns {boolean} True if available.
  */
 export function isModelAvailable(modelName) {
-    return availableModels.includes(modelName);
+    const isAvailable = availableModels.includes(modelName);
+    if (!isAvailable) {
+        logger.warn(`Model not available: ${modelName}`);
+    }
+    return isAvailable;
 }
 
 /**
@@ -36,7 +45,11 @@ export function isModelAvailable(modelName) {
  */
 export function getModelContextWindow(modelName) {
     const model = getModelInfo(modelName);
-    return model ? model.contextWindow : 0;
+    if (!model) {
+        logger.error(`Unable to get context window for model: ${modelName}`);
+        return 0;
+    }
+    return model.contextWindow;
 }
 
 /**
@@ -56,9 +69,11 @@ export function getModelTokenizer(modelName) {
                     } else if (item && typeof item === 'object' && typeof item.content === 'string') {
                         return item.content.split(' ');
                     }
+                    logger.warn(`Unexpected item type in tokenizer input for model ${modelName}`);
                     return [];
                 });
             }
+            logger.warn(`Unexpected input type in tokenizer for model ${modelName}`);
             return [];
         },
     };
@@ -71,7 +86,11 @@ export function getModelTokenizer(modelName) {
  */
 export function getModelTokenLimit(modelName) {
     const model = getModelInfo(modelName);
-    return model ? model.tokenLimit : 0;
+    if (!model) {
+        logger.error(`Unable to get token limit for model: ${modelName}`);
+        return 0;
+    }
+    return model.tokenLimit;
 }
 
 /**
@@ -82,18 +101,54 @@ export function getModelTokenLimit(modelName) {
 export function findModelWithLargerContext(currentModelName) {
     const currentModelInfo = getModelInfo(currentModelName);
     if (!currentModelInfo) {
+        logger.error(`Unable to find model info for: ${currentModelName}`);
         return null;
     }
 
     // Filter models with a larger context window
     const largerModels = availableModels
         .map(modelName => getModelInfo(modelName))
-        .filter(modelInfo => modelInfo.contextWindow > currentModelInfo.contextWindow);
+        .filter(modelInfo => modelInfo && modelInfo.contextWindow > currentModelInfo.contextWindow);
 
     if (largerModels.length === 0) {
+        logger.info(`No models found with larger context than ${currentModelName}`);
         return null;
     }
 
-    // Example strategy: return the first model with a larger context window
-    return largerModels[0];
+    // Return the model with the next larger context window
+    return largerModels.reduce((prev, current) => 
+        prev.contextWindow < current.contextWindow ? prev : current
+    );
+}
+
+/**
+ * Gets the best models for a specific use case.
+ * @param {string} useCase - The use case to find models for.
+ * @returns {Array<string>} Array of model names best suited for the use case.
+ */
+export function getBestModelsForUseCase(useCase) {
+    const bestModels = availableModels.filter(modelName => {
+        const modelInfo = getModelInfo(modelName);
+        return modelInfo && modelInfo.bestFor && modelInfo.bestFor.includes(useCase);
+    });
+
+    if (bestModels.length === 0) {
+        logger.warn(`No models found specifically for use case: ${useCase}`);
+    }
+
+    return bestModels;
+}
+
+/**
+ * Gets the token estimation factor for a model.
+ * @param {string} modelName - The model name.
+ * @returns {number} The token estimation factor.
+ */
+export function getTokenEstimationFactor(modelName) {
+    const modelInfo = getModelInfo(modelName);
+    if (!modelInfo) {
+        logger.warn(`No token estimation factor found for model: ${modelName}. Using default of 1.`);
+        return 1;
+    }
+    return modelInfo.tokenEstimationFactor || 1;
 }

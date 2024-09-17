@@ -1,7 +1,7 @@
 import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
 import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/es/highlight.min.js';
 import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify/dist/purify.es.mjs';
-
+import { logger } from '../utils/logger.js'; // {{ edit_1 }}
 
 // Configure marked with enhanced options
 const markedOptions = {
@@ -91,24 +91,17 @@ export function updateMessageContent(messageDiv, content) {
  * @returns {string} The formatted HTML content.
  */
 export function formatContent(content) {
-    let textContent = typeof content !== 'string' ? JSON.stringify(content, null, 2) : content;
+    if (typeof content !== 'string' || !content.trim()) { // {{ edit_1 }}
+        logger.warn('formatContent received invalid or empty content.');
+        return 'No content available.';
+    }
 
-    // Convert markdown to HTML
-    let htmlContent = marked.parse(textContent);
-
-    // Enhance code blocks with copy and execute buttons
-    htmlContent = htmlContent.replace(
-        /<pre><code class="hljs language-(\w+)">([\s\S]*?)<\/code><\/pre>/g,
-        (match, lang, code) => `
-            <div class="code-block">
-                <button class="copy-button" aria-label="Copy code">Copy</button>
-                ${lang.toLowerCase() === 'javascript' ? '<button class="execute-button" aria-label="Execute code">Execute</button>' : ''}
-                <pre><code class="hljs language-${lang}">${code}</code></pre>
-            </div>
-        `
-    );
-
-    return htmlContent;
+    try {
+        return marked.parse(content);
+    } catch (error) {
+        logger.error('Error formatting content:', error.message, error.stack); // {{ edit_2 }}
+        return 'Error formatting content.';
+    }
 }
 
 /**

@@ -2,6 +2,8 @@
 import { moaConfig, availableModels, updateMOAConfig } from '../config/config.js';
 import { createMOADiagram } from '../diagram/diagram.js';
 import { updateMOAControls } from './updateMOAControls.js';
+import { updateDiagram } from '../diagram/diagram.js';
+import { MetaPromptManager } from '../utils/metaPromptManager.js'; // Updated import path
 
 export function setupMainModelControls() {
     const elements = getMainModelControlElements();

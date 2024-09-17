@@ -1,11 +1,6 @@
 // chatInteractions.js
 
 import { 
-    queueApiRequest, 
-    handleApiFailure, 
-    estimateTokens 
-} from '../api/api-core.js';
-import { 
     animateAgent, 
     createMOADiagram, 
     updateDiagram 
@@ -16,20 +11,8 @@ import {
     formatContent 
 } from './message-formatting.js';
 import { 
-    handleTokenLimitExceeded 
-} from '../api/error-handling.js';
-import { 
-    exponentialBackoff 
-} from '../utils/backoff.js';
-import { 
     generateUniqueId 
 } from '../utils/idGenerator.js';
-import { 
-    updateMetaLearningModel 
-} from '../config/meta-learning.js';
-import { 
-    generateAgentPrompt 
-} from './prompts/generateAgentPrompt.js';
 import { 
     generateLayerPrompt 
 } from './prompts/generateLayerPrompt.js';
@@ -38,8 +21,7 @@ import {
     storeCacheEntryInDatabase, 
     updateInMemoryCache, 
     compressContext, 
-    estimateCompressedSize 
-} from './caching.js'; // Corrected import
+} from './caching.js';
 import { 
     generateArtifacts, 
     addArtifactsToChat, 
@@ -49,6 +31,19 @@ import {
 import { processBatchedRequests } from './batchProcessing.js';
 import { moaConfig } from '../config/config.js';
 import { chunkInput } from './utils.js';
+import { MicroPromptAgent } from './microPromptAgents.js';
+import { MetaPromptManager } from '../utils/metaPromptManager.js';
+import { retryWithExponentialBackoff, executeWithRetryAndCircuitBreaker } from '../utils/retry.js';
+import { createChatCompletion, createStreamingChatCompletion, isGroqInitialized, waitForGroqInitialization } from './groqIntegration.js';
+import { getTokenCount, validateTokenCount, truncateToFit } from '../utils/tokenUtils.js';
+import { scheduleRequest, getRateLimitStatus, resetRateLimits } from '../utils/rateLimiter.js';
+import { logger } from '../utils/logger.js';
+import { getSystemContext } from '../utils/systemContext.js';
+import { GROQ_API_KEY } from '../config/api-key.js';
+
+const metaPromptManager = new MetaPromptManager(moaConfig);
+
+const MAX_FALLBACK_ATTEMPTS = 3;
 
 /**
  * Main function to handle chat interactions with MOA.
@@ -57,215 +52,245 @@ import { chunkInput } from './utils.js';
  * @returns {Promise<Object>} An object containing the context and total tokens used.
  */
 export async function chatWithMOA(message) {
-    await createMOADiagram();
+    try {
+        if (!GROQ_API_KEY) {
+            throw new Error('API key is missing. Please check your configuration.');
+        }
 
-    const cache = new Map();
-    const progressBar = document.getElementById('moa-progress');
-    if (progressBar) progressBar.style.width = '0%';
+        logger.info('Starting chat interaction with MOA');
+        await createMOADiagram();
 
-    const chatMessages = document.getElementById('chat-messages');
-    if (!chatMessages) {
-        console.error('Chat messages container not found');
-        return;
-    }
+        // Wait for Groq initialization
+        try {
+            await waitForGroqInitialization();
+        } catch (error) {
+            logger.error('Failed to initialize Groq:', error);
+            throw new Error('Groq initialization failed. Please check if groq.min.js is loaded correctly and the API key is set.');
+        }
 
-    const startTime = Date.now();
-    const userMessageDiv = addMessageToChat('user', message, chatMessages);
+        const systemContext = await getSystemContext();
+        if (!systemContext) {
+            throw new Error('Failed to retrieve system context');
+        }
 
-    let context = message;
-    let totalTokens = 0;
-    const conversationId = generateUniqueId();
+        const cache = new Map();
+        const progressBar = document.getElementById('moa-progress');
+        if (progressBar) progressBar.style.width = '0%';
 
-    for (let i = 0; i < moaConfig.layers.length; i++) {
-        const layer = moaConfig.layers[i];
-        const layerMessageDiv = addMessageToChat(
-            'layer',
-            `<layer${i + 1}>Layer ${i + 1}: Initializing...</layer${i + 1}>`,
-            chatMessages
-        );
+        const chatMessages = document.getElementById('chat-messages');
+        if (!chatMessages) {
+            logger.error('Chat messages container not found');
+            throw new Error('Chat interface not properly initialized');
+        }
 
-        let layerContent = '';
-        let layerInsights = [];
+        const startTime = Date.now();
+        const userMessageDiv = addMessageToChat('user', message, chatMessages);
 
-        for (let j = 0; j < layer.length; j++) {
-            const agent = layer[j];
-            if (!agent.model_name) {
-                console.error(`Model name not specified for Layer ${i + 1}, Agent ${j + 1}`);
+        let context = message;
+        let totalTokens = 0;
+        const conversationId = generateUniqueId();
+        for (let i = 0; i < moaConfig.layers.length; i++) {
+            const layer = moaConfig.layers[i];
+            const layerMessageDiv = addMessageToChat(
+                'layer',
+                `<layer${i + 1}>Layer ${i + 1}: Initializing...</layer${i + 1}>`,
+                chatMessages
+            );
+
+            let layerContent = '';
+            let layerInsights = [];
+
+            for (let j = 0; j < layer.length; j++) {
+                let fallbackAttempts = 0;
+                let success = false;
+
+                while (!success && fallbackAttempts < MAX_FALLBACK_ATTEMPTS) {
+                    const agentConfig = { ...layer[j] };
+                    const model = agentConfig.model_name;
+
+                    if (!model) {
+                        logger.error(`Model name not specified for Layer ${i + 1}, Agent ${j + 1}`);
+                        break;
+                    }
+
+                    console.log(`Using model: ${model} for Layer ${i + 1}, Agent ${j + 1}`);
+
+                    const agentInput = `${systemContext}\n\nContext: ${context}\n\nPrevious agent insights:\n${layerInsights.join('\n')}\n\nYour task: Process the given context, consider previous agent insights, and provide your unique perspective.`;
+
+                    const agentMessageDiv = addMessageToChat(
+                        'agent',
+                        `Agent ${j + 1}: Processing with ${model}...`,
+                        layerMessageDiv
+                    );
+
+                    try {
+                        const tokenCount = await getTokenCount([{ role: 'user', content: agentInput }], model);
+                        if (tokenCount > 0) {
+                            validateTokenCount(tokenCount, model);
+                        } else {
+                            logger.warn(`Unable to estimate token count for ${model}. Proceeding without validation.`);
+                        }
+                        await scheduleRequest(model, [{ role: 'user', content: agentInput }]);
+
+                        const response = await createChatCompletion([{ role: 'user', content: agentInput }], { ...agentConfig, model });
+
+                        if (!response) {
+                            throw new Error('Empty response from createChatCompletion');
+                        }
+
+                        const agentOutput = typeof response === 'string' ? response : JSON.stringify(response, null, 2);
+                        totalTokens += await getTokenCount([{ role: 'user', content: agentInput }, { role: 'assistant', content: agentOutput }], model);
+
+                        updateMessageContent(agentMessageDiv, `Agent ${j + 1}: ${formatContent(agentOutput)}`);
+                        updateDiagram(i, j, model, 'success');
+                        animateAgent(i, j);
+
+                        layerContent += `<agent${j + 1}>${formatContent(agentOutput)}</agent${j + 1}>`;
+                        layerInsights.push(`Agent ${j + 1}: ${agentOutput}`);
+
+                        success = true;
+                    } catch (error) {
+                        logger.error(`Error in Layer ${i + 1}, Agent ${j + 1}:`, error);
+                        updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Error - ${error.message}`);
+                        updateDiagram(i, j, model, 'failure');
+
+                        if (moaConfig.error_handling.graceful_degradation.enabled && fallbackAttempts < MAX_FALLBACK_ATTEMPTS - 1) {
+                            fallbackAttempts++;
+                            const fallbackModel = moaConfig.error_handling.graceful_degradation.fallback_chain[fallbackAttempts - 1] || moaConfig.error_handling.fallback_model;
+                            logger.info(`Falling back to ${fallbackModel} for Layer ${i + 1}, Agent ${j + 1} (Attempt ${fallbackAttempts})`);
+                            updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Falling back to ${fallbackModel}...`);
+                            agentConfig.model_name = fallbackModel;
+                        } else {
+                            updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Failed to process after ${fallbackAttempts} attempts.`);
+                            break;
+                        }
+                    }
+                }
+                if (!success) {
+                    logger.error(`Failed to process Layer ${i + 1}, Agent ${j + 1} after ${MAX_FALLBACK_ATTEMPTS} attempts.`);
+                }
+
+                if (progressBar) {
+                    const progress = ((i * layer.length + j + 1) / (moaConfig.layers.length * layer.length)) * 100;
+                    progressBar.style.width = `${Math.min(progress, 100)}%`;
+                }
+            }
+
+            // Generate layer summary
+            if (!moaConfig.summary_model) {
+                logger.error('Summary model not specified in moaConfig');
                 continue;
             }
 
-            const agentMessageDiv = addMessageToChat(
-                'agent',
-                `Agent ${j + 1}: Processing with ${agent.model_name}...`,
-                layerMessageDiv
-            );
+            const layerSummaryPrompt = generateLayerPrompt(layer, i);
+            const layerSummaryInput = `
+                ${layerSummaryPrompt}
 
-            let estimatedTokens = estimateTokens([{ role: 'user', content: context }], agent.model_name);
-            if (estimatedTokens > agent.token_limit) {
-                const result = await handleTokenLimitExceeded(agent.model_name, estimatedTokens);
-                if (result.status === 'use_larger_model') {
-                    agent.model_name = result.model;
-                    console.log(`Switching to larger model: ${result.model}`);
-                } else if (result.status === 'chunk_input') {
-                    console.log('Chunking input due to token limit exceeded');
-                    const chunks = chunkInput(context, agent.token_limit, agent.model_name);
-                    const chunkResults = await Promise.all(
-                        chunks.map(chunk => queueApiRequest(agent.model_name, [{ role: 'user', content: chunk }], agent.temperature, conversationId))
-                    );
-                    context = chunkResults.join(' '); // Combine chunk results
-                } else {
-                    console.error(`Token limit handling failed: ${result.message}`);
-                    updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Error - ${result.message}`);
-                    continue;
-                }
-                estimatedTokens = estimateTokens([{ role: 'user', content: context }], agent.model_name);
-            }
+                Context: ${context}
+
+                Agent insights:
+                ${layerInsights.join('\n')}
+
+                Your task: Synthesize the agent insights and provide a comprehensive summary for this layer.
+            `.trim();
 
             try {
-                const agentPrompt = generateAgentPrompt(agent, i, j);
-                const agentInput = `
-                    ${agentPrompt}
+                await scheduleRequest(moaConfig.summary_model, [{ role: 'user', content: layerSummaryInput }]);
+                const layerSummary = await createChatCompletion([{ role: 'user', content: layerSummaryInput }], { model: moaConfig.summary_model, temperature: 0.7 });
 
-                    Context: ${context}
-
-                    Previous agent insights:
-                    ${layerInsights.join('\n')}
-
-                    Your task: Process the given context, consider previous agent insights, and provide your unique perspective.
-                `.trim();
-
-                const response = await exponentialBackoff(
-                    () => queueApiRequest(agent.model_name, [{ role: 'user', content: agentInput }], agent.temperature, conversationId),
-                    {
-                        maxRetries: moaConfig.error_handling.max_retries,
-                        initialDelay: moaConfig.error_handling.retry_delay,
-                        maxDelay: moaConfig.error_handling.exponential_backoff.max_delay,
-                    }
-                );
-
-                const agentOutput = typeof response === 'object' ? JSON.stringify(response, null, 2) : response;
-                totalTokens += estimatedTokens;
-
-                updateMessageContent(agentMessageDiv, `Agent ${j + 1}: ${formatContent(agentOutput)}`);
-                updateDiagram(i, j, agent.model_name, 'success');
-                animateAgent(i, j);
-
-                layerContent += `<agent${j + 1}>${formatContent(agentOutput)}</agent${j + 1}>`;
-                layerInsights.push(`Agent ${j + 1}: ${agentOutput}`);
-            } catch (error) {
-                console.error(`Error in Layer ${i + 1}, Agent ${j + 1}:`, error);
-                updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Error - ${error.message}`);
-                updateDiagram(i, j, agent.model_name, 'failure');
-
-                const failureResult = await handleApiFailure(`Layer ${i + 1}, Agent ${j + 1}`);
-                if (failureResult.status !== 'success') {
-                    if (moaConfig.error_handling.graceful_degradation.enabled) {
-                        const fallbackModel = moaConfig.error_handling.graceful_degradation.fallback_chain[i] || moaConfig.error_handling.fallback_model;
-                        updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Falling back to ${fallbackModel}...`);
-                        agent.model_name = fallbackModel;
-                        j--; // Retry this agent with the fallback model
-                    } else {
-                        updateMessageContent(agentMessageDiv, `Agent ${j + 1}: Failed to process.`);
-                        break;
-                    }
+                if (!layerSummary) {
+                    throw new Error('Empty response from createChatCompletion for layer summary');
                 }
+
+                context = layerSummary;
+                updateMessageContent(
+                    layerMessageDiv,
+                    `<layer${i + 1}>${layerContent}<summary>${formatContent(layerSummary)}</summary></layer${i + 1}>`
+                );
+                animateAgent(i);
+            } catch (error) {
+                logger.error(`Error generating layer summary for Layer ${i + 1}:`, error);
+                updateMessageContent(layerMessageDiv, `Layer ${i + 1}: Error generating summary - ${error.message}`);
             }
+        }
+        // Add assistant's final response
+        addMessageToChat('assistant', formatContent(context), chatMessages);
+        logger.info(`Total tokens used: ${totalTokens}`);
 
-            if (progressBar) {
-                const progress = ((i * layer.length + j + 1) / (moaConfig.layers.length * layer.length)) * 100;
-                progressBar.style.width = `${Math.min(progress, 100)}%`;
+        // Handle caching
+        if (moaConfig.caching.enabled) {
+            const cacheKey = generateUniqueId();
+            const compressedContext = compressContext(context);
+            const cacheEntry = {
+                id: cacheKey,
+                context: compressedContext || context,
+                totalTokens,
+                timestamp: Date.now(),
+                lastAccessed: Date.now(),
+                hitCount: 0,
+                missCount: 0,
+                compressed: !!compressedContext,
+            };
+
+            try {
+                if (moaConfig.caching.persistent_storage.enabled) {
+                    await storeCacheEntryInDatabase(cacheEntry);
+                } else {
+                    updateInMemoryCache(cache, cacheKey, cacheEntry);
+                }
+            } catch (error) {
+                logger.error('Failed to store cache entry:', error);
             }
         }
 
-        // Generate layer summary
-        if (!moaConfig.summary_model) {
-            console.error('Summary model not specified in moaConfig');
-            continue;
-        }
-
-        const layerSummaryPrompt = generateLayerPrompt(layer, i);
-        const layerSummaryInput = `
-            ${layerSummaryPrompt}
-
-            Context: ${context}
-
-            Agent insights:
-            ${layerInsights.join('\n')}
-
-            Your task: Synthesize the agent insights and provide a comprehensive summary for this layer.
-        `.trim();
-
-        try {
-            const layerSummary = await queueApiRequest(
-                moaConfig.summary_model,
-                [{ role: 'user', content: layerSummaryInput }],
-                0.7,
-                conversationId
-            );
-
-            context = layerSummary; // Update context for the next layer
-            updateMessageContent(
-                layerMessageDiv,
-                `<layer${i + 1}>${layerContent}<summary>${formatContent(layerSummary)}</summary></layer${i + 1}>`
-            );
-            animateAgent(i);
-        } catch (error) {
-            console.error(`Error generating layer summary for Layer ${i + 1}:`, error);
-            updateMessageContent(layerMessageDiv, `Layer ${i + 1}: Error generating summary - ${error.message}`);
-        }
-    }
-
-    // Add assistant's final response
-    addMessageToChat('assistant', formatContent(context), chatMessages);
-    console.log(`Total tokens used: ${totalTokens}`);
-
-    // Handle caching
-    if (moaConfig.caching.enabled) {
-        const cacheKey = generateUniqueId();
-        const compressedContext = compressContext(context);
-        const cacheEntry = {
-            id: cacheKey,
-            context: compressedContext || context, // Fallback to original context if compression fails
-            totalTokens,
-            timestamp: Date.now(),
-            lastAccessed: Date.now(),
-            hitCount: 0,
-            missCount: 0,
-            compressed: !!compressedContext,
-        };
-
-        try {
-            if (moaConfig.caching.persistent_storage.enabled) {
-                await storeCacheEntryInDatabase(cacheEntry);
-            } else {
-                updateInMemoryCache(cache, cacheKey, cacheEntry);
+        // Update meta-learning model if enabled
+        if (moaConfig.meta_learning && moaConfig.meta_learning.enabled) {
+            const metaLearningData = {
+                input: message,
+                output: context,
+                totalTokens,
+                processingTime: Date.now() - startTime,
+            };
+            try {
+                await metaPromptManager.updateMetaLearningModel(metaLearningData);
+            } catch (error) {
+                logger.error('Failed to update meta-learning model:', error);
             }
-        } catch (error) {
-            console.error('Failed to store cache entry:', error);
         }
-    }
+        if (progressBar) progressBar.style.width = '100%';
 
-    // Update meta-learning model if enabled
-    if (moaConfig.meta_learning.enabled) {
-        const metaLearningData = {
-            input: message,
-            output: context,
-            totalTokens,
-            processingTime: Date.now() - startTime,
-        };
-        try {
-            await updateMetaLearningModel(metaLearningData);
-        } catch (error) {
-            console.error('Failed to update meta-learning model:', error);
+        // Maintain cache asynchronously without blocking the main thread
+        if (moaConfig.caching.enabled) {
+            maintainCache(cache).catch(err => logger.error('Cache maintenance failed:', err));
         }
+
+        return { context: context, totalTokens: totalTokens };
+    } catch (error) {
+        logger.error('Error in chatWithMOA:', error);
+        if (error.message.includes('API key is missing')) {
+            return { context: "I'm sorry, there's an issue with the API configuration. Please contact support.", totalTokens: 0 };
+        }
+        return { context: "I'm sorry, I encountered an error. Please try again later.", totalTokens: 0 };
     }
-
-    if (progressBar) progressBar.style.width = '100%';
-
-    // Maintain cache asynchronously without blocking the main thread
-    if (moaConfig.caching.enabled) {
-        maintainCache(cache).catch(err => console.error('Cache maintenance failed:', err));
-    }
-
-    return { context, totalTokens };
 }
+
+async function makeOptimizedApiCall(metaAdvice, userInput) {
+    try {
+        const model = metaAdvice.recommendedModel || moaConfig.default_model;
+        const options = {
+            temperature: metaAdvice.temperature || 0.7,
+            max_tokens: metaAdvice.maxTokens || 150
+        };
+
+        await scheduleRequest(model, [{ role: 'user', content: userInput }]);
+        const response = await createChatCompletion([{ role: 'user', content: userInput }], { ...options, model });
+
+        return response;
+    } catch (error) {
+        logger.error('Optimized API call failed:', error);
+        throw error;
+    }
+}
+
+// Export the function if it's used elsewhere
+export { makeOptimizedApiCall };

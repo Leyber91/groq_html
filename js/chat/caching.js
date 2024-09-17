@@ -1,34 +1,27 @@
 // caching.js
 
 import { moaConfig } from '../config/config.js';
-import { openDatabase } from '../utils/database.js';
+import { logger } from '../utils/logger.js';
 
 // Constants
 const CACHE_COMPRESSION_THRESHOLD = 1024; // 1KB
 const CACHE_PARTITION_COUNT = 4; // For rebalancing
 
+// Use localStorage for persistent storage in browser environment
+const storage = window.localStorage;
+
 /**
- * Stores a cache entry in the persistent database.
- * Optimized for concurrent access and enhanced error handling.
+ * Stores a cache entry in the persistent storage.
  * @param {Object} cacheEntry - The cache entry to store.
  * @returns {Promise<void>}
  */
 export async function storeCacheEntryInDatabase(cacheEntry) {
     try {
-        const db = await openDatabase();
-        const tx = db.transaction(['responses'], 'readwrite');
-        const store = tx.objectStore('responses');
-
-        // Ensure all properties of cacheEntry are resolved
-        const resolvedEntry = await Promise.all(Object.entries(cacheEntry).map(async ([key, value]) => {
-            return [key, value instanceof Promise ? await value : value];
-        }));
-
-        const cloneableCacheEntry = Object.fromEntries(resolvedEntry);
-        await store.put(cloneableCacheEntry);
-        await tx.done;
+        const key = `cache_${cacheEntry.id}`;
+        const value = JSON.stringify(cacheEntry);
+        storage.setItem(key, value);
     } catch (error) {
-        console.error('Error storing cache entry in database:', error);
+        logger.error('Error storing cache entry in storage:', error);
         throw error;
     }
 }
@@ -70,7 +63,7 @@ export function compressContext(context) {
             const compressed = compress(uint8Array);
             resolve(compressed);
         } catch (error) {
-            console.error('Error compressing context:', error);
+            logger.error('Error compressing context:', error);
             resolve(null);
         }
     });
@@ -217,7 +210,7 @@ export function updateCacheStatistics(cache) {
 
     const total = hitCount + missCount;
     const hitRatio = total > 0 ? (hitCount / total) : 0;
-    console.log(`Cache hit ratio: ${(hitRatio * 100).toFixed(2)}%`);
+    logger.info(`Cache hit ratio: ${(hitRatio * 100).toFixed(2)}%`);
 }
 
 /**
