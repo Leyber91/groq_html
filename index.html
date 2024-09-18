@@ -15,7 +15,20 @@
 </head>
 <body class="hidden">
     <header>
-        <h1>GROQ MOA - MIXTURE OF AGENTS</h1>
+        <h1 class="header-title">MOA Chat</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="theme-selector">
+            <button id="theme-toggle" aria-label="Toggle theme">
+                <svg class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </button>
+
+        </div>
     </header>
     <main>
         <div id="moa-interface">
@@ -56,6 +69,23 @@
                         <input type="checkbox" id="dynamic-adjustment">
                     </div>
                 </div>
+                <div id="self-evolving-controls">
+                    <h4>Self-Evolving System</h4>
+                    <div>
+                        <label for="self-evolving-enabled">Enable Self-Evolving:</label>
+                        <input type="checkbox" id="self-evolving-enabled">
+                    </div>
+                    <div>
+                        <label for="learning-rate">Learning Rate:</label>
+                        <input type="range" id="learning-rate" min="0.001" max="1" step="0.001">
+                        <span id="learning-rate-value"></span>
+                    </div>
+                    <div>
+                        <label for="feedback-threshold">Feedback Threshold:</label>
+                        <input type="range" id="feedback-threshold" min="0" max="1" step="0.1">
+                        <span id="feedback-threshold-value"></span>
+                    </div>
+                </div>
                 <div>
                     <button id="add-layer-button">Add Layer</button>
                     <button id="add-agent-button">Add Agent</button>
@@ -71,12 +101,14 @@
                 <textarea id="user-input" placeholder="Type your message here..." rows="3"></textarea>
                 <button id="send-button">Send</button>
             </div>
+            <div id="feedback-buttons" class="hidden">
+                <button id="positive-feedback">👍 Positive</button>
+                <button id="negative-feedback">👎 Negative</button>
+            </div>
         </div>
         
     </main>
-    <footer>
-        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
-    </footer>
+
     
     <!-- External Libraries -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -96,8 +128,6 @@
             document.body.classList.remove('hidden');
         });
     </script>
-    <script id="dotenv-config" type="application/x-dotenv">
-        let GROQ_API_KEY='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'
-    </script>
+
 </body>
 </html>

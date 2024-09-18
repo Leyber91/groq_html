@@ -20,7 +20,7 @@ import {
     getApiKey,
   } from './system-config.js';
 
-  import { createMOADiagram } from '../diagram/diagram.js';
+  import { createMOADiagram, updateMOADiagram } from '../diagram/diagram.js';
   
   // Export configurations
   export const rateLimits = RATE_LIMITS;
@@ -41,10 +41,22 @@ import {
     error_handling: {
         graceful_degradation: {
             enabled: true,
-            fallback_chain: ['llama3-8b-8192', 'gemma-7b-it', 'llama3-70b-8192'], // Example fallback chain
-            fallback_model: 'llama3-8b-8192' // Default fallback if chain is exhausted
-        }
+            fallback_chain: ['hermes3', 'llama3-8b-8192', 'gemma-7b-it', 'llama3-70b-8192'],
+            fallback_model: 'hermes3'
+        },
+        max_retries: 3,
+        retry_delay: 1000
     },
+    self_evolving: {
+        enabled: true,
+        learning_rate: 0.01,
+        feedback_threshold: 0.7,
+        improvement_interval: 24 * 60 * 60 * 1000 // 24 hours
+    },
+    function_calling: {
+        enabled: false,
+        model: 'llama3-groq-70b-8192-tool-use-preview'
+    }
   };
   
   // Update the MOA configuration function
@@ -74,12 +86,8 @@ import {
     // Update MOA controls in the UI
     updateMOAControls();
   
-    // Update the MOA diagram if the function is available
-    if (typeof updateMOADiagram === 'function') {
-      updateMOADiagram();
-    } else {
-      console.warn('updateMOADiagram function is not defined');
-    }
+    // Update the MOA diagram
+    updateMOADiagram();
   
     // Dispatch an event to notify other parts of the application
     const event = new CustomEvent('moaConfigUpdated', { detail: moaConfig });
@@ -141,7 +149,35 @@ import {
       }
     }
   
-    // Add additional validation as needed
+    // Validate self_evolving settings
+    if (config.self_evolving) {
+      const { learning_rate, feedback_threshold, improvement_interval } = config.self_evolving;
+      if (typeof learning_rate !== 'number' || learning_rate <= 0 || learning_rate > 1) {
+        console.error(`Invalid learning_rate: ${learning_rate}`);
+        return false;
+      }
+      if (typeof feedback_threshold !== 'number' || feedback_threshold < 0 || feedback_threshold > 1) {
+        console.error(`Invalid feedback_threshold: ${feedback_threshold}`);
+        return false;
+      }
+      if (typeof improvement_interval !== 'number' || improvement_interval < 0) {
+        console.error(`Invalid improvement_interval: ${improvement_interval}`);
+        return false;
+      }
+    }
+  
+    // Validate function_calling settings
+    if (config.function_calling) {
+      const { enabled, model } = config.function_calling;
+      if (typeof enabled !== 'boolean') {
+        console.error(`Invalid function_calling enabled: ${enabled}`);
+        return false;
+      }
+      if (model && !availableModels.includes(model)) {
+        console.error(`Invalid function_calling model: ${model}`);
+        return false;
+      }
+    }
   
     return true;
   }
@@ -214,18 +250,35 @@ import {
       }
     }
   
+    // Update self-evolving controls
+    const selfEvolvingEnabled = document.getElementById('self-evolving-enabled');
+    if (selfEvolvingEnabled) {
+      selfEvolvingEnabled.checked = moaConfig.self_evolving.enabled;
+    }
+  
+    const learningRate = document.getElementById('learning-rate');
+    if (learningRate) {
+      learningRate.value = moaConfig.self_evolving.learning_rate;
+      const learningRateValue = document.getElementById('learning-rate-value');
+      if (learningRateValue) {
+        learningRateValue.textContent = moaConfig.self_evolving.learning_rate;
+      }
+    }
+  
+    // Update function calling controls
+    const functionCallingEnabled = document.getElementById('function-calling-enabled');
+    if (functionCallingEnabled) {
+      functionCallingEnabled.checked = moaConfig.function_calling.enabled;
+    }
+  
+    const functionCallingModel = document.getElementById('function-calling-model');
+    if (functionCallingModel) {
+      functionCallingModel.value = moaConfig.function_calling.model;
+    }
+  
     // Update controls for layers and agents
     // This would involve dynamically creating or updating controls based on moaConfig.layers
     // Implement this as per your UI structure
-  }
-  
-  function updateMOADiagram() {
-    // Ensure this function is defined and imported from diagram.js
-    if (typeof createMOADiagram === 'function') {
-      createMOADiagram();
-    } else {
-      console.warn('createMOADiagram function is not defined');
-    }
   }
   
   // Initialize moaConfig.connections if not already set

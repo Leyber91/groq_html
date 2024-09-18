@@ -154,7 +154,7 @@ function calculateTokenRefillTime(bucket) {
 /**
  * Determines if an operation can be performed based on rate limits.
  * @param {string} model - The model name.
- * @param {number} estimatedTokens - Estimated tokens required.
+ * @param {number} estimatedTokens - Tokens required for the operation.
  * @returns {Promise<boolean>} True if operation can be performed.
  */
 export async function canPerformOperation(model, estimatedTokens) {
@@ -206,7 +206,7 @@ export function getRateLimitStatus(model) {
  */
 export async function handleGracefulDegradation(error, context) {
     logger.warn(`Attempting graceful degradation for error in ${context}: ${error.message}`);
-    
+
     logError(error, `GracefulDegradation:${context}`);
 
     if (error.message.includes('Rate limit exceeded')) {
@@ -215,8 +215,8 @@ export async function handleGracefulDegradation(error, context) {
         return await handleTokenLimitExceeded(context);
     } else if (error.message.includes('API request failed')) {
         return await handleApiFailure(context);
-    } else if (error.message.includes('Model parameter is missing or undefined')) {
-        return await handleMissingModelError(context);
+    } else if (error.message.includes('Network error')) {
+        return await handleNetworkError(context);
     }
 
     return { status: 'error', message: `Unhandled error in graceful degradation: ${error.message}` };
@@ -252,7 +252,7 @@ async function handleRateLimitExceeded(context) {
 /**
  * Handles token limit exceeded scenarios by selecting larger models or chunking input.
  * @param {string} context - The context where the limit was exceeded.
- * @param {number} [requiredTokens] - Tokens required for the operation.
+ * @param {number} [requiredTokens=1000] - Tokens required for the operation.
  * @returns {Object} Degradation result.
  */
 async function handleTokenLimitExceeded(context, requiredTokens = 1000) {
@@ -294,7 +294,7 @@ function partitionInput(input, maxTokens) {
     let currentPartition = '';
     let currentTokens = 0;
 
-    const words = input.split(' ');
+    const words = input.split(/\s+/);
     for (const word of words) {
         const wordTokens = estimateTokens([{ content: word }], 'default');
         if (currentTokens + wordTokens > maxTokens) {

@@ -1,4 +1,4 @@
-import { MODEL_INFO } from '../../config/model-config.js';
+import { MODEL_INFO, AVAILABLE_MODELS } from '../../config/model-config.js';
 import { logger } from '../../utils/logger.js';
 
 /**
@@ -9,16 +9,18 @@ import { logger } from '../../utils/logger.js';
  * @property {number} [tokenEstimationFactor] - Factor for token estimation.
  */
 
-/** @type {Array<string>} */
-export const availableModels = Object.keys(MODEL_INFO);
-
 /**
  * Retrieves information for a specific model.
  * @param {string} modelName - The model name.
  * @returns {ModelInfo|null} The model information or null if not found.
  */
 export function getModelInfo(modelName) {
-    const modelInfo = MODEL_INFO[modelName];
+    if (typeof modelName !== 'string' || !modelName.trim()) {
+        logger.warn(`Invalid model name provided: "${modelName}"`);
+        return null;
+    }
+
+    const modelInfo = MODEL_INFO[modelName.trim()];
     if (!modelInfo) {
         logger.warn(`Model information not found for: ${modelName}`);
     }
@@ -31,7 +33,12 @@ export function getModelInfo(modelName) {
  * @returns {boolean} True if available.
  */
 export function isModelAvailable(modelName) {
-    const isAvailable = availableModels.includes(modelName);
+    if (typeof modelName !== 'string' || !modelName.trim()) {
+        logger.warn(`Invalid model name provided: "${modelName}"`);
+        return false;
+    }
+
+    const isAvailable = AVAILABLE_MODELS.includes(modelName.trim());
     if (!isAvailable) {
         logger.warn(`Model not available: ${modelName}`);
     }
@@ -58,16 +65,21 @@ export function getModelContextWindow(modelName) {
  * @returns {Object} Tokenizer with an encode method.
  */
 export function getModelTokenizer(modelName) {
+    if (!isModelAvailable(modelName)) {
+        logger.warn(`Cannot get tokenizer for unavailable model: ${modelName}`);
+        return null;
+    }
+
     return {
         encode: (text) => {
             if (typeof text === 'string') {
-                return text.split(' ');
+                return text.trim().split(/\s+/);
             } else if (Array.isArray(text)) {
                 return text.flatMap(item => {
                     if (typeof item === 'string') {
-                        return item.split(' ');
+                        return item.trim().split(/\s+/);
                     } else if (item && typeof item === 'object' && typeof item.content === 'string') {
-                        return item.content.split(' ');
+                        return item.content.trim().split(/\s+/);
                     }
                     logger.warn(`Unexpected item type in tokenizer input for model ${modelName}`);
                     return [];
@@ -106,7 +118,7 @@ export function findModelWithLargerContext(currentModelName) {
     }
 
     // Filter models with a larger context window
-    const largerModels = availableModels
+    const largerModels = AVAILABLE_MODELS
         .map(modelName => getModelInfo(modelName))
         .filter(modelInfo => modelInfo && modelInfo.contextWindow > currentModelInfo.contextWindow);
 
@@ -115,7 +127,7 @@ export function findModelWithLargerContext(currentModelName) {
         return null;
     }
 
-    // Return the model with the next larger context window
+    // Return the model with the smallest context window larger than current
     return largerModels.reduce((prev, current) => 
         prev.contextWindow < current.contextWindow ? prev : current
     );
@@ -127,9 +139,14 @@ export function findModelWithLargerContext(currentModelName) {
  * @returns {Array<string>} Array of model names best suited for the use case.
  */
 export function getBestModelsForUseCase(useCase) {
-    const bestModels = availableModels.filter(modelName => {
+    if (typeof useCase !== 'string' || !useCase.trim()) {
+        logger.warn(`Invalid use case provided: "${useCase}"`);
+        return [];
+    }
+
+    const bestModels = AVAILABLE_MODELS.filter(modelName => {
         const modelInfo = getModelInfo(modelName);
-        return modelInfo && modelInfo.bestFor && modelInfo.bestFor.includes(useCase);
+        return modelInfo && Array.isArray(modelInfo.bestFor) && modelInfo.bestFor.includes(useCase.trim());
     });
 
     if (bestModels.length === 0) {
@@ -150,5 +167,8 @@ export function getTokenEstimationFactor(modelName) {
         logger.warn(`No token estimation factor found for model: ${modelName}. Using default of 1.`);
         return 1;
     }
-    return modelInfo.tokenEstimationFactor || 1;
+    return modelInfo.tokenEstimationFactor !== undefined ? modelInfo.tokenEstimationFactor : 1;
 }
+
+// Re-export AVAILABLE_MODELS for consistency with previous usage
+export { AVAILABLE_MODELS as availableModels };

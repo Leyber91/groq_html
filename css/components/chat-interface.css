@@ -2,7 +2,6 @@
     --primary-color: #ff6b6b;
     --secondary-color: #1a1a1a;
     --background-dark: #0a0a0a;
-    --background-light: #f0f0f0;
     --text-color-dark: #ffffff;
     --text-color-light: #000000;
     --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,7 +18,6 @@
     --gradient-primary: linear-gradient(135deg, #ff6b6b, #1abc9c);
     --controls-width: 300px;
     --controls-width-collapsed: 50px;
-    --header-height: 60px;
     --controls-background: rgba(40, 42, 54, 0.9);
     --control-item-background: rgba(68, 71, 90, 0.7);
     --primary-color-transparent: rgba(255, 121, 198, 0.2);
@@ -286,4 +284,264 @@ code {
     transform: translateY(-2px);
 }
 
-/* Any additional global styles or overrides can be added here */
+/* Feedback buttons */
+#feedback-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+#feedback-buttons button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--button-background);
+    color: var(--button-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+#feedback-buttons button:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
+}
+
+#positive-feedback {
+    background-color: var(--positive-feedback-background);
+    color: var(--positive-feedback-color);
+}
+
+#positive-feedback:hover {
+    background-color: var(--positive-feedback-hover-background);
+}
+
+#negative-feedback {
+    background-color: var(--negative-feedback-background);
+    color: var(--negative-feedback-color);
+}
+
+#negative-feedback:hover {
+    background-color: var(--negative-feedback-hover-background);
+}
+
+/* General Artifact Container */
+.artifact {
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    background-color: var(--color-background-light);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect for Artifact */
+.artifact:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Artifact Header */
+.artifact-header {
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-secondary);
+}
+
+/* Artifact Content */
+.artifact-content {
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Artifact Actions */
+.artifact-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+}
+
+/* Buttons within Artifacts */
+.artifact button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-button-bg);
+    color: var(--color-button-text);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    font-size: var(--font-size-xs);
+    position: relative;
+}
+
+.artifact button:hover,
+.artifact button:focus {
+    background-color: var(--color-button-hover-bg);
+    transform: scale(1.05);
+    outline: none;
+}
+
+/* Code Blocks */
+.artifact pre {
+    background-color: var(--color-code-bg);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm);
+    overflow-x: auto;
+    position: relative;
+    margin: 0;
+}
+
+.artifact code {
+    font-family: var(--font-code);
+    font-size: var(--font-size-sm);
+}
+
+/* Execution Result */
+.execution-result,
+.execution-error {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    font-family: var(--font-code);
+    font-size: var(--font-size-sm);
+}
+
+.execution-result {
+    background-color: var(--color-execution-result-bg);
+    color: var(--color-execution-result-text);
+}
+
+.execution-error {
+    background-color: var(--color-execution-error-bg);
+    color: var(--color-execution-error-text);
+}
+
+/* Image Artifacts */
+.artifact figure {
+    margin: 0;
+}
+
+.artifact img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    transition: transform var(--transition-speed);
+}
+
+.artifact img:hover {
+    transform: scale(1.05);
+}
+
+.view-full-image {
+    display: inline-block;
+    margin-top: var(--spacing-xs);
+    color: var(--color-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color var(--transition-speed);
+}
+
+.view-full-image:hover,
+.view-full-image:focus {
+    color: var(--color-secondary);
+    outline: none;
+}
+
+/* Copy and Execute Button Feedback */
+.copy-button.success,
+.execute-button.success {
+    background-color: var(--color-execution-result-bg);
+    color: var(--color-execution-result-text);
+}
+
+.copy-button.error,
+.execute-button.error {
+    background-color: var(--color-execution-error-bg);
+    color: var(--color-execution-error-text);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    height: var(--header-height);
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    color: var(--header-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--primary-color);
+}
+
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+#theme-toggle:hover {
+    background-color: var(--theme-toggle-hover-bg);
+}
+
+.theme-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.light-icon {
+    display: none;
+}
+
+[data-theme="dark"] .light-icon {
+    display: block;
+}
+
+[data-theme="dark"] .dark-icon {
+    display: none;
+}
+
+/* Adjust the main content to account for the header */
+#moa-interface {
+    height: calc(100vh - var(--header-height));
+}
+
+
+[data-theme="dark"] {
+    --header-bg: #2d3748;
+    --header-text: #f0f4f8;
+    --nav-hover: #a0aec0;
+}
+
+

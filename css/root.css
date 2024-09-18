@@ -55,4 +55,16 @@
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, var(--dracula-pink), var(--dracula-purple));
     --gradient-secondary: linear-gradient(135deg, var(--dracula-cyan), var(--dracula-green));
+
+    /* New theme-related colors */
+    --header-bg: #ffffff;
+    --header-text: #333333;
+    --theme-toggle-hover-bg: rgba(0, 0, 0, 0.1);
+
+    /* Dark theme variables */
+    [data-theme="dark"] {
+        --header-bg: #1a1a1a;
+        --header-text: #ffffff;
+        --theme-toggle-hover-bg: rgba(255, 255, 255, 0.1);
+    }
 }

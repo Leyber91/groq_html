@@ -35,7 +35,8 @@ export {
   removeAgent,
   updateMOAConfig,
   animateAgent,
-  updateDiagram,
+  updateDiagram
+
 };
 
 // Function to create the MOA Diagram
@@ -78,4 +79,14 @@ export function createMOADiagram() {
   }, 250);
 
   window.addEventListener('resize', resizeHandler);
+}
+
+// Function to update the MOA Diagram
+export function updateMOADiagram() {
+  // Remove the existing diagram
+  const container = d3.select('#moa-diagram');
+  container.selectAll('*').remove();
+
+  // Recreate the diagram with the updated configuration
+  createMOADiagram();
 }

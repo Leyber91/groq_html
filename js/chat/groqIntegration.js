@@ -4,22 +4,41 @@ import { retryWithExponentialBackoff, circuitBreaker } from '../utils/retry.js';
 import { scheduleRequest, getRateLimiter } from '../utils/rateLimiter.js';
 import { logger } from '../utils/logger.js';
 import { GROQ_API_KEY } from '../config/api-key.js';
+// Remove the import for agentSwarm
+// import { agentSwarm } from '../api/agentSwarm.js';
 
 // Initialize Groq with API key from configuration
 let groq;
 
-function initializeGroq() {
-    if (window.Groq) {
-        groq = new window.Groq(GROQ_API_KEY);
-        logger.info('Groq library initialized successfully');
-    } else {
-        logger.error('Groq library not available. Please check if groq.min.js is loaded correctly and the API key is set.');
-        throw new Error('Groq library not available');
+async function loadGroqLibrary() {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = '/js/lib/groq.min.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+export async function initializeGroq() {
+    try {
+        await loadGroqLibrary();
+        if (typeof Groq !== 'undefined') {
+            groq = new Groq.Groq(GROQ_API_KEY);
+            logger.info('Groq library initialized successfully');
+        } else {
+            throw new Error('Groq is not defined after loading the script');
+        }
+    } catch (error) {
+        logger.error('Failed to initialize Groq:', error);
+        throw error;
     }
 }
 
 // Initialize Groq when the script is loaded
-initializeGroq();
+initializeGroq().catch(error => {
+    logger.error('Error during Groq initialization:', error);
+});
 
 /**
  * Creates a chat completion using the Groq API with retry and rate limiting.
@@ -38,7 +57,7 @@ export async function createChatCompletion(messages, options = {}) {
         await scheduleRequest(model, messages);
         
         if (!groq) {
-            throw new Error('Groq is not initialized');
+            await initializeGroq();
         }
 
         const result = await retryWithExponentialBackoff(async () => {
@@ -81,7 +100,7 @@ async function handleFallback(messages, options, primaryError) {
             await scheduleRequest(fallbackModel, messages);
             
             if (!groq) {
-                throw new Error('Groq is not initialized');
+                await initializeGroq();
             }
             const fallbackResponse = await groq.chat.completions.create({
                 messages: messages,
@@ -116,7 +135,7 @@ export async function* createStreamingChatCompletion(messages, options = {}) {
         await scheduleRequest(model, messages);
 
         if (!groq) {
-            throw new Error('Groq is not initialized');
+            await initializeGroq();
         }
         const stream = await groq.chat.completions.create({
             messages: messages,
@@ -165,4 +184,20 @@ export function waitForGroqInitialization(timeout = 10000) {
             }
         }, 100);
     });
+}
+
+/**
+ * Handles chat interactions using the Groq API.
+ * @param {string} userInput - The user's input message.
+ * @returns {Promise<string>} The response from the Groq API.
+ */
+export async function handleChatInteraction(userInput) {
+  try {
+    const messages = [{ role: 'user', content: userInput }];
+    const response = await createChatCompletion(messages);
+    return response;
+  } catch (error) {
+    logger.error('Chat Interaction Error:', error);
+    throw error;
+  }
 }

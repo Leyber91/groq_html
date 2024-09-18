@@ -1,3 +1,5 @@
+// utils/tokenUtils.js
+
 import { logger } from './logger.js';
 
 const MODEL_TOKENIZERS = {
@@ -12,6 +14,50 @@ const MODEL_TOKENIZERS = {
     'mixtral-8x7b-32768': llamaTokenizer,
     'default': simpleTokenizer
 };
+
+const MODEL_LIMITS = {
+    'llama3-groq-8b-8192-tool-use-preview': 8192,
+    'llama3-8b-8192': 8192,
+    'llama3-70b-8192': 8192,
+    'gemma-7b-it': 8192,
+    'gemma2-9b-it': 8192,
+    'llama-3.1-70b-versatile': 8192,
+    'llama-3.1-8b-instant': 8192,
+    'llama3-groq-70b-8192-tool-use-preview': 8192,
+    'mixtral-8x7b-32768': 32768,
+    'default': 4096
+};
+
+/**
+ * Retrieves the token limit for a given model.
+ * @param {string} model - The name of the model.
+ * @returns {number} The token limit for the specified model.
+ */
+export function getModelTokenLimit(model) {
+    return MODEL_LIMITS[model] || MODEL_LIMITS.default;
+}
+
+/**
+ * Checks if the estimated token count exceeds the model's limit.
+ * @param {number} tokenCount - The estimated token count.
+ * @param {string} model - The name of the model.
+ * @returns {boolean} True if the token count exceeds the limit, false otherwise.
+ */
+export function isTokenCountExceeded(tokenCount, model) {
+    const limit = getModelTokenLimit(model);
+    return tokenCount > limit;
+}
+
+/**
+ * Calculates the remaining tokens for a given model and current token count.
+ * @param {number} currentTokenCount - The current token count.
+ * @param {string} model - The name of the model.
+ * @returns {number} The number of remaining tokens.
+ */
+export function getRemainingTokens(currentTokenCount, model) {
+    const limit = getModelTokenLimit(model);
+    return Math.max(0, limit - currentTokenCount);
+}
 
 /**
  * Estimates the number of tokens for the given messages and model.
@@ -36,7 +82,7 @@ export function getTokenCount(messages, model = 'default') {
             }
             return acc + tokenizer(msg.content);
         }, 0);
-        
+
         logger.debug(`Estimated ${totalTokens} tokens for model: ${model}`);
         return totalTokens;
     } catch (error) {
@@ -51,7 +97,6 @@ export function getTokenCount(messages, model = 'default') {
 
 /**
  * Simple tokenizer that splits on whitespace and punctuation.
- * This is a very rough approximation and should be replaced with a more accurate method if possible.
  * @param {string} text - Input text to tokenize.
  * @returns {number} Approximate token count.
  */
@@ -78,14 +123,7 @@ function llamaTokenizer(text) {
  * @throws {Error} If token count exceeds the model's limit.
  */
 export function validateTokenCount(tokenCount, model = 'default') {
-    const modelLimits = {
-        'llama3-groq-8b-8192-tool-use-preview': 8192,
-        'llama3-8b-8192': 8192,
-        'llama3-70b-8192': 8192,
-        'default': 4096
-    };
-
-    const limit = modelLimits[model] || modelLimits.default;
+    const limit = MODEL_LIMITS[model] || MODEL_LIMITS.default;
 
     if (tokenCount > limit) {
         logger.warn(`Token count ${tokenCount} exceeds limit ${limit} for model ${model}`);
@@ -101,13 +139,7 @@ export function validateTokenCount(tokenCount, model = 'default') {
  */
 export function truncateToFit(input, model = 'default') {
     const tokenizer = MODEL_TOKENIZERS[model] || MODEL_TOKENIZERS.default;
-    const modelLimits = {
-        'llama3-groq-8b-8192-tool-use-preview': 8192,
-        'llama3-8b-8192': 8192,
-        'llama3-70b-8192': 8192,
-        'default': 4096
-    };
-    const limit = modelLimits[model] || modelLimits.default;
+    const limit = MODEL_LIMITS[model] || MODEL_LIMITS.default;
 
     let tokens = tokenizer(input);
     if (tokens <= limit) return input;

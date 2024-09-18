@@ -1,9 +1,4 @@
-import { 
-    generateArtifacts, 
-    addArtifactsToChat, 
-    handleArtifact, 
-    updateArtifact 
-} from './artifacts.js';
+
 import { processBatchedRequests } from './batchProcessing.js';
 import { chatWithMOA as coreChatWithMOA } from './chatInteractions.js';
 import { logger } from '../utils/logger.js';
@@ -11,12 +6,13 @@ import { logger } from '../utils/logger.js';
 // Re-export the necessary functions to maintain the same external interface
 export {
     coreChatWithMOA as chatWithMOA,
-    processBatchedRequests,
-    generateArtifacts,
-    addArtifactsToChat,
-    handleArtifact,
-    updateArtifact
+    processBatchedRequests
 };
+
+// js/chat/chat.js
+
+import { ArtifactManager } from './artifacts.js';
+
 
 /**
  * Handle user input and process it through the MOA system.
@@ -28,6 +24,7 @@ export async function onUserInput(input) {
         const response = await coreChatWithMOA(input);
         if (response && response.context) {
             displayResponse(response.context);
+            artifactManager.addArtifactsToChat(artifactManager.generateArtifacts(response.context));
         } else {
             throw new Error("Invalid response format");
         }
@@ -76,9 +73,14 @@ function displayError(errorMessage) {
 document.addEventListener('DOMContentLoaded', () => {
     const userInput = document.getElementById('user-input');
     const sendButton = document.getElementById('send-button');
+    const chatContainer = document.getElementById('chat-messages'); // Ensure this matches your actual chat container's ID
 
-    if (userInput && sendButton) {
+    if (userInput && sendButton && chatContainer) {
         logger.info("Chat interface initialized successfully");
+
+        // Instantiate ArtifactManager with the chat container
+        window.artifactManager = new ArtifactManager(chatContainer); // Using global variable for accessibility in onUserInput
+
         sendButton.addEventListener('click', () => {
             const input = userInput.value.trim();
             if (input) {
@@ -94,6 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     } else {
-        logger.error("User input or send button not found");
+        logger.error("User input, send button, or chat container not found");
     }
 });

@@ -2,223 +2,263 @@
 
 import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/es/highlight.min.js';
 import { formatContent } from './message-formatting.js';
+import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify/dist/purify.es.mjs';
+import { logger } from '../utils/logger.js';
 
 /**
- * Generates artifacts (code blocks and images) from the response.
- * @param {string} response - The response text to parse.
- * @returns {Array} An array of artifact objects.
+ * ArtifactManager handles the generation and rendering of artifacts in the chat.
  */
-export function generateArtifacts(response) {
-    const artifacts = [];
-    const codeRegex = /```(\w+)\n([\s\S]+?)```/g;
-    let match;
-
-    while ((match = codeRegex.exec(response)) !== null) {
-        artifacts.push({
-            type: 'code',
-            language: match[1],
-            content: match[2]
-        });
+export class ArtifactManager {
+    /**
+     * Initializes the ArtifactManager with the chat container.
+     * @param {HTMLElement} chatContainer - The container element for chat messages.
+     */
+    constructor(chatContainer) {
+        this.chatContainer = chatContainer;
+        this.initializeEventListeners();
     }
 
-    const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
-    while ((match = imageRegex.exec(response)) !== null) {
-        artifacts.push({
-            type: 'image',
-            alt: match[1],
-            url: match[2]
-        });
-    }
+    /**
+     * Generates artifacts (code blocks and images) from the response.
+     * @param {string} response - The response text to parse.
+     * @returns {Array} An array of artifact objects.
+     */
+    generateArtifacts(response) {
+        const artifacts = [];
+        const codeRegex = /```(\w+)\n([\s\S]+?)```/g;
+        let match;
 
-    return artifacts;
-}
-
-/**
- * Adds artifacts to the chat container.
- * @param {Array} artifacts - An array of artifact objects.
- * @param {HTMLElement} chatContainer - The container to append artifacts to.
- */
-export function addArtifactsToChat(artifacts, chatContainer) {
-    artifacts.forEach(artifact => {
-        const artifactDiv = document.createElement('div');
-        artifactDiv.className = `artifact artifact-${artifact.type}`;
-
-        if (artifact.type === 'code') {
-            const languageClass = artifact.language ? `language-${artifact.language}` : '';
-            const highlightedCode = hljs.highlightAuto(artifact.content, [artifact.language]).value;
-            artifactDiv.innerHTML = `
-                <div class="artifact-header">
-                    <span class="artifact-type">Code</span>
-                    <span class="artifact-language">${artifact.language || 'Unknown'}</span>
-                </div>
-                <div class="artifact-content">
-                    <pre><code class="hljs ${languageClass}">${highlightedCode}</code></pre>
-                </div>
-                <button class="copy-button" aria-label="Copy code">Copy</button>
-            `;
-            const copyButton = artifactDiv.querySelector('.copy-button');
-            copyButton.addEventListener('click', () => copyToClipboard(copyButton));
-        } else if (artifact.type === 'image') {
-            artifactDiv.innerHTML = `
-                <div class="artifact-header">
-                    <span class="artifact-type">Image</span>
-                </div>
-                <figure>
-                    <img src="${artifact.url}" alt="${artifact.alt}" loading="lazy" onerror="this.onerror=null; this.src='path/to/fallback-image.jpg';">
-                    <figcaption>${artifact.alt}</figcaption>
-                </figure>
-                <a href="${artifact.url}" target="_blank" rel="noopener noreferrer" class="view-full-image">View Full Image</a>
-            `;
+        while ((match = codeRegex.exec(response)) !== null) {
+            artifacts.push({
+                type: 'code',
+                language: match[1],
+                content: match[2]
+            });
         }
 
-        chatContainer.appendChild(artifactDiv);
-    });
-}
+        const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+        while ((match = imageRegex.exec(response)) !== null) {
+            artifacts.push({
+                type: 'image',
+                alt: match[1],
+                url: match[2]
+            });
+        }
 
-/**
- * Copies the code content to the clipboard.
- * @param {HTMLElement} button - The copy button that was clicked.
- */
-function copyToClipboard(button) {
-    const codeElement = button.closest('.artifact-code')?.querySelector('code');
-
-    if (!codeElement) {
-        console.error('Code element not found for copying.');
-        return;
+        return artifacts;
     }
 
-    const codeText = codeElement.textContent;
+    /**
+     * Adds artifacts to the chat container.
+     * @param {Array} artifacts - An array of artifact objects.
+     */
+    addArtifactsToChat(artifacts) {
+        artifacts.forEach(artifact => {
+            this.handleArtifact(artifact);
+        });
+    }
 
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(codeText)
-            .then(() => updateButtonState(button, true))
-            .catch((err) => {
-                console.error('Failed to copy text:', err);
-                updateButtonState(button, false);
-            });
-    } else {
-        // Fallback for insecure contexts
-        const textArea = document.createElement('textarea');
-        textArea.value = codeText;
-        textArea.style.position = 'fixed'; // Prevent scrolling to bottom
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
+    /**
+     * Handles the addition of a single artifact to the chat container.
+     * @param {Object} artifact - The artifact object to handle.
+     */
+    handleArtifact(artifact) {
+        const artifactDiv = document.createElement('div');
+        artifactDiv.classList.add('artifact', `artifact-${artifact.type}`);
+
+        switch (artifact.type) {
+            case 'code':
+                artifactDiv.innerHTML = this.createCodeArtifactHTML(artifact);
+                break;
+            case 'image':
+                artifactDiv.innerHTML = this.createImageArtifactHTML(artifact);
+                break;
+            default:
+                logger.warn(`Unsupported artifact type: ${artifact.type}`);
+                artifactDiv.textContent = 'Unsupported artifact type.';
+        }
+
+        this.chatContainer.appendChild(artifactDiv);
+    }
+
+    /**
+     * Creates HTML for a code artifact.
+     * @param {Object} artifact - The code artifact.
+     * @returns {string} The HTML string for the code artifact.
+     */
+    createCodeArtifactHTML(artifact) {
+        const sanitizedCode = DOMPurify.sanitize(artifact.content);
+        const highlightedCode = hljs.highlight(sanitizedCode, { language: artifact.language }).value;
+
+        return `
+            <div class="artifact-header">
+                <span class="artifact-type">Code (${artifact.language})</span>
+            </div>
+            <div class="artifact-content">
+                <pre><code class="hljs language-${artifact.language}">${highlightedCode}</code></pre>
+            </div>
+            <div class="artifact-actions">
+                <button class="copy-button" aria-label="Copy code">Copy</button>
+                ${artifact.language.toLowerCase() === 'javascript' ? '<button class="execute-button" aria-label="Execute code">Execute</button>' : ''}
+            </div>
+            <div class="execution-result" hidden></div>
+        `;
+    }
+
+    /**
+     * Creates HTML for an image artifact.
+     * @param {Object} artifact - The image artifact.
+     * @returns {string} The HTML string for the image artifact.
+     */
+    createImageArtifactHTML(artifact) {
+        const sanitizedURL = DOMPurify.sanitize(artifact.url);
+        const sanitizedAlt = DOMPurify.sanitize(artifact.alt);
+
+        return `
+            <div class="artifact-header">
+                <span class="artifact-type">Image</span>
+            </div>
+            <figure class="artifact-content">
+                <img src="${sanitizedURL}" alt="${sanitizedAlt}" loading="lazy" onerror="this.onerror=null; this.src='path/to/fallback-image.jpg';">
+                <figcaption>${sanitizedAlt}</figcaption>
+            </figure>
+            <a href="${sanitizedURL}" target="_blank" rel="noopener noreferrer" class="view-full-image" aria-label="View full image">View Full Image</a>
+        `;
+    }
+
+    /**
+     * Initializes event listeners for artifact actions.
+     */
+    initializeEventListeners() {
+        this.chatContainer.addEventListener('click', async (event) => {
+            const target = event.target;
+
+            if (target.classList.contains('copy-button')) {
+                await this.copyToClipboard(target);
+            } else if (target.classList.contains('execute-button')) {
+                await this.executeCode(target);
+            }
+        });
+    }
+
+    /**
+     * Copies the code content to the clipboard.
+     * @param {HTMLElement} button - The copy button that was clicked.
+     */
+    async copyToClipboard(button) {
+        const codeElement = button.closest('.artifact')?.querySelector('code');
+        if (!codeElement) {
+            logger.error('copyToClipboard: Code element not found.');
+            return;
+        }
+
+        const codeText = codeElement.textContent;
 
         try {
-            const successful = document.execCommand('copy');
-            updateButtonState(button, successful);
+            await navigator.clipboard.writeText(codeText);
+            this.updateButtonState(button, 'Copied!', true);
         } catch (err) {
-            console.error('Fallback: Unable to copy', err);
-            updateButtonState(button, false);
-        }
-
-        document.body.removeChild(textArea);
-    }
-}
-
-/**
- * Updates the state of the copy button based on success or failure.
- * @param {HTMLElement} button - The copy button to update.
- * @param {boolean} success - Whether the copy action was successful.
- */
-function updateButtonState(button, success) {
-    const originalText = 'Copy';
-    const successText = 'Copied!';
-    const failureText = 'Failed to copy';
-
-    button.textContent = success ? successText : failureText;
-    button.classList.add(success ? 'success' : 'error');
-
-    setTimeout(() => {
-        button.textContent = originalText;
-        button.classList.remove('success', 'error');
-    }, 2000);
-}
-
-/**
- * Handles the addition of a single artifact to the chat container.
- * @param {Object} artifact - The artifact object to handle.
- * @param {HTMLElement} chatContainer - The container to append the artifact to.
- */
-export function handleArtifact(artifact, chatContainer) {
-    const artifactDiv = document.createElement('div');
-    artifactDiv.className = `artifact artifact-${artifact.type}`;
-
-    const artifactHeader = document.createElement('div');
-    artifactHeader.className = 'artifact-header';
-    artifactHeader.textContent = 'Generated Artifact:';
-    artifactDiv.appendChild(artifactHeader);
-
-    const artifactContent = document.createElement('div');
-    artifactContent.className = 'artifact-content';
-
-    if (artifact.type === 'code') {
-        const languageClass = artifact.language ? `language-${artifact.language}` : '';
-        const highlightedCode = hljs.highlightAuto(artifact.content, [artifact.language]).value;
-        artifactContent.innerHTML = `
-            <pre><code class="hljs ${languageClass}">${highlightedCode}</code></pre>
-        `;
-    } else if (artifact.type === 'image') {
-        artifactContent.innerHTML = `
-            <figure>
-                <img src="${artifact.url}" alt="${artifact.alt}" loading="lazy" onerror="this.onerror=null; this.src='path/to/fallback-image.jpg';">
-                <figcaption>${artifact.alt}</figcaption>
-            </figure>
-        `;
-    }
-
-    artifactDiv.appendChild(artifactContent);
-
-    if (artifact.type === 'code') {
-        const copyButton = document.createElement('button');
-        copyButton.className = 'copy-button';
-        copyButton.textContent = 'Copy';
-        copyButton.setAttribute('aria-label', 'Copy code');
-        copyButton.addEventListener('click', () => copyToClipboard(copyButton));
-        artifactDiv.appendChild(copyButton);
-    }
-
-    if (artifact.metadata) {
-        const metadataDiv = document.createElement('div');
-        metadataDiv.className = 'artifact-metadata';
-        metadataDiv.innerHTML = `<strong>Metadata:</strong> ${JSON.stringify(artifact.metadata)}`;
-        artifactDiv.appendChild(metadataDiv);
-    }
-
-    chatContainer.appendChild(artifactDiv);
-}
-
-/**
- * Updates an existing artifact with new content and metadata.
- * @param {HTMLElement} artifactDiv - The artifact element to update.
- * @param {string} newContent - The new content for the artifact.
- * @param {Object} newMetadata - The new metadata for the artifact.
- */
-export function updateArtifact(artifactDiv, newContent, newMetadata) {
-    const contentDiv = artifactDiv.querySelector('.artifact-content');
-    if (contentDiv) {
-        if (artifactDiv.classList.contains('artifact-code')) {
-            const language = artifactDiv.querySelector('code')?.classList?.[1]?.split('-')[1] || 'plaintext';
-            const highlightedCode = hljs.highlightAuto(newContent, [language]).value;
-            contentDiv.innerHTML = `<pre><code class="hljs language-${language}">${highlightedCode}</code></pre>`;
-        } else if (artifactDiv.classList.contains('artifact-image')) {
-            contentDiv.innerHTML = `
-                <figure>
-                    <img src="${newContent}" alt="${newMetadata?.alt || 'Image'}" loading="lazy" onerror="this.onerror=null; this.src='path/to/fallback-image.jpg';">
-                    <figcaption>${newMetadata?.alt || ''}</figcaption>
-                </figure>
-            `;
+            logger.error('copyToClipboard: Failed to copy text.', err);
+            this.updateButtonState(button, 'Failed', false);
         }
     }
 
-    if (newMetadata) {
-        let metadataDiv = artifactDiv.querySelector('.artifact-metadata');
-        if (!metadataDiv) {
-            metadataDiv = document.createElement('div');
-            metadataDiv.className = 'artifact-metadata';
-            artifactDiv.appendChild(metadataDiv);
+    /**
+     * Executes JavaScript code in a sandboxed environment.
+     * @param {HTMLElement} button - The execute button that was clicked.
+     */
+    async executeCode(button) {
+        const codeElement = button.closest('.artifact')?.querySelector('code');
+        const languageMatch = codeElement?.className.match(/language-(\w+)/);
+        const language = languageMatch ? languageMatch[1] : 'plaintext';
+
+        if (codeElement && language.toLowerCase() === 'javascript') {
+            if (button.disabled) return;
+
+            const code = codeElement.textContent;
+            button.textContent = 'Executing...';
+            button.disabled = true;
+
+            const result = await this.executeCodeSandbox(code);
+
+            this.displayExecutionResult(button, result);
+            button.textContent = 'Execute';
+            button.disabled = false;
         }
-        metadataDiv.innerHTML = `<strong>Metadata:</strong> ${JSON.stringify(newMetadata)}`;
+    }
+
+    /**
+     * Executes JavaScript code in a sandboxed environment using Web Workers.
+     * @param {string} code - The JavaScript code to execute.
+     * @returns {Promise<object>} The result of the execution.
+     */
+    async executeCodeSandbox(code) {
+        try {
+            const blob = new Blob([`
+                self.onmessage = function(e) {
+                    try {
+                        const result = eval(e.data);
+                        self.postMessage({ success: true, result: JSON.stringify(result, null, 2) });
+                    } catch (error) {
+                        self.postMessage({ success: false, error: error.message });
+                    }
+                };
+            `], { type: 'application/javascript' });
+
+            const worker = new Worker(URL.createObjectURL(blob));
+            return new Promise((resolve) => {
+                worker.onmessage = (e) => {
+                    resolve(e.data);
+                    worker.terminate();
+                };
+                worker.postMessage(code);
+            });
+        } catch (error) {
+            logger.error('executeCodeSandbox: Failed to execute code', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Displays the result of code execution.
+     * @param {HTMLElement} button - The execute button.
+     * @param {object} result - The result object from executeCodeSandbox.
+     */
+    displayExecutionResult(button, result) {
+        const codeBlock = button.closest('.artifact-actions');
+        let resultDiv = codeBlock.nextElementSibling;
+
+        if (!resultDiv || (!resultDiv.classList.contains('execution-result') && !resultDiv.classList.contains('execution-error'))) {
+            resultDiv = document.createElement('div');
+            codeBlock.insertAdjacentElement('afterend', resultDiv);
+        }
+
+        if (result.success) {
+            resultDiv.className = 'execution-result';
+            resultDiv.setAttribute('role', 'status');
+            resultDiv.textContent = result.result;
+            resultDiv.hidden = false;
+        } else {
+            resultDiv.className = 'execution-error';
+            resultDiv.setAttribute('role', 'alert');
+            resultDiv.textContent = result.error;
+            resultDiv.hidden = false;
+        }
+    }
+
+    /**
+     * Updates the state of the copy or execute button based on success or failure.
+     * @param {HTMLElement} button - The button to update.
+     * @param {string} message - The feedback message.
+     * @param {boolean} isSuccess - Indicates if the action was successful.
+     */
+    updateButtonState(button, message, isSuccess) {
+        button.textContent = message;
+        button.classList.add(isSuccess ? 'success' : 'error');
+
+        setTimeout(() => {
+            button.textContent = 'Copy';
+            button.classList.remove('success', 'error');
+        }, 2000);
     }
 }

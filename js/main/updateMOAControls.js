@@ -1,6 +1,7 @@
 // src/updateMOAControls.js
 import { moaConfig } from '../config/config.js';
 import { updateDiagram } from '../diagram/diagram.js';
+import { AVAILABLE_MODELS } from '../config/model-config.js';
 
 export function updateMOAControls() {
     const layersContainer = document.getElementById('moa-controls');
@@ -9,15 +10,6 @@ export function updateMOAControls() {
         return;
     }
 
-    // Remove existing event listeners to prevent duplicates
-    document.querySelectorAll('.agent-model, .agent-temperature').forEach(el => {
-        el.replaceWith(el.cloneNode(true));
-    });
-
-    // Add event listeners to the new controls
-    document.querySelectorAll('.agent-model, .agent-temperature').forEach(el => {
-        el.addEventListener('change', handleControlChange);
-    });
 }
 
 function handleControlChange(e) {
@@ -37,3 +29,6 @@ function handleControlChange(e) {
     // Update the diagram
     updateDiagram();
 }
+
+// Call updateMOAControls when the configuration changes
+window.addEventListener('moaConfigUpdated', updateMOAControls);

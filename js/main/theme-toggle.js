@@ -1,6 +1,6 @@
 // theme-toggle.js
 
-const themes = ['dark', 'light', 'dracula'];
+const themes = ['dark', 'light', 'dracula', 'cyberpunk', 'forest', 'ocean', 'upside-down', 'glitch', 'underwater', 'space-cowboy'];
 
 function setTheme(themeIndex) {
     const newTheme = themes[themeIndex];
@@ -18,7 +18,14 @@ export function updateToggleButton(theme) {
     const icons = {
         'dark': '🌙',
         'light': '☀️',
-        'dracula': '🧛'
+        'dracula': '🧛',
+        'cyberpunk': '🤖',
+        'forest': '🌳',
+        'ocean': '🌊',
+        'upside-down': '🙃',
+        'glitch': '👾',
+        'underwater': '🐠',
+        'space-cowboy': '🤠🚀'
     };
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {

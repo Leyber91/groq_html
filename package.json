@@ -1,11 +1,8 @@
 {
-  "name": "groq_html",
+  "name": "groq-integration",
   "version": "1.0.0",
-  "description": "Groq MOA is a web-based application that implements a Mixture of Agents (MOA) system using the Groq API. This project demonstrates an advanced approach to natural language processing and generation by combining multiple AI models in a hierarchical structure.",
-  "main": "main.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+    "test": "node js/tests/groqTest.js"
+  }
 }

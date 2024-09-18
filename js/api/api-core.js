@@ -1,3 +1,5 @@
+// js/api/api-core.js
+
 import { API_ENDPOINT, API_KEY, systemSettings } from '../config/config.js';
 import { createAndProcessBatch } from '../chat/batchProcessor/batch-processor.js';
 import { availableModels, getModelInfo, getModelContextWindow, getModelTokenLimit, getModelTokenizer } from './modelInfo/model-info.js';
@@ -15,9 +17,11 @@ import {
 } from './error-handling.js';
 import { logger } from '../utils/logger.js';
 import { executeWithRetryAndCircuitBreaker } from '../utils/retry.js';
+import { FunctionInput, GroqPrompt, FunctionChain, AutonomousQueryHandler } from './functionCalling.js';
 
 const apiQueue = [];
 let isProcessingQueue = false;
+const autonomousQueryHandler = new AutonomousQueryHandler();
 
 /**
  * Queues an API request for processing.
@@ -28,9 +32,24 @@ let isProcessingQueue = false;
  * @param {string} [priority='normal'] - Priority of the request.
  * @returns {Promise<string|Object>} Result of the API call.
  */
-export async function queueApiRequest(model, messages, temperature, updateCallback, priority = 'normal') {
+export function queueApiRequest(model, messages, temperature, updateCallback, priority = 'normal') {
     return new Promise((resolve, reject) => {
         const request = { model, messages, temperature, updateCallback, resolve, reject, priority, timestamp: Date.now() };
+        insertRequestIntoQueue(request);
+        processApiQueue();
+    });
+}
+
+/**
+ * Queues a function calling request for processing.
+ * @param {string} functionName - The name of the function to be called.
+ * @param {Object} parameters - The parameters for the function call.
+ * @param {string} [priority='normal'] - Priority of the request.
+ * @returns {Promise<Object>} Result of the function call.
+ */
+export function queueFunctionCall(functionName, parameters, priority = 'normal') {
+    return new Promise((resolve, reject) => {
+        const request = { type: 'function', functionName, parameters, resolve, reject, priority, timestamp: Date.now() };
         insertRequestIntoQueue(request);
         processApiQueue();
     });
@@ -41,24 +60,73 @@ export async function queueApiRequest(model, messages, temperature, updateCallba
  * @param {Object} request - The API request object.
  */
 function insertRequestIntoQueue(request) {
-    const index = apiQueue.findIndex(item => 
-        (item.priority === 'low') || 
-        (item.priority === 'normal' && request.priority === 'high')
-    );
-    if (index === -1) {
+    if (request.priority === 'high') {
+        apiQueue.unshift(request);
+    } else if (request.priority === 'low') {
         apiQueue.push(request);
     } else {
-        apiQueue.splice(index, 0, request);
+        // Default to normal priority
+        const normalIndex = apiQueue.findIndex(item => item.priority === 'low');
+        if (normalIndex === -1) {
+            apiQueue.push(request);
+        } else {
+            apiQueue.splice(normalIndex, 0, request);
+        }
     }
+    logger.debug(`Inserted request into queue: ${JSON.stringify(request)}`);
+}
+
+/**
+ * Processes the API queue by handling batch requests.
+ */
+export async function processApiQueue() {
+    if (isProcessingQueue || apiQueue.length === 0) return;
+    
+    isProcessingQueue = true;
+    const batchSize = systemSettings.apiBatchSize || 5;
+    const batch = apiQueue.splice(0, batchSize);
+
+    try {
+        logger.info(`Processing batch of size: ${batch.length}`);
+        await createAndProcessBatch(batch, processSingleRequest, {
+            batchSize,
+            delay: systemSettings.apiBatchDelay || 100,
+            retryAttempts: systemSettings.apiRetryAttempts || 3,
+            retryDelay: systemSettings.apiRetryDelay || 1000,
+            maxConcurrent: systemSettings.apiMaxConcurrent || 3,
+            progressCallback: (progress) => logger.debug(`Batch progress: ${Math.round(progress * 100)}%`)
+        });
+        logger.info(`Batch processed successfully.`);
+    } catch (error) {
+        logger.error(`Error processing batch: ${error.message}`);
+        await handleGracefulDegradation(error, 'processApiQueue');
+    }
+    
+    isProcessingQueue = false;
+    setTimeout(processApiQueue, systemSettings.apiQueueInterval || 100);
 }
 
 /**
  * Processes a single API request.
  * @param {Object} request - The API request object.
  */
-async function processSingleRequest({ model, messages, temperature, updateCallback, resolve, reject }) {
+async function processSingleRequest(request) {
+    if (request.type === 'function') {
+        await processFunctionCall(request);
+    } else {
+        await processApiCall(request);
+    }
+}
+
+/**
+ * Processes a single API call request.
+ * @param {Object} request - The API request object.
+ */
+async function processApiCall({ model, messages, temperature, updateCallback, resolve, reject }) {
     if (!model) {
-        reject(new Error('Model parameter is missing or undefined'));
+        const error = new Error('Model parameter is missing or undefined');
+        logger.error(error.message);
+        reject(error);
         return;
     }
     
@@ -72,6 +140,7 @@ async function processSingleRequest({ model, messages, temperature, updateCallba
         const estimatedTokens = estimateTokens(messages, model);
         await checkRateLimit(model, estimatedTokens);
 
+        logger.info(`Executing API call for model: ${model} with estimated tokens: ${estimatedTokens}`);
         const result = await executeWithRetryAndCircuitBreaker(
             () => enhancedStreamGroqAPI(model, messages, temperature, updateCallback),
             systemSettings.apiRetryAttempts || 3,
@@ -81,7 +150,29 @@ async function processSingleRequest({ model, messages, temperature, updateCallba
         await consumeTokens(model, estimatedTokens);
         resolve(result);
     } catch (error) {
+        logger.error(`Error processing API call for model ${model}: ${error.message}`);
         const gracefulResult = await handleGracefulDegradation(error, `processSingleRequest:${model}`);
+        if (gracefulResult) {
+            resolve(gracefulResult);
+        } else {
+            reject(error);
+        }
+    }
+}
+
+/**
+ * Processes a single function call request.
+ * @param {Object} request - The function call request object.
+ */
+async function processFunctionCall({ functionName, parameters, resolve, reject }) {
+    try {
+        const functionInput = new FunctionInput(functionName, parameters);
+        logger.info(`Handling function call: ${functionName} with parameters: ${JSON.stringify(parameters)}`);
+        const result = await autonomousQueryHandler.handleQuery(JSON.stringify(functionInput));
+        resolve(result);
+    } catch (error) {
+        logger.error(`Error processing function call ${functionName}: ${error.message}`);
+        const gracefulResult = await handleGracefulDegradation(error, `processFunctionCall:${functionName}`);
         if (gracefulResult) {
             resolve(gracefulResult);
         } else {
@@ -99,91 +190,29 @@ async function processSingleRequest({ model, messages, temperature, updateCallba
  * @returns {Promise<string>} The full response from the API.
  */
 async function streamGroqAPI(model, messages, temperature, updateCallback) {
-    if (!model) {
-        throw new Error('Model parameter is missing or undefined');
-    }
-
-    const url = API_ENDPOINT;
-    const headers = {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json'
-    };
-    const modelTokenLimit = getModelTokenLimit(model);
-    const modelContextWindow = getModelContextWindow(model);
-    const estimatedInputTokens = estimateTokens(messages, model);
-    const maxTokens = Math.min(modelTokenLimit, modelContextWindow - estimatedInputTokens);
-    const body = JSON.stringify({
-        model,
-        messages,
-        temperature,
-        stream: true,
-        max_tokens: maxTokens
-    });
-
-    logger.debug(`Sending request for model ${model}:`, { url, headers, body: JSON.parse(body) });
-
+    // Placeholder implementation
+    // Replace with actual streaming logic as per your Groq API integration
     try {
-        const timeoutMs = typeof systemSettings.apiTimeout === 'number' ? systemSettings.apiTimeout : 30000; // Default to 30 seconds
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-        const response = await fetch(url, { 
-            method: 'POST', 
-            headers, 
-            body,
-            signal: controller.signal
+        // Example: Use fetch or another HTTP client to stream responses
+        // This is highly dependent on the Groq API's capabilities
+        const response = await fetch(`${API_ENDPOINT}/chat/completions`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ model, messages, temperature })
         });
 
-        clearTimeout(timeout);
-
         if (!response.ok) {
-            const errorBody = await response.json();
-            logger.error(`API request failed for model ${model}. Status: ${response.status}. Response:`, errorBody);
-            throw new Error(`API request failed: ${errorBody.error.message} (${response.status})`);
+            throw new Error(`Groq API error: ${response.statusText}`);
         }
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let buffer = '';
-        let fullResponse = '';
-
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            
-            buffer += decoder.decode(value, { stream: true });
-            let newlineIndex;
-            while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
-                const line = buffer.slice(0, newlineIndex).trim();
-                buffer = buffer.slice(newlineIndex + 1);
-                if (line.startsWith('data: ')) {
-                    const jsonData = line.slice(6);
-                    if (jsonData === '[DONE]') break;
-                    try {
-                        const parsedData = JSON.parse(jsonData);
-                        if (parsedData.choices && parsedData.choices.length > 0) {
-                            const content = parsedData.choices[0]?.delta?.content || '';
-                            fullResponse += content;
-                            if (typeof updateCallback === 'function') {
-                                updateCallback(content);
-                            }
-                        } else {
-                            logger.warn('Received unexpected data structure:', parsedData);
-                        }
-                    } catch (error) {
-                        logger.error('Error parsing JSON:', error, 'Raw data:', jsonData);
-                    }
-                }
-            }
-        }
-
-        return fullResponse;
+        const data = await response.json();
+        updateCallback(data);
+        return data.choices[0].message.content;
     } catch (error) {
-        if (error.name === 'AbortError') {
-            logger.error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
-            throw new Error(`API request timed out after ${systemSettings.apiTimeout || 30000}ms for model ${model}`);
-        }
-        logger.error(`Error in API request for model ${model}:`, error);
+        logger.error(`Error in streamGroqAPI: ${error.message}`);
         throw error;
     }
 }
@@ -196,40 +225,17 @@ async function streamGroqAPI(model, messages, temperature, updateCallback) {
  */
 export function estimateTokens(messages, modelName) {
     const tokenizer = getModelTokenizer(modelName);
-    const overheadFactor = 1.1;
-    const modelInfo = getModelInfo(modelName);
-    const modelSpecificFactor = modelInfo.tokenEstimationFactor || 1.0;
-
-    const estimatedTokens = tokenizer.encode(messages).length;
-
-    return Math.ceil(estimatedTokens * overheadFactor * modelSpecificFactor);
-}
-
-/**
- * Processes the API queue by handling batch requests.
- */
-export async function processApiQueue() {
-    if (isProcessingQueue || apiQueue.length === 0) return;
-    
-    isProcessingQueue = true;
-    const batchSize = systemSettings.apiBatchSize || 5;
-    const batch = apiQueue.splice(0, batchSize);
-
-    try {
-        await createAndProcessBatch(batch, processSingleRequest, {
-            batchSize,
-            delay: systemSettings.apiBatchDelay || 100,
-            retryAttempts: systemSettings.apiRetryAttempts || 3,
-            retryDelay: systemSettings.apiRetryDelay || 1000,
-            maxConcurrent: systemSettings.apiMaxConcurrent || 3,
-            progressCallback: (progress) => logger.debug(`Batch progress: ${Math.round(progress * 100)}%`)
-        });
-    } catch (error) {
-        await handleGracefulDegradation(error, 'processApiQueue');
+    if (!tokenizer) {
+        logger.warn(`No tokenizer available for model ${modelName}. Using default estimation.`);
+        return messages.reduce((acc, msg) => acc + msg.content.split(/\s+/).length, 0);
     }
-    
-    isProcessingQueue = false;
-    setTimeout(processApiQueue, systemSettings.apiQueueInterval || 100);
+
+    let totalTokens = 0;
+    messages.forEach(msg => {
+        totalTokens += tokenizer.encode(msg.content).length;
+    });
+
+    return totalTokens;
 }
 
 /**

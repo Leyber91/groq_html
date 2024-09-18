@@ -8,14 +8,9 @@ import { AVAILABLE_MODELS, getModelInfo, selectAlternativeModel } from '../confi
  */
 export class ModularPromptsPuzzle {
     constructor() {
-        /** @type {Map<string, PromptCell>} */
-        this.cells = new Map();
-
-        /** @type {Map<string, { from: string, to: string }>} */
+        this.cells = new Map(); // Using Map for better access and iteration.
         this.connections = new Map();
-
-        /** @type {Array<Object>} */
-        this.history = [];
+        this.history = []; // Maintain a history of actions for logging and debugging.
     }
 
     /**
@@ -45,6 +40,8 @@ export class ModularPromptsPuzzle {
             console.warn(`One or both cells (${fromId}, ${toId}) do not exist. Cannot create connection.`);
             return;
         }
+
+        // Storing bidirectional connection as unique key-value pairs in Map.
         this.connections.set(`${fromId}-${toId}`, { from: fromId, to: toId });
         this.connections.set(`${toId}-${fromId}`, { from: toId, to: fromId });
         this.history.push({ action: 'connectCells', fromId, toId, timestamp: Date.now() });
@@ -60,6 +57,7 @@ export class ModularPromptsPuzzle {
         if (!cell) {
             throw new Error(`Cell with id ${id} not found`);
         }
+
         cell.setState('executing');
         try {
             const result = await queueApiRequest(
@@ -75,7 +73,6 @@ export class ModularPromptsPuzzle {
             console.error(`Error executing cell ${id}:`, error);
             const gracefulResult = await handleGracefulDegradation(error, `executeCell:${id}`);
             if (gracefulResult) {
-                console.warn(`Cell ${id} degraded execution:`, gracefulResult);
                 cell.setError(gracefulResult.message || 'Execution failed');
                 return gracefulResult;
             }
@@ -106,7 +103,6 @@ export class ModularPromptsPuzzle {
             console.error('Error in network resonation:', error);
             const gracefulResult = await handleGracefulDegradation(error, 'resonateNetwork');
             if (gracefulResult) {
-                console.warn('Network resonation degraded:', gracefulResult);
                 return gracefulResult;
             }
             throw error;
@@ -120,6 +116,7 @@ export class ModularPromptsPuzzle {
      */
     async fractalExpansion(depth = 1) {
         if (depth <= 0) return;
+
         try {
             const newCells = new Map();
             for (const [id, cell] of this.cells.entries()) {
@@ -132,9 +129,11 @@ export class ModularPromptsPuzzle {
                     this.connectCells(id, subId);
                 });
             }
+
             this.cells = new Map([...this.cells, ...newCells]);
             this.history.push({ action: 'fractalExpansion', depth, newCellCount: newCells.size, timestamp: Date.now() });
-            await this.fractalExpansion(depth - 1);
+
+            await this.fractalExpansion(depth - 1); // Recursion for deeper levels.
         } catch (error) {
             console.error('Error in fractal expansion:', error);
             await handleGracefulDegradation(error, 'fractalExpansion');

@@ -22,14 +22,9 @@ import {
     updateInMemoryCache, 
     compressContext, 
 } from './caching.js';
-import { 
-    generateArtifacts, 
-    addArtifactsToChat, 
-    handleArtifact, 
-    updateArtifact 
-} from './artifacts.js';
+
 import { processBatchedRequests } from './batchProcessing.js';
-import { moaConfig } from '../config/config.js';
+import { moaConfig, updateMOAConfig } from '../config/config.js';
 import { chunkInput } from './utils.js';
 import { MicroPromptAgent } from './microPromptAgents.js';
 import { MetaPromptManager } from '../utils/metaPromptManager.js';
@@ -40,10 +35,38 @@ import { scheduleRequest, getRateLimitStatus, resetRateLimits } from '../utils/r
 import { logger } from '../utils/logger.js';
 import { getSystemContext } from '../utils/systemContext.js';
 import { GROQ_API_KEY } from '../config/api-key.js';
+import { queueFunctionCall } from '../api/api-core.js';
 
 const metaPromptManager = new MetaPromptManager(moaConfig);
 
 const MAX_FALLBACK_ATTEMPTS = 3;
+
+/**
+ * Function to interact with the Hermes3 model through the server endpoint.
+ * @param {string} question - The question to ask Hermes3.
+ * @returns {Promise<string>} The response from Hermes3.
+ */
+async function askHermes3(question) {
+    try {
+        const response = await fetch('/api/ask-hermes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ question })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data.response;
+    } catch (error) {
+        logger.error('Error communicating with Hermes3:', error);
+        throw error;
+    }
+}
 
 /**
  * Main function to handle chat interactions with MOA.
@@ -89,6 +112,31 @@ export async function chatWithMOA(message) {
         let context = message;
         let totalTokens = 0;
         const conversationId = generateUniqueId();
+        let aggregatedResponse = '';
+
+        // Check if function calling is enabled
+        if (moaConfig.function_calling && moaConfig.function_calling.enabled) {
+            try {
+                const functionCallResult = await queueFunctionCall('process_user_input', { user_message: message });
+                context = functionCallResult.result;
+                totalTokens += functionCallResult.totalTokens || 0;
+                aggregatedResponse = context;
+
+                // Add function call result to chat
+                addMessageToChat('assistant', formatContent(context), chatMessages);
+                
+                logger.info(`Function call processed. Total tokens used: ${totalTokens}`);
+                
+                if (progressBar) progressBar.style.width = '100%';
+                
+                return { context: aggregatedResponse, totalTokens };
+            } catch (error) {
+                logger.error('Error in function calling:', error);
+                // Fall back to standard processing if function calling fails
+            }
+        }
+
+        // Standard processing (if function calling is disabled or failed)
         for (let i = 0; i < moaConfig.layers.length; i++) {
             const layer = moaConfig.layers[i];
             const layerMessageDiv = addMessageToChat(
@@ -124,21 +172,27 @@ export async function chatWithMOA(message) {
                     );
 
                     try {
-                        const tokenCount = await getTokenCount([{ role: 'user', content: agentInput }], model);
-                        if (tokenCount > 0) {
-                            validateTokenCount(tokenCount, model);
+                        let agentOutput;
+                        if (model === 'hermes3') {
+                            agentOutput = await askHermes3(agentInput);
                         } else {
-                            logger.warn(`Unable to estimate token count for ${model}. Proceeding without validation.`);
+                            const tokenCount = await getTokenCount([{ role: 'user', content: agentInput }], model);
+                            if (tokenCount > 0) {
+                                validateTokenCount(tokenCount, model);
+                            } else {
+                                logger.warn(`Unable to estimate token count for ${model}. Proceeding without validation.`);
+                            }
+                            await scheduleRequest(model, [{ role: 'user', content: agentInput }]);
+
+                            const response = await createChatCompletion([{ role: 'user', content: agentInput }], { ...agentConfig, model });
+
+                            if (!response) {
+                                throw new Error('Empty response from createChatCompletion');
+                            }
+
+                            agentOutput = typeof response === 'string' ? response : JSON.stringify(response, null, 2);
                         }
-                        await scheduleRequest(model, [{ role: 'user', content: agentInput }]);
 
-                        const response = await createChatCompletion([{ role: 'user', content: agentInput }], { ...agentConfig, model });
-
-                        if (!response) {
-                            throw new Error('Empty response from createChatCompletion');
-                        }
-
-                        const agentOutput = typeof response === 'string' ? response : JSON.stringify(response, null, 2);
                         totalTokens += await getTokenCount([{ role: 'user', content: agentInput }, { role: 'assistant', content: agentOutput }], model);
 
                         updateMessageContent(agentMessageDiv, `Agent ${j + 1}: ${formatContent(agentOutput)}`);
@@ -147,6 +201,7 @@ export async function chatWithMOA(message) {
 
                         layerContent += `<agent${j + 1}>${formatContent(agentOutput)}</agent${j + 1}>`;
                         layerInsights.push(`Agent ${j + 1}: ${agentOutput}`);
+                        aggregatedResponse += agentOutput + '\n';
 
                         success = true;
                     } catch (error) {
@@ -195,8 +250,13 @@ export async function chatWithMOA(message) {
             `.trim();
 
             try {
-                await scheduleRequest(moaConfig.summary_model, [{ role: 'user', content: layerSummaryInput }]);
-                const layerSummary = await createChatCompletion([{ role: 'user', content: layerSummaryInput }], { model: moaConfig.summary_model, temperature: 0.7 });
+                let layerSummary;
+                if (moaConfig.summary_model === 'hermes3') {
+                    layerSummary = await askHermes3(layerSummaryInput);
+                } else {
+                    await scheduleRequest(moaConfig.summary_model, [{ role: 'user', content: layerSummaryInput }]);
+                    layerSummary = await createChatCompletion([{ role: 'user', content: layerSummaryInput }], { model: moaConfig.summary_model, temperature: 0.7 });
+                }
 
                 if (!layerSummary) {
                     throw new Error('Empty response from createChatCompletion for layer summary');
@@ -208,6 +268,7 @@ export async function chatWithMOA(message) {
                     `<layer${i + 1}>${layerContent}<summary>${formatContent(layerSummary)}</summary></layer${i + 1}>`
                 );
                 animateAgent(i);
+                aggregatedResponse += layerSummary + '\n';
             } catch (error) {
                 logger.error(`Error generating layer summary for Layer ${i + 1}:`, error);
                 updateMessageContent(layerMessageDiv, `Layer ${i + 1}: Error generating summary - ${error.message}`);
@@ -264,7 +325,7 @@ export async function chatWithMOA(message) {
             maintainCache(cache).catch(err => logger.error('Cache maintenance failed:', err));
         }
 
-        return { context: context, totalTokens: totalTokens };
+        return { context: aggregatedResponse, totalTokens };
     } catch (error) {
         logger.error('Error in chatWithMOA:', error);
         if (error.message.includes('API key is missing')) {
@@ -282,8 +343,13 @@ async function makeOptimizedApiCall(metaAdvice, userInput) {
             max_tokens: metaAdvice.maxTokens || 150
         };
 
-        await scheduleRequest(model, [{ role: 'user', content: userInput }]);
-        const response = await createChatCompletion([{ role: 'user', content: userInput }], { ...options, model });
+        let response;
+        if (model === 'hermes3') {
+            response = await askHermes3(userInput);
+        } else {
+            await scheduleRequest(model, [{ role: 'user', content: userInput }]);
+            response = await createChatCompletion([{ role: 'user', content: userInput }], { ...options, model });
+        }
 
         return response;
     } catch (error) {
@@ -292,5 +358,76 @@ async function makeOptimizedApiCall(metaAdvice, userInput) {
     }
 }
 
-// Export the function if it's used elsewhere
+/**
+ * Function to handle user feedback and update the system accordingly.
+ * @param {string} feedback - The user's feedback ('positive' or 'negative').
+ * @param {string} context - The context of the interaction.
+ */
+export async function handleUserFeedback(feedback, context) {
+    logger.info(`Received user feedback: ${feedback}`);
+
+    if (moaConfig.self_evolving && moaConfig.self_evolving.enabled) {
+        try {
+            if (feedback === 'positive') {
+                // Increase the learning rate slightly for positive feedback
+                const newLearningRate = Math.min(moaConfig.self_evolving.learning_rate * 1.1, 1);
+                updateMOAConfig({
+                    self_evolving: {
+                        ...moaConfig.self_evolving,
+                        learning_rate: newLearningRate
+                    }
+                });
+                logger.info(`Increased learning rate to ${newLearningRate}`);
+            } else if (feedback === 'negative') {
+                // Decrease the learning rate slightly for negative feedback
+                const newLearningRate = Math.max(moaConfig.self_evolving.learning_rate * 0.9, 0.001);
+                updateMOAConfig({
+                    self_evolving: {
+                        ...moaConfig.self_evolving,
+                        learning_rate: newLearningRate
+                    }
+                });
+                logger.info(`Decreased learning rate to ${newLearningRate}`);
+
+                // Trigger a re-evaluation of the context with Hermes3
+                try {
+                    const improvementSuggestion = await askHermes3(
+                        `The following interaction received negative feedback. Please analyze and suggest improvements:\n\n${context}`
+                    );
+                    logger.info('Improvement suggestion:', improvementSuggestion);
+                    // Here you could implement logic to apply the suggestion automatically
+                    // or present it to a human operator for review
+                } catch (error) {
+                    logger.error('Failed to get improvement suggestion from Hermes3:', error);
+                }
+            }
+
+            // Update the feedback threshold based on recent performance
+            const newFeedbackThreshold = calculateNewFeedbackThreshold(feedback);
+            updateMOAConfig({
+                self_evolving: {
+                    ...moaConfig.self_evolving,
+                    feedback_threshold: newFeedbackThreshold
+                }
+            });
+
+            logger.info('Updated MOA configuration based on feedback');
+        } catch (error) {
+            logger.error('Error updating MOA configuration:', error);
+        }
+    }
+}
+
+function calculateNewFeedbackThreshold(feedback) {
+    // Implement your logic to calculate the new feedback threshold
+    // This is a placeholder implementation
+    const currentThreshold = moaConfig.self_evolving.feedback_threshold;
+    if (feedback === 'positive') {
+        return Math.min(currentThreshold * 1.05, 1);
+    } else {
+        return Math.max(currentThreshold * 0.95, 0.5);
+    }
+}
+
+// Export the functions
 export { makeOptimizedApiCall };

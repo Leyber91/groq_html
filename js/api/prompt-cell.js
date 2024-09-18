@@ -1,6 +1,8 @@
+// File: js/api/prompt-cell.js
+
 import { handleGracefulDegradation } from './error-handling.js';
-import { selectAlternativeModel, queueApiRequest } from './api-core.js';
-import { MODEL_INFO, getModelInfo, isModelAvailable, getModelRateLimits } from '../config/model-config.js';
+import { selectAlternativeModel, queueApiRequest, handleTokenLimitExceeded } from './api-core.js';
+import { getModelInfo, isModelAvailable } from '../config/model-config.js';
 
 /**
  * Class representing a prompt cell for handling API interactions.
@@ -160,7 +162,7 @@ export class PromptCell {
    * @returns {string} The resulting response.
    * @throws Will throw an error if processing fails.
    */
-  async processWithAPI() {
+  async processWithAPI(chunk = null) {
     if (!this.metadata.model || !isModelAvailable(this.metadata.model)) {
       throw new Error('Invalid or unavailable model specified for API processing');
     }
@@ -170,7 +172,7 @@ export class PromptCell {
       await this.waitForRateLimit();
 
       const messages = this.getMessages();
-      const apiInput = messages.length > 0 ? messages.slice(-1) : [{ role: 'user', content: this.prompt }];
+      const apiInput = chunk ? [{ role: 'user', content: chunk }] : (messages.length > 0 ? messages.slice(-1) : [{ role: 'user', content: this.prompt }]);
 
       const result = await queueApiRequest(
         this.metadata.model,
@@ -191,7 +193,7 @@ export class PromptCell {
   /**
    * Handles API errors by determining the appropriate response.
    * @param {Error} error - The error object.
-   * @returns {string} The resulting response after handling the error.
+   * @returns {string|object} The resulting response after handling the error.
    * @throws Will throw an error if it cannot handle the error.
    */
   async handleApiError(error) {
@@ -257,7 +259,7 @@ export class PromptCell {
    * @returns {number} The estimated token count.
    */
   getTokenCount() {
-    // This is a simple estimation. For more accurate results, use a proper tokenizer.
+    // Implement a more accurate token estimation using a tokenizer library if available.
     const text = this.messages.map(m => m.content).join(' ') + ' ' + this.prompt;
     return text.split(/\s+/).length;
   }

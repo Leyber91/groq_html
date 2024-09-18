@@ -4,6 +4,33 @@ import { exponentialBackoff } from '../utils/backoff.js';
 import { moaConfig } from '../config/config.js';
 
 /**
+ * Splits a long request into smaller batches based on token limits.
+ * @param {string} request - The original request.
+ * @param {number} maxTokens - Maximum tokens per batch.
+ * @returns {string[]} An array of batched requests.
+ */
+function splitRequestIntoBatches(request, maxTokens) {
+    const words = request.split(' ');
+    let batches = [];
+    let currentBatch = '';
+
+    words.forEach(word => {
+        if ((currentBatch + ' ' + word).trim().length <= maxTokens) {
+            currentBatch += ' ' + word;
+        } else {
+            batches.push(currentBatch.trim());
+            currentBatch = word;
+        }
+    });
+
+    if (currentBatch.trim()) {
+        batches.push(currentBatch.trim());
+    }
+
+    return batches;
+}
+
+/**
  * Processes a set of requests in batches using the provided processing function.
  * Enhanced for better concurrency control and error handling.
  * @param {any[]} requests - An array of requests to be processed.
@@ -53,7 +80,7 @@ export async function processBatchedRequests(requests, processingFunction) {
     while (currentIndex < totalRequests) {
         const remaining = totalRequests - currentIndex;
         const batchSize = Math.min(moaConfig.batching.maxBatchSize || batchConfig.maxBatchSize, remaining);
-        const batch = requests.slice(currentIndex, currentIndex + batchSize);
+        const batch = splitRequestIntoBatches(requests.slice(currentIndex, currentIndex + batchSize), moaConfig.batching.maxTokensPerBatch);
         await executeBatch(batch);
 
         // Adaptive batching logic can be implemented here if needed

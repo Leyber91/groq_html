@@ -1,7 +1,8 @@
 /* MOA Controls Container */
 #moa-controls-container {
     flex: 0 0 14%;
-    overflow-y: auto;
+    max-height: 100vh; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
     padding: var(--spacing-md);
     background-color: var(--dracula-background);
     border-left: 1px solid var(--dracula-comment);
@@ -85,6 +86,8 @@
     padding: var(--spacing-md);
     box-shadow: var(--shadow-md);
     color: var(--text-color-dark);
+    max-height: calc(100vh - 40px); /* Adjust based on your layout */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 #moa-controls h3 {
@@ -161,7 +164,8 @@
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-#adaptive-threshold-controls {
+#adaptive-threshold-controls,
+#self-evolving-controls {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius);
     padding: var(--spacing-md);
@@ -251,6 +255,27 @@ input[type="range"]::-moz-range-thumb {
 input[type="range"]::-webkit-slider-thumb:hover,
 input[type="range"]::-moz-range-thumb:hover {
     background: var(--secondary-color);
+}
+
+/* Self-evolving controls */
+#self-evolving-controls {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+}
+
+#self-evolving-controls h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+#self-evolving-controls .control-group {
+    margin-bottom: var(--spacing-sm);
+}
+
+#self-evolving-enabled {
+    margin-right: var(--spacing-xs);
 }
 
 /* Responsive design */

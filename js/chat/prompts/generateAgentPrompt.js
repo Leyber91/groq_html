@@ -18,7 +18,7 @@ Your task:
 2. Generate ONE groundbreaking insight that transcends current paradigms.
 3. Elucidate how your insight creates unexpected synergies with previous ideas.
 4. Propose ONE transformative application that could reshape the landscape of AI or human knowledge.
-5. Articulate your response with quantum-inspired clarity, under 150 words.
+5. Articulate your response with quantum-inspired clarity.
 
 Approach:
 - Employ metamorphic reasoning to transmute conventional wisdom.

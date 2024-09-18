@@ -1,7 +1,6 @@
 // src/setupDiagramControls.js
 import { addLayer, addAgent, removeLayer, removeAgent, createMOADiagram } from '../diagram/diagram.js';
 import { moaConfig } from '../config/config.js';
-import { updateMOAControls } from './updateMOAControls.js';
 
 export function setupDiagramControls() {
     const moaDiagram = document.getElementById('moa-diagram');
@@ -21,7 +20,7 @@ export function setupDiagramControls() {
         addLayerButton.addEventListener('click', () => {
             addLayer();
             createMOADiagram(); // Use createMOADiagram instead of updateDiagram
-            updateMOAControls();
+
         });
     }
 
@@ -30,7 +29,7 @@ export function setupDiagramControls() {
             const lastLayerIndex = moaConfig.layers.length - 1;
             addAgent(lastLayerIndex);
             createMOADiagram(); // Use createMOADiagram instead of updateDiagram
-            updateMOAControls();
+
         });
     }
 
@@ -39,7 +38,7 @@ export function setupDiagramControls() {
             const lastLayerIndex = moaConfig.layers.length - 1;
             removeLayer(lastLayerIndex);
             createMOADiagram(); // Use createMOADiagram instead of updateDiagram
-            updateMOAControls();
+
         });
     }
 
@@ -49,7 +48,7 @@ export function setupDiagramControls() {
             const lastAgentIndex = moaConfig.layers[lastLayerIndex].length - 1;
             removeAgent(lastLayerIndex, lastAgentIndex);
             createMOADiagram(); // Use createMOADiagram instead of updateDiagram
-            updateMOAControls();
+
         });
     }
 }
