@@ -44,7 +44,6 @@ main {
     overflow-y: auto;
     background: var(--background-light);
     border-left: 1px solid var(--primary-color);
-    width: 10vw;
 }
 
 #moa-controls-container.collapsed {
@@ -53,7 +52,7 @@ main {
 
 #chat-interface {
     flex: 0 0 35%;
-    height: 95%;
+    height: 100%;
     overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -84,7 +83,7 @@ main {
 }
 
 #moa-controls-wrapper {
-    width: 20%;
+    width: 15%;
     height: 100%;
     background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(15px);

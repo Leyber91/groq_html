@@ -29,10 +29,8 @@ import {
     const layerWidth = (width * 0.95) / (moaConfig.layers.length + 1);
     const layerHeight = height * 0.95;
   
-    // Add 'Add Layer' button
     createAddLayerButton(svg, width, height);
   
-    // Add 'Add Agent' and 'Remove Layer' buttons for each layer
     moaConfig.layers.forEach((layer, layerIndex) => {
       createAddAgentButton(svg, layerIndex, layerWidth, height);
   
@@ -40,7 +38,6 @@ import {
         createRemoveLayerButton(svg, layerIndex, layerWidth, height);
       }
   
-      // Add 'Remove Agent' buttons
       layer.forEach((agent, agentIndex) => {
         if (layer.length > 1) {
           createRemoveAgentButton(
@@ -57,90 +54,48 @@ import {
   }
   
   function createAddLayerButton(svg, width, height) {
-    const addLayerButton = svg
-      .append('g')
-      .attr('class', 'add-layer-button')
-      .attr('transform', `translate(${width - 120}, ${height - 40})`)
-      .style('cursor', 'pointer')
-      .on('click', addLayer);
-  
-    addLayerButton
-      .append('rect')
-      .attr('width', ADD_LAYER_BUTTON_WIDTH)
-      .attr('height', ADD_LAYER_BUTTON_HEIGHT)
-      .attr('rx', ADD_LAYER_BUTTON_RADIUS)
-      .attr('ry', ADD_LAYER_BUTTON_RADIUS)
-      .attr('fill', ADD_LAYER_BUTTON_FILL)
-      .attr('filter', BUTTON_GLOW_FILTER);
-  
-    addLayerButton
-      .append('text')
-      .attr('x', ADD_LAYER_BUTTON_WIDTH / 2)
-      .attr('y', ADD_LAYER_BUTTON_HEIGHT / 2 + 5)
-      .attr('text-anchor', 'middle')
-      .attr('fill', BUTTON_TEXT_FILL)
-      .attr('font-weight', BUTTON_TEXT_FONT_WEIGHT)
-      .text('Add Layer');
+    createButton(svg, {
+      className: 'add-layer-button',
+      x: width - 120,
+      y: height - 40,
+      width: ADD_LAYER_BUTTON_WIDTH,
+      height: ADD_LAYER_BUTTON_HEIGHT,
+      rx: ADD_LAYER_BUTTON_RADIUS,
+      ry: ADD_LAYER_BUTTON_RADIUS,
+      fill: ADD_LAYER_BUTTON_FILL,
+      text: 'Add Layer',
+      onClick: addLayer
+    });
   }
   
   function createAddAgentButton(svg, layerIndex, layerWidth, height) {
-    const addAgentButton = svg
-      .append('g')
-      .attr('class', 'add-agent-button')
-      .attr(
-        'transform',
-        `translate(${(layerIndex + 1) * layerWidth - 50}, ${height - 40})`
-      )
-      .style('cursor', 'pointer')
-      .on('click', () => addAgent(layerIndex));
-  
-    addAgentButton
-      .append('rect')
-      .attr('width', ADD_AGENT_BUTTON_WIDTH)
-      .attr('height', ADD_AGENT_BUTTON_HEIGHT)
-      .attr('rx', ADD_AGENT_BUTTON_RADIUS)
-      .attr('ry', ADD_AGENT_BUTTON_RADIUS)
-      .attr('fill', ADD_AGENT_BUTTON_FILL)
-      .attr('filter', BUTTON_GLOW_FILTER);
-  
-    addAgentButton
-      .append('text')
-      .attr('x', ADD_AGENT_BUTTON_WIDTH / 2)
-      .attr('y', ADD_AGENT_BUTTON_HEIGHT / 2 + 5)
-      .attr('text-anchor', 'middle')
-      .attr('fill', BUTTON_TEXT_FILL)
-      .attr('font-weight', BUTTON_TEXT_FONT_WEIGHT)
-      .text('Add Agent');
+    createButton(svg, {
+      className: 'add-agent-button',
+      x: (layerIndex + 1) * layerWidth - 50,
+      y: height - 40,
+      width: ADD_AGENT_BUTTON_WIDTH,
+      height: ADD_AGENT_BUTTON_HEIGHT,
+      rx: ADD_AGENT_BUTTON_RADIUS,
+      ry: ADD_AGENT_BUTTON_RADIUS,
+      fill: ADD_AGENT_BUTTON_FILL,
+      text: 'Add Agent',
+      onClick: () => addAgent(layerIndex)
+    });
   }
   
   function createRemoveLayerButton(svg, layerIndex, layerWidth, height) {
-    const removeLayerButton = svg
-      .append('g')
-      .attr('class', 'remove-layer-button')
-      .attr(
-        'transform',
-        `translate(${(layerIndex + 1) * layerWidth - 50}, ${height - 80})`
-      )
-      .style('cursor', 'pointer')
-      .on('click', () => removeLayer(layerIndex));
-  
-    removeLayerButton
-      .append('rect')
-      .attr('width', REMOVE_LAYER_BUTTON_WIDTH)
-      .attr('height', REMOVE_LAYER_BUTTON_HEIGHT)
-      .attr('rx', REMOVE_LAYER_BUTTON_RADIUS)
-      .attr('ry', REMOVE_LAYER_BUTTON_RADIUS)
-      .attr('fill', REMOVE_LAYER_BUTTON_FILL)
-      .attr('filter', BUTTON_GLOW_FILTER);
-  
-    removeLayerButton
-      .append('text')
-      .attr('x', REMOVE_LAYER_BUTTON_WIDTH / 2)
-      .attr('y', REMOVE_LAYER_BUTTON_HEIGHT / 2 + 5)
-      .attr('text-anchor', 'middle')
-      .attr('fill', BUTTON_TEXT_FILL)
-      .attr('font-weight', BUTTON_TEXT_FONT_WEIGHT)
-      .text('Remove Layer');
+    createButton(svg, {
+      className: 'remove-layer-button',
+      x: (layerIndex + 1) * layerWidth - 50,
+      y: height - 80,
+      width: REMOVE_LAYER_BUTTON_WIDTH,
+      height: REMOVE_LAYER_BUTTON_HEIGHT,
+      rx: REMOVE_LAYER_BUTTON_RADIUS,
+      ry: REMOVE_LAYER_BUTTON_RADIUS,
+      fill: REMOVE_LAYER_BUTTON_FILL,
+      text: 'Remove Layer',
+      onClick: () => removeLayer(layerIndex)
+    });
   }
   
   function createRemoveAgentButton(
@@ -151,16 +106,13 @@ import {
     layerHeight,
     height
   ) {
+    const x = (layerIndex + 1) * layerWidth - 25;
+    const y = (agentIndex + 1) * (layerHeight / (moaConfig.layers[layerIndex].length + 1)) + 40;
+    
     const removeAgentButton = svg
       .append('g')
       .attr('class', 'remove-agent-button')
-      .attr(
-        'transform',
-        `translate(${(layerIndex + 1) * layerWidth - 25}, ${
-          (agentIndex + 1) * (layerHeight / (moaConfig.layers[layerIndex].length + 1)) +
-          40
-        })`
-      )
+      .attr('transform', `translate(${x}, ${y})`)
       .style('cursor', 'pointer')
       .on('click', () => removeAgent(layerIndex, agentIndex));
   
@@ -180,23 +132,57 @@ import {
       .attr('font-size', BUTTON_TEXT_FONT_SIZE)
       .text('×');
   
-    // Add hover effect
-    removeAgentButton
+    addHoverEffect(removeAgentButton);
+  }
+  
+  function createButton(svg, options) {
+    const button = svg
+      .append('g')
+      .attr('class', options.className)
+      .attr('transform', `translate(${options.x}, ${options.y})`)
+      .style('cursor', 'pointer')
+      .on('click', options.onClick);
+  
+    button
+      .append('rect')
+      .attr('width', options.width)
+      .attr('height', options.height)
+      .attr('rx', options.rx)
+      .attr('ry', options.ry)
+      .attr('fill', options.fill)
+      .attr('filter', BUTTON_GLOW_FILTER);
+  
+    button
+      .append('text')
+      .attr('x', options.width / 2)
+      .attr('y', options.height / 2 + 5)
+      .attr('text-anchor', 'middle')
+      .attr('fill', BUTTON_TEXT_FILL)
+      .attr('font-weight', BUTTON_TEXT_FONT_WEIGHT)
+      .text(options.text);
+  
+    addHoverEffect(button);
+    return button;
+  }
+  
+  function addHoverEffect(button) {
+    button
       .on('mouseover', function () {
         d3.select(this)
-          .select('circle')
+          .select('circle, rect')
           .transition()
           .duration(BUTTON_HOVER_DURATION)
-          .attr('r', REMOVE_AGENT_BUTTON_RADIUS + 2)
+          .attr('transform', 'scale(1.1)')
           .attr('fill', REMOVE_AGENT_BUTTON_HOVER_FILL);
       })
       .on('mouseout', function () {
         d3.select(this)
-          .select('circle')
+          .select('circle, rect')
           .transition()
           .duration(BUTTON_HOVER_DURATION)
-          .attr('r', REMOVE_AGENT_BUTTON_RADIUS)
-          .attr('fill', REMOVE_AGENT_BUTTON_FILL);
+          .attr('transform', 'scale(1)')
+          .attr('fill', function() {
+            return this.tagName === 'circle' ? REMOVE_AGENT_BUTTON_FILL : this.getAttribute('fill');
+          });
       });
   }
-  

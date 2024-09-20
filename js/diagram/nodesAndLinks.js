@@ -2,6 +2,44 @@ import { moaConfig } from '../config/config.js';
 import { calculateConnectionStrength } from './helpers.js';
 import { nodeMap } from './nodeMap.js';
 
+/**
+ * Creates nodes and links for the MOA diagram based on the configuration.
+ * 
+ * This function:
+ * 1. Iterates through layers and agents in the MOA configuration
+ * 2. Creates node objects for each agent and the main model
+ * 3. Establishes links between nodes (inter-layer, self, forward, and to main model)
+ * 4. Calculates positions for nodes based on diagram dimensions
+ * 5. Stores node data in the global nodeMap
+ * 
+ * @param {Object} options - Configuration options for diagram dimensions
+ * @param {number} options.diagramWidth - Width of the diagram
+ * @param {number} options.diagramHeight - Height of the diagram
+ * @param {Object} options.margin - Margins for the diagram
+ * @param {number} options.layerWidth - Width between layers
+ * @param {number} options.layerHeight - Height of each layer
+ * @returns {Object} An object containing arrays of nodes and links
+ * 
+ * Usage example:
+ * const diagramConfig = {
+ *   diagramWidth: 800,
+ *   diagramHeight: 600,
+ *   margin: { top: 20, right: 20, bottom: 20, left: 20 },
+ *   layerWidth: 200,
+ *   layerHeight: 150
+ * };
+ * const { nodes, links } = createNodesAndLinks(diagramConfig);
+ * 
+ * Other files that use this function:
+ * - js/diagram/diagramRenderer.js
+ * - js/diagram/updateDiagram.js
+ * 
+ * Role in overall program logic:
+ * This function is crucial for generating the data structure that represents
+ * the Multi-Agent Organization (MOA) diagram. It translates the configuration
+ * into a format that can be visualized using D3.js, enabling the creation of
+ * an interactive force-directed graph representing the MOA structure.
+ */
 export function createNodesAndLinks({
   diagramWidth,
   diagramHeight,
@@ -25,6 +63,7 @@ export function createNodesAndLinks({
         layer: layerIndex,
         agent: agentIndex,
         ...agent,
+        type: 'agent',
       };
       nodes.push(nodeData);
       nodeMap.set(nodeId, nodeData);
@@ -38,6 +77,7 @@ export function createNodesAndLinks({
             source: prevNodeId,
             target: nodeId,
             weight: connectionStrength,
+            type: 'inter-layer',
           });
         });
       }
@@ -72,6 +112,7 @@ export function createNodesAndLinks({
     y: margin.top + diagramHeight / 2,
     model_name: moaConfig.main_model,
     temperature: moaConfig.main_temperature,
+    type: 'main_model',
   };
   nodes.push(mainModelNode);
   nodeMap.set('main_model', mainModelNode);
@@ -83,6 +124,7 @@ export function createNodesAndLinks({
       source: `layer${lastLayerIndex}_agent${agentIndex}`,
       target: 'main_model',
       weight: 1,
+      type: 'to-main-model',
     });
   });
 

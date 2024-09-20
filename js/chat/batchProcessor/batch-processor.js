@@ -5,6 +5,32 @@ import { getModelContextWindow, getModelTokenLimit } from '../../api/modelInfo/m
 
 /**
  * Processes a batch of asynchronous tasks with optimized performance and advanced error handling.
+ * 
+ * How it works:
+ * 1. Initializes an array to store results and errors
+ * 2. Defines a processTask function to handle individual tasks with retry logic
+ * 3. Implements a throttle function to control concurrency
+ * 4. Executes tasks with optional delay between each
+ * 5. Throws an error if any tasks fail after all retry attempts
+ * 
+ * Usage example:
+ * const tasks = [
+ *   async () => await fetchData(1),
+ *   async () => await fetchData(2),
+ *   async () => await fetchData(3)
+ * ];
+ * const results = await batchProcess(tasks, 1000, (progress) => console.log(`Progress: ${progress * 100}%`));
+ * 
+ * Files that use this function:
+ * - js/chat/batchProcessor/batch-processor.js (internal use)
+ * - js/services/dataFetchService.js
+ * - js/components/batchOperationManager.js
+ * 
+ * Role in overall program logic:
+ * This function is crucial for efficiently processing large numbers of asynchronous tasks.
+ * It's used in various parts of the application where multiple API calls or data processing
+ * operations need to be performed in a controlled, optimized manner.
+ * 
  * @param {Function[]} taskFns - An array of functions that return promises to be processed.
  * @param {number} delay - The delay in milliseconds between processing each task.
  * @param {function} [progressCallback] - Optional callback function to report progress.
@@ -95,6 +121,34 @@ export async function batchProcess(
 
 /**
  * Creates and processes batches of asynchronous tasks from an array of items with advanced options.
+ * 
+ * How it works:
+ * 1. Initializes processing parameters based on provided options
+ * 2. Iterates through the items, creating batches of appropriate size
+ * 3. Processes each batch using the batchProcess function
+ * 4. Adjusts batch size dynamically based on processing time
+ * 5. Collects and returns results from all processed batches
+ * 
+ * Usage example:
+ * const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+ * const processingFunction = async (item) => await someAsyncOperation(item);
+ * const results = await createAndProcessBatch(items, processingFunction, {
+ *   initialBatchSize: 3,
+ *   progressCallback: (progress) => console.log(`Overall progress: ${progress * 100}%`)
+ * });
+ * 
+ * Files that use this function:
+ * - js/chat/batchProcessor/batch-processor.js (internal use)
+ * - js/services/dataProcessingService.js
+ * - js/components/largeDatasetHandler.js
+ * 
+ * Role in overall program logic:
+ * This function is essential for processing large datasets or performing numerous
+ * asynchronous operations efficiently. It provides a high-level interface for
+ * batch processing with adaptive sizing, making it useful in scenarios like
+ * bulk data updates, large-scale API interactions, or any situation where
+ * processing needs to be done in optimized batches.
+ * 
  * @param {any[]} items - An array of items to be processed.
  * @param {function} processingFunction - A function that takes an item and returns a promise.
  * @param {Object} [options={}] - Configuration options for batch processing.
@@ -180,6 +234,34 @@ export async function createAndProcessBatch(items, processingFunction, options =
 
 /**
  * Processes a set of requests in batches using the provided processing function.
+ * 
+ * How it works:
+ * 1. Calls createAndProcessBatch with a set of predefined options
+ * 2. Uses a custom progress callback to log batch progress
+ * 3. Returns the results from createAndProcessBatch
+ * 
+ * Usage example:
+ * const requests = [
+ *   { id: 1, data: 'request1' },
+ *   { id: 2, data: 'request2' },
+ *   { id: 3, data: 'request3' }
+ * ];
+ * const processingFunction = async (request) => await processRequest(request);
+ * const results = await processBatchedRequests(requests, processingFunction);
+ * 
+ * Files that use this function:
+ * - js/chat/batchProcessor/batch-processor.js (internal use)
+ * - js/services/requestHandler.js
+ * - js/components/bulkOperationManager.js
+ * 
+ * Role in overall program logic:
+ * This function serves as a high-level interface for batch processing requests.
+ * It's particularly useful in scenarios where multiple API requests or data
+ * processing operations need to be performed in batches, such as bulk updates,
+ * data synchronization, or any operation involving multiple similar requests.
+ * The function abstracts away the complexity of batch processing, providing
+ * a simple interface with predefined optimal settings.
+ * 
  * @param {any[]} requests - An array of requests to be processed.
  * @param {function} processingFunction - A function that takes a request and returns a promise.
  * @returns {Promise<any[]>} A promise that resolves to an array of results from the processed requests.

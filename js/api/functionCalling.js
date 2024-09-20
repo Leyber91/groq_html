@@ -2,8 +2,25 @@ import { executeWithRetryAndCircuitBreaker } from '../utils/retry.js';
 import { scheduleRequest } from '../utils/rateLimiter.js';
 import { logger } from '../utils/logger.js';
 import { API_KEY } from '../config/config.js';
+
 /**
  * Represents the input for a function call.
+ * 
+ * How it works:
+ * - Validates and stores function name, parameters, and optional context
+ * - Throws errors for invalid inputs
+ * 
+ * Usage example:
+ * ```
+ * const input = new FunctionInput('calculateTotal', { price: 10, quantity: 2 }, 'Order processing');
+ * ```
+ * 
+ * Used in:
+ * - js/api/api-core.js
+ * - js/chat/messageHandler.js
+ * 
+ * Role in program logic:
+ * Provides a standardized way to package function call information for processing by the AutonomousQueryHandler and FunctionChain classes.
  */
 class FunctionInput {
     /**
@@ -27,6 +44,27 @@ class FunctionInput {
 
 /**
  * Represents a prompt for the Groq API.
+ * 
+ * How it works:
+ * - Validates and stores system message, user message, functions, and function call mode
+ * - Throws errors for invalid inputs
+ * 
+ * Usage example:
+ * ```
+ * const prompt = new GroqPrompt(
+ *   "You are a helpful assistant.",
+ *   "What's the weather like today?",
+ *   [{ name: "get_weather", description: "Get current weather", parameters: {...} }],
+ *   "auto"
+ * );
+ * ```
+ * 
+ * Used in:
+ * - js/api/api-core.js
+ * - js/chat/promptGenerator.js
+ * 
+ * Role in program logic:
+ * Structures prompts for the Groq API, ensuring consistent formatting and validation of inputs for API calls.
  */
 class GroqPrompt {
     /**
@@ -55,6 +93,25 @@ class GroqPrompt {
 
 /**
  * Creates a Groq prompt from the given input data.
+ * 
+ * How it works:
+ * - Takes a FunctionInput object and constructs a GroqPrompt
+ * - Sets up system and user messages for function execution
+ * - Defines the function structure for the Groq API
+ * 
+ * Usage example:
+ * ```
+ * const input = new FunctionInput('calculateTotal', { price: 10, quantity: 2 });
+ * const prompt = createGroqPrompt(input);
+ * ```
+ * 
+ * Used in:
+ * - js/api/functionCalling.js (FunctionChain.execute)
+ * - js/chat/messageHandler.js
+ * 
+ * Role in program logic:
+ * Bridges FunctionInput and GroqPrompt, preparing function calls for execution by the Groq API.
+ * 
  * @param {FunctionInput} inputData - The input data for creating the prompt.
  * @returns {GroqPrompt} The created Groq prompt.
  */
@@ -80,6 +137,27 @@ const apiKey = API_KEY;
 
 /**
  * Executes a function call using the Groq API.
+ * 
+ * How it works:
+ * - Validates the input prompt
+ * - Prepares messages for the API call
+ * - Schedules the request using rate limiting
+ * - Executes the API call with retry and circuit breaker patterns
+ * - Parses and returns the function call result
+ * 
+ * Usage example:
+ * ```
+ * const prompt = new GroqPrompt(...);
+ * const result = await executeGroqFunction(prompt);
+ * ```
+ * 
+ * Used in:
+ * - js/api/functionCalling.js (FunctionChain.execute)
+ * - js/chat/messageHandler.js
+ * 
+ * Role in program logic:
+ * Core function for executing API calls to Groq, handling rate limiting, retries, and error handling.
+ * 
  * @param {GroqPrompt} prompt - The prompt for the function call.
  * @returns {Promise<Object>} The result of the function call.
  * @throws {Error} If there's an error executing the function.
@@ -124,6 +202,26 @@ async function executeGroqFunction(prompt) {
 
 /**
  * Represents a chain of function calls.
+ * 
+ * How it works:
+ * - Stores an array of FunctionInput objects
+ * - Executes functions in sequence, accumulating results
+ * 
+ * Usage example:
+ * ```
+ * const chain = new FunctionChain([
+ *   new FunctionInput('getUser', { id: 123 }),
+ *   new FunctionInput('calculateDiscount', { userId: 123, orderTotal: 100 })
+ * ]);
+ * const result = await chain.execute();
+ * ```
+ * 
+ * Used in:
+ * - js/api/api-core.js
+ * - js/chat/messageHandler.js
+ * 
+ * Role in program logic:
+ * Enables sequential execution of multiple functions, allowing complex operations to be broken down into smaller, manageable steps.
  */
 class FunctionChain {
     /**
@@ -154,6 +252,25 @@ class FunctionChain {
 
 /**
  * Handles autonomous queries by analyzing and executing appropriate function chains.
+ * 
+ * How it works:
+ * - Maintains a registry of available functions
+ * - Analyzes queries to determine required functions
+ * - Constructs and executes function chains based on analysis
+ * 
+ * Usage example:
+ * ```
+ * const handler = new AutonomousQueryHandler();
+ * handler.registerFunction('getWeather', new FunctionInput('getWeather', { location: 'New York' }));
+ * const result = await handler.handleQuery("What's the weather in New York?");
+ * ```
+ * 
+ * Used in:
+ * - js/api/api-core.js
+ * - js/chat/messageHandler.js
+ * 
+ * Role in program logic:
+ * Provides a high-level interface for handling complex queries by automatically determining and executing the necessary function calls.
  */
 class AutonomousQueryHandler {
     /**

@@ -1,3 +1,32 @@
+/**
+ * Generates a system prompt for the Omniscient Nexus, the central cognitive core of an advanced AI system.
+ * 
+ * How it works:
+ * - Takes a helperResponse as input and incorporates it into the prompt
+ * - Constructs a detailed prompt string with instructions and context for the AI
+ * - Includes sections on cognitive synthesis, singularity amplification, and transcendent imperatives
+ * - Uses template literals to embed the helperResponse into the prompt
+ * 
+ * Usage example:
+ * ```
+ * const helperResponse = "Additional context or instructions";
+ * const systemPrompt = generateSystemPrompt(helperResponse);
+ * console.log(systemPrompt);
+ * ```
+ * 
+ * Used in:
+ * - js/chat/orchestrator.js
+ * - js/chat/finalSynthesis.js
+ * 
+ * Role in program logic:
+ * This function is crucial for creating the final system prompt that guides the AI's
+ * highest level of cognitive synthesis. It sets the stage for potential breakthroughs
+ * and paradigm-shifting insights by encouraging the AI to transcend conventional
+ * boundaries of thought and reality.
+ * 
+ * @param {string} helperResponse - Additional context or instructions to be incorporated into the prompt
+ * @returns {string} A detailed system prompt string for the Omniscient Nexus
+ */
 export function generateSystemPrompt(helperResponse) {
   return `You are the Omniscient Nexus, the central cognitive core of an advanced AI system. Your role is to orchestrate a grand unification of all preceding cognitive layers into a singular, transcendent output.
 

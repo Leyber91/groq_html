@@ -93,6 +93,29 @@
     
     /**
      * Retrieves information for a specific model.
+     * 
+     * How it works:
+     * 1. Takes a model name as input
+     * 2. Looks up the model information in the MODEL_INFO object
+     * 3. Returns the model information if found, or null if not found
+     * 
+     * Usage example:
+     * const modelInfo = getModelInfo('gemma-7b-it');
+     * if (modelInfo) {
+     *     console.log(`Model description: ${modelInfo.description}`);
+     * } else {
+     *     console.log('Model not found');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelSelector.js
+     * - src/utils/modelUtils.js
+     * 
+     * Role in program logic:
+     * This function is crucial for retrieving detailed information about specific models,
+     * which is used throughout the application for model selection, comparison, and display purposes.
+     * It serves as a central point for accessing model metadata.
+     * 
      * @param {string} modelName - The model name.
      * @returns {Object|null} The model information or null if not found.
      */
@@ -102,6 +125,28 @@
     
     /**
      * Checks if a model is available.
+     * 
+     * How it works:
+     * 1. Takes a model name as input
+     * 2. Checks if the model name exists in the AVAILABLE_MODELS array
+     * 3. Returns true if the model is available, false otherwise
+     * 
+     * Usage example:
+     * if (isModelAvailable('gemma-7b-it')) {
+     *     console.log('Model is available for use');
+     * } else {
+     *     console.log('Model is not available');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelSelector.js
+     * - src/utils/modelValidation.js
+     * 
+     * Role in program logic:
+     * This function is used to validate model selections and ensure that only available models
+     * are used in the application. It's essential for preventing errors related to attempting
+     * to use unavailable or deprecated models.
+     * 
      * @param {string} modelName - The model name.
      * @returns {boolean} True if available.
      */
@@ -111,6 +156,29 @@
     
     /**
      * Retrieves the rate limits for a specific model.
+     * 
+     * How it works:
+     * 1. Takes a model name as input
+     * 2. Looks up the rate limits in the RATE_LIMITS object
+     * 3. Returns the rate limits if found, or null if not found
+     * 
+     * Usage example:
+     * const rateLimits = getModelRateLimits('gemma-7b-it');
+     * if (rateLimits) {
+     *     console.log(`RPM: ${rateLimits.rpm}, TPM: ${rateLimits.tpm}`);
+     * } else {
+     *     console.log('Rate limits not found for this model');
+     * }
+     * 
+     * Files that use this function:
+     * - src/services/modelService.js
+     * - src/utils/rateLimitManager.js
+     * 
+     * Role in program logic:
+     * This function is critical for managing API usage and ensuring compliance with rate limits.
+     * It's used in request throttling, usage tracking, and optimizing API calls to prevent
+     * exceeding allowed limits.
+     * 
      * @param {string} modelName - The model name.
      * @returns {Object|null} The rate limits or null if not found.
      */
@@ -120,6 +188,30 @@
     
     /**
      * Compares two models based on a specific attribute.
+     * 
+     * How it works:
+     * 1. Takes two model names and an attribute to compare
+     * 2. Retrieves the model information for both models
+     * 3. Checks if the attribute exists for both models
+     * 4. Returns an object with the attribute values for both models, or null if invalid
+     * 
+     * Usage example:
+     * const comparison = compareModels('gemma-7b-it', 'llama3-8b-8192', 'contextWindow');
+     * if (comparison) {
+     *     console.log(`Gemma: ${comparison['gemma-7b-it']}, Llama: ${comparison['llama3-8b-8192']}`);
+     * } else {
+     *     console.log('Unable to compare models on this attribute');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelComparison.js
+     * - src/utils/modelAnalysis.js
+     * 
+     * Role in program logic:
+     * This function enables direct comparison between models, which is useful for
+     * model selection interfaces, performance analysis, and generating insights about
+     * different models' capabilities.
+     * 
      * @param {string} modelName1 - First model name.
      * @param {string} modelName2 - Second model name.
      * @param {string} attribute - The attribute to compare.
@@ -141,6 +233,26 @@
     
     /**
      * Retrieves models best suited for a specific task.
+     * 
+     * How it works:
+     * 1. Takes a task as input
+     * 2. Iterates through all models in MODEL_INFO
+     * 3. Filters models whose 'bestFor' array includes the given task
+     * 4. Returns an array of model names that are suitable for the task
+     * 
+     * Usage example:
+     * const suitableModels = getModelsByTask('Complex reasoning');
+     * console.log('Models suitable for complex reasoning:', suitableModels);
+     * 
+     * Files that use this function:
+     * - src/components/TaskBasedModelSelector.js
+     * - src/utils/modelRecommendation.js
+     * 
+     * Role in program logic:
+     * This function is key for task-based model recommendations. It allows the application
+     * to suggest appropriate models based on the user's intended task, improving user experience
+     * and ensuring efficient model utilization.
+     * 
      * @param {string} task - The task to filter models by.
      * @returns {Array<string>} Array of model names.
      */
@@ -152,6 +264,29 @@
     
     /**
      * Retrieves the context window size for a specific model.
+     * 
+     * How it works:
+     * 1. Takes a model name as input
+     * 2. Retrieves the model information from MODEL_INFO
+     * 3. Returns the context window size if found, or null if not found
+     * 
+     * Usage example:
+     * const contextWindow = getModelContextWindow('mixtral-8x7b-32768');
+     * if (contextWindow) {
+     *     console.log(`Context window size: ${contextWindow}`);
+     * } else {
+     *     console.log('Context window information not available');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelDetails.js
+     * - src/utils/contextWindowManager.js
+     * 
+     * Role in program logic:
+     * This function is essential for managing input lengths and optimizing prompt design.
+     * It helps ensure that inputs don't exceed model capabilities and aids in selecting
+     * appropriate models for tasks requiring specific context lengths.
+     * 
      * @param {string} modelName - The model name.
      * @returns {number|null} Context window size or null if not found.
      */
@@ -162,6 +297,26 @@
     
     /**
      * Retrieves all available tasks across all models.
+     * 
+     * How it works:
+     * 1. Creates a new Set to store unique tasks
+     * 2. Iterates through all models in MODEL_INFO
+     * 3. Adds each task from each model's 'bestFor' array to the Set
+     * 4. Converts the Set to an Array and returns it
+     * 
+     * Usage example:
+     * const allTasks = getAllAvailableTasks();
+     * console.log('All available tasks:', allTasks);
+     * 
+     * Files that use this function:
+     * - src/components/TaskSelector.js
+     * - src/utils/taskAnalysis.js
+     * 
+     * Role in program logic:
+     * This function is crucial for generating comprehensive task lists in the UI.
+     * It enables the application to present users with all possible tasks that can be
+     * performed across all available models, facilitating task-based model selection.
+     * 
      * @returns {Array<string>} Array of tasks.
      */
     export function getAllAvailableTasks() {
@@ -174,6 +329,25 @@
     
     /**
      * Retrieves models sorted by a specific attribute.
+     * 
+     * How it works:
+     * 1. Takes an attribute and sort order as input
+     * 2. Sorts the models based on the specified attribute
+     * 3. Returns an array of model names in the sorted order
+     * 
+     * Usage example:
+     * const sortedModels = getModelsSortedBy('contextWindow', false);
+     * console.log('Models sorted by context window (descending):', sortedModels);
+     * 
+     * Files that use this function:
+     * - src/components/ModelRanking.js
+     * - src/utils/modelSorting.js
+     * 
+     * Role in program logic:
+     * This function is vital for creating sorted lists of models based on various attributes.
+     * It's used in UI components that display model rankings and in algorithms that need to
+     * process models in a specific order based on their capabilities.
+     * 
      * @param {string} attribute - The attribute to sort by.
      * @param {boolean} ascending - Sort order.
      * @returns {Array<string>} Sorted array of model names.
@@ -192,6 +366,29 @@
     
     /**
      * Checks if a model is suitable for a given task.
+     * 
+     * How it works:
+     * 1. Takes a model name and a task as input
+     * 2. Retrieves the model information from MODEL_INFO
+     * 3. Checks if the task is included in the model's 'bestFor' array
+     * 4. Returns true if suitable, false otherwise
+     * 
+     * Usage example:
+     * if (isModelSuitableForTask('llama3-70b-8192', 'Complex reasoning')) {
+     *     console.log('This model is suitable for complex reasoning');
+     * } else {
+     *     console.log('This model may not be ideal for complex reasoning');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelRecommendation.js
+     * - src/utils/taskModelMatcher.js
+     * 
+     * Role in program logic:
+     * This function is key for task-based model recommendations and validations.
+     * It helps ensure that users are guided towards using appropriate models for their
+     * specific tasks, improving overall system efficiency and user satisfaction.
+     * 
      * @param {string} modelName - The model name.
      * @param {string} task - The task.
      * @returns {boolean} True if suitable.
@@ -203,6 +400,25 @@
     
     /**
      * Retrieves the total tokens per minute across all models.
+     * 
+     * How it works:
+     * 1. Iterates through all models in RATE_LIMITS
+     * 2. Sums up the 'tpm' (tokens per minute) value for each model
+     * 3. Returns the total sum
+     * 
+     * Usage example:
+     * const totalTPM = getTotalTPM();
+     * console.log(`Total system capacity: ${totalTPM} tokens per minute`);
+     * 
+     * Files that use this function:
+     * - src/components/SystemCapacity.js
+     * - src/utils/capacityPlanner.js
+     * 
+     * Role in program logic:
+     * This function is crucial for system capacity planning and monitoring.
+     * It provides an overview of the total processing capacity across all models,
+     * which is useful for load balancing, resource allocation, and system scaling decisions.
+     * 
      * @returns {number} Total TPM.
      */
     export function getTotalTPM() {
@@ -211,6 +427,30 @@
     
     /**
      * Selects an alternative model based on criteria.
+     * 
+     * How it works:
+     * 1. Takes current model, optional task, and optional required context window as input
+     * 2. Filters alternative models based on the given criteria
+     * 3. Sorts alternatives by context window and TPM
+     * 4. Returns the best alternative model or null if none found
+     * 
+     * Usage example:
+     * const alternative = selectAlternativeModel('gemma-7b-it', 'Complex reasoning', 16384);
+     * if (alternative) {
+     *     console.log(`Recommended alternative model: ${alternative}`);
+     * } else {
+     *     console.log('No suitable alternative found');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/ModelSuggestion.js
+     * - src/utils/modelFallback.js
+     * 
+     * Role in program logic:
+     * This function is essential for providing intelligent model recommendations and fallback options.
+     * It helps users find suitable alternatives when their primary model choice is unavailable or
+     * unsuitable for their specific requirements.
+     * 
      * @param {string} currentModel - Current model name.
      * @param {string} [task=null] - Optional task filter.
      * @param {number} [requiredContextWindow=null] - Optional context window requirement.
@@ -244,6 +484,27 @@
     
     /**
      * Estimates token usage for a given text and model.
+     * 
+     * How it works:
+     * 1. Takes input text and model name
+     * 2. Estimates token count based on text length and average tokens per character
+     * 3. Retrieves the token limit for the specified model
+     * 4. Returns the estimated token count, capped at the model's token limit
+     * 
+     * Usage example:
+     * const text = "This is a sample input text.";
+     * const estimatedTokens = estimateTokenUsage(text, 'llama3-8b-8192');
+     * console.log(`Estimated token usage: ${estimatedTokens}`);
+     * 
+     * Files that use this function:
+     * - src/components/TokenEstimator.js
+     * - src/utils/inputProcessor.js
+     * 
+     * Role in program logic:
+     * This function is crucial for predicting token usage before sending requests to the model.
+     * It helps in optimizing input lengths, preventing token limit errors, and managing
+     * API usage efficiently.
+     * 
      * @param {string} text - The input text.
      * @param {string} modelName - The model name.
      * @returns {number} Estimated token count.
@@ -262,6 +523,25 @@
     
     /**
      * Retrieves models capable of handling a specific context length.
+     * 
+     * How it works:
+     * 1. Takes a required context length as input
+     * 2. Filters models based on their context window size
+     * 3. Returns an array of model names that meet or exceed the required context length
+     * 
+     * Usage example:
+     * const suitableModels = getModelsForContextLength(16384);
+     * console.log('Models suitable for this context length:', suitableModels);
+     * 
+     * Files that use this function:
+     * - src/components/ContextLengthSelector.js
+     * - src/utils/modelFilter.js
+     * 
+     * Role in program logic:
+     * This function is essential for selecting appropriate models based on input length requirements.
+     * It helps ensure that users choose models capable of handling their specific context needs,
+     * preventing errors related to exceeding context limits.
+     * 
      * @param {number} contextLength - Required context window size.
      * @returns {Array<string>} Array of suitable model names.
      */
@@ -273,6 +553,30 @@
     
     /**
      * Retrieves the most efficient model for a given task and context length.
+     * 
+     * How it works:
+     * 1. Takes a task and required context length as input
+     * 2. Filters models based on context length and task suitability
+     * 3. Calculates efficiency as the ratio of context window to TPM
+     * 4. Returns the model with the highest efficiency
+     * 
+     * Usage example:
+     * const efficientModel = getMostEfficientModel('Complex reasoning', 16384);
+     * if (efficientModel) {
+     *     console.log(`Most efficient model: ${efficientModel}`);
+     * } else {
+     *     console.log('No suitable model found');
+     * }
+     * 
+     * Files that use this function:
+     * - src/components/EfficientModelSelector.js
+     * - src/utils/modelOptimizer.js
+     * 
+     * Role in program logic:
+     * This function is crucial for optimizing model selection based on both task requirements
+     * and efficiency. It helps users choose the most cost-effective model for their specific needs,
+     * balancing performance with resource usage.
+     * 
      * @param {string} task - The task to perform.
      * @param {number} contextLength - The required context window size.
      * @returns {string|null} The most efficient model name or null.
@@ -293,6 +597,27 @@
     
     /**
      * Retrieves a detailed comparison between two models.
+     * 
+     * How it works:
+     * 1. Takes two model names as input
+     * 2. Retrieves detailed information for both models
+     * 3. Compares various attributes like context window, token limit, TPM, RPM
+     * 4. Identifies shared and unique strengths and weaknesses
+     * 5. Returns a comprehensive comparison object
+     * 
+     * Usage example:
+     * const comparison = getDetailedModelComparison('gemma-7b-it', 'llama3-70b-8192');
+     * console.log('Detailed comparison:', JSON.stringify(comparison, null, 2));
+     * 
+     * Files that use this function:
+     * - src/components/ModelComparisonTable.js
+     * - src/utils/modelAnalytics.js
+     * 
+     * Role in program logic:
+     * This function is essential for providing in-depth comparisons between models.
+     * It's used in UI components that display detailed model comparisons and in
+     * analytics tools that help users make informed decisions about model selection.
+     * 
      * @param {string} modelName1 - First model name.
      * @param {string} modelName2 - Second model name.
      * @returns {Object} Comparison details.

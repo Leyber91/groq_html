@@ -2,6 +2,27 @@
 import { moaConfig, updateMOAConfig } from '../config/config.js';
 import { updateDiagram } from '../diagram/diagram.js';
 
+/**
+ * Sets up the controls for the adaptive threshold feature of the MOA.
+ * 
+ * This function:
+ * 1. Retrieves DOM elements for adaptive threshold controls
+ * 2. Checks for missing elements and logs warnings if any are not found
+ * 3. Initializes control values based on the current MOA configuration
+ * 4. Sets up event listeners to update the MOA configuration when controls are changed
+ * 
+ * Usage example:
+ * setupAdaptiveThresholdControls();
+ * 
+ * Other files that use this function:
+ * - js/main/main.js (likely called during application initialization)
+ * 
+ * Role in overall program logic:
+ * This function is crucial for allowing users to fine-tune the adaptive threshold
+ * parameters of the MOA. It provides a way to adjust processing time, output quality,
+ * retry settings, and dynamic adjustment, which directly impact how the MOA adapts
+ * to different inputs and processing conditions.
+ */
 export function setupAdaptiveThresholdControls() {
     const controls = document.getElementById('moa-controls');
     if (!controls) {

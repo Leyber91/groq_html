@@ -79,7 +79,7 @@ main {
 }
 
 #moa-controls-container {
-    width: 250px;
+    width: 15%;
     background-color: var(--background-dark);
     border-left: 1px solid var(--primary-color);
     padding: var(--spacing-medium);
@@ -87,12 +87,13 @@ main {
 }
 
 #chat-interface {
-    height: 100px;
+    height: auto;
     background-color: var(--background-dark);
     border-top: 1px solid var(--primary-color);
     padding: var(--spacing-medium);
     display: flex;
     flex-direction: column;
+    height: auto;
 }
 
 #chat-messages {
@@ -395,7 +396,7 @@ main {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 250px;
+    width: 15%;
     background: linear-gradient(145deg, #222222 0%, #2a2a2a 50%, #333333 100%);
     border-left: 3px solid var(--primary-color);
     overflow-y: auto;
@@ -441,7 +442,7 @@ main {
 }
 
 #moa-controls-container {
-    width: 10%;
+    width: 8%;
     padding: 10px;
     background-color: var(--background-dark);
     border-left: 1px solid var(--primary-color);

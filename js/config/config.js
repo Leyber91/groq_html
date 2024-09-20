@@ -1,4 +1,5 @@
 // config.js
+
 // Import configurations from other files
 import {
     RATE_LIMITS,
@@ -59,7 +60,45 @@ import {
     }
   };
   
-  // Update the MOA configuration function
+  /**
+   * Updates the MOA configuration with new settings.
+   * 
+   * How it works:
+   * 1. Validates the new configuration
+   * 2. Deep merges the new config with the existing one
+   * 3. Updates rate limits if the main model has changed
+   * 4. Recalculates adaptive thresholds if needed
+   * 5. Updates visualization settings if needed
+   * 6. Updates MOA controls in the UI
+   * 7. Updates the MOA diagram
+   * 8. Dispatches a custom event to notify other parts of the application
+   * 
+   * Usage example:
+   * ```javascript
+   * updateMOAConfig({
+   *   main_model: 'llama3-70b-8192',
+   *   adaptive_threshold: {
+   *     processing_time: 5000,
+   *     output_quality: 0.8
+   *   }
+   * });
+   * ```
+   * 
+   * Files that use this function:
+   * - js/main/app-initializer.js
+   * - js/ui/config-panel.js
+   * - js/services/moa-service.js
+   * 
+   * Role in overall program logic:
+   * This function is crucial for dynamically updating the MOA system's configuration.
+   * It ensures that all parts of the application are synchronized with the latest settings,
+   * including the UI, visualization, and core MOA logic.
+   * 
+   * [Documentation](./docs/config.md#updateMOAConfig)
+   * 
+   * @param {Object} newConfig - The new configuration object to be merged with the existing one.
+   * @throws {Error} If the new configuration is invalid.
+   */
   export function updateMOAConfig(newConfig = {}) {
     if (!isValidConfig(newConfig)) {
       throw new Error('Invalid MOA configuration');
@@ -97,6 +136,35 @@ import {
   }
   
   // Helper functions
+  /**
+   * Performs a deep merge of two objects.
+   * 
+   * How it works:
+   * 1. Checks if both target and source are objects
+   * 2. If they are, it recursively merges their properties
+   * 3. If not, it returns the source value
+   * 
+   * Usage example:
+   * ```javascript
+   * const target = { a: { b: 1 }, c: 2 };
+   * const source = { a: { d: 3 }, e: 4 };
+   * const result = deepMerge(target, source);
+   * // result: { a: { b: 1, d: 3 }, c: 2, e: 4 }
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in updateMOAConfig)
+   * 
+   * Role in overall program logic:
+   * This function is essential for updating the MOA configuration while preserving
+   * existing settings that are not explicitly overwritten.
+   * 
+   * [Documentation](./docs/config.md#deepMerge)
+   * 
+   * @param {Object} target - The target object to merge into.
+   * @param {Object} source - The source object to merge from.
+   * @returns {Object} The merged object.
+   */
   function deepMerge(target, source) {
     if (isObject(target) && isObject(source)) {
       const output = { ...target };
@@ -114,10 +182,69 @@ import {
     return source;
   }
   
+  /**
+   * Checks if the given item is an object (excluding arrays).
+   * 
+   * How it works:
+   * 1. Checks if the item is truthy
+   * 2. Checks if the item is of type 'object'
+   * 3. Ensures the item is not an array
+   * 
+   * Usage example:
+   * ```javascript
+   * console.log(isObject({})); // true
+   * console.log(isObject([])); // false
+   * console.log(isObject(null)); // false
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in deepMerge)
+   * 
+   * Role in overall program logic:
+   * This function supports the deep merge operation by distinguishing
+   * between plain objects and other types of values.
+   * 
+   * [Documentation](./docs/config.md#isObject)
+   * 
+   * @param {*} item - The item to check.
+   * @returns {boolean} True if the item is an object (not an array), false otherwise.
+   */
   function isObject(item) {
     return item && typeof item === 'object' && !Array.isArray(item);
   }
   
+  /**
+   * Validates the MOA configuration object.
+   * 
+   * How it works:
+   * 1. Checks the validity of the main_model
+   * 2. Validates the structure and content of layers
+   * 3. Verifies self_evolving settings
+   * 4. Checks function_calling settings
+   * 
+   * Usage example:
+   * ```javascript
+   * const newConfig = {
+   *   main_model: 'llama3-70b-8192',
+   *   layers: [[{ model_name: 'gemma-7b-it', temperature: 0.7 }]],
+   *   self_evolving: { learning_rate: 0.01, feedback_threshold: 0.7, improvement_interval: 86400000 },
+   *   function_calling: { enabled: true, model: 'llama3-groq-70b-8192-tool-use-preview' }
+   * };
+   * console.log(isValidConfig(newConfig)); // true
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in updateMOAConfig)
+   * 
+   * Role in overall program logic:
+   * This function ensures that only valid configurations are applied to the MOA system,
+   * preventing potential errors and maintaining system integrity.
+   * 
+   * [Documentation](./docs/config.md#isValidConfig)
+   * 
+   * @param {Object} config - The configuration object to validate.
+   * @returns {boolean} True if the configuration is valid, false otherwise.
+   */
   function isValidConfig(config) {
     // Validate main_model
     if (config.main_model && !availableModels.includes(config.main_model)) {
@@ -182,6 +309,30 @@ import {
     return true;
   }
   
+  /**
+   * Recalculates adaptive thresholds based on the current MOA configuration.
+   * 
+   * How it works:
+   * 1. Retrieves current adaptive threshold values
+   * 2. Adjusts processing time based on the number of layers
+   * 3. Increases output quality slightly, capping at 1.0
+   * 4. Updates the moaConfig with new threshold values
+   * 
+   * Usage example:
+   * ```javascript
+   * // After updating layers or other relevant settings
+   * recalculateAdaptiveThresholds();
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in updateMOAConfig)
+   * 
+   * Role in overall program logic:
+   * This function ensures that the adaptive thresholds remain appropriate
+   * as the MOA configuration changes, maintaining optimal performance.
+   * 
+   * [Documentation](./docs/config.md#recalculateAdaptiveThresholds)
+   */
   function recalculateAdaptiveThresholds() {
     // Implement logic to recalculate adaptive thresholds
     const { processing_time, output_quality } = moaConfig.adaptive_threshold;
@@ -199,6 +350,29 @@ import {
     console.log('Recalculated adaptive thresholds:', moaConfig.adaptive_threshold);
   }
   
+  /**
+   * Updates visualization settings based on the current MOA configuration.
+   * 
+   * How it works:
+   * 1. Retrieves current visualization settings
+   * 2. Adjusts update interval based on the number of layers
+   * 3. Updates the moaConfig with new visualization settings
+   * 
+   * Usage example:
+   * ```javascript
+   * // After updating layers or other relevant settings
+   * updateVisualizationSettings();
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in updateMOAConfig)
+   * 
+   * Role in overall program logic:
+   * This function ensures that the visualization settings are optimized
+   * for the current MOA configuration, improving performance and user experience.
+   * 
+   * [Documentation](./docs/config.md#updateVisualizationSettings)
+   */
   function updateVisualizationSettings() {
     // Implement logic to update visualization settings
     const { update_interval } = moaConfig.visualization || {};
@@ -214,6 +388,34 @@ import {
     console.log('Updated visualization settings:', moaConfig.visualization);
   }
   
+  /**
+   * Updates the MOA controls in the user interface based on the current configuration.
+   * 
+   * How it works:
+   * 1. Updates main model selection
+   * 2. Updates main temperature control
+   * 3. Updates adaptive threshold controls
+   * 4. Updates self-evolving controls
+   * 5. Updates function calling controls
+   * 6. Updates controls for layers and agents (not fully implemented in this snippet)
+   * 
+   * Usage example:
+   * ```javascript
+   * // After updating the MOA configuration
+   * updateMOAControls();
+   * ```
+   * 
+   * Files that use this function:
+   * - js/config/config.js (internal use in updateMOAConfig)
+   * - js/ui/config-panel.js (potentially, for manual UI updates)
+   * 
+   * Role in overall program logic:
+   * This function ensures that the user interface accurately reflects
+   * the current MOA configuration, maintaining consistency between
+   * the internal state and what the user sees.
+   * 
+   * [Documentation](./docs/config.md#updateMOAControls)
+   */
   function updateMOAControls() {
     // Update main model select
     const mainModelSelect = document.getElementById('main-model-select');

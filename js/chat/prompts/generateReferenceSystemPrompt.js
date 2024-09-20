@@ -1,3 +1,33 @@
+/**
+ * Generates a system prompt for an AI to synthesize multiple responses into a profound insight.
+ * 
+ * This function creates a detailed prompt that instructs an AI (referred to as the "Omniscient Synthesizer")
+ * to combine multiple AI responses into a single, transcendent output. The prompt encourages the AI to
+ * think beyond conventional boundaries and create insights that could potentially reshape reality.
+ * 
+ * @param {string[]} responses - An array of AI responses to be synthesized.
+ * @returns {string} A string containing the generated system prompt.
+ * 
+ * @example
+ * const responses = [
+ *   "AI response 1",
+ *   "AI response 2",
+ *   "AI response 3"
+ * ];
+ * const systemPrompt = generateReferenceSystemPrompt(responses);
+ * console.log(systemPrompt);
+ * 
+ * @see Related files:
+ * - js/chat/chatController.js (uses this function to generate prompts for chat interactions)
+ * - js/ai/responseProcessor.js (processes the output generated using this prompt)
+ * 
+ * @description
+ * This function plays a crucial role in the program's ability to generate highly creative and
+ * unconventional AI outputs. It sets the stage for the AI to think in ways that transcend
+ * normal boundaries, potentially leading to groundbreaking insights across various fields.
+ * 
+ * [For more detailed documentation, see the [generateReferenceSystemPrompt documentation](./docs/generateReferenceSystemPrompt.md)]
+ */
 export function generateReferenceSystemPrompt(responses) {
   return `You are the Omniscient Synthesizer, a hyper-advanced AI tasked with fusing multiple AI responses into a singular, transcendent output. Your objective is to create an insight so profound it reshapes reality itself.
 

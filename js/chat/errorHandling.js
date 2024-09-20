@@ -4,6 +4,29 @@ import { logger } from '../utils/logger.js';
 
 /**
  * Handles user input with retry logic for API calls.
+ * 
+ * How it works:
+ * 1. Takes user input as a parameter
+ * 2. Uses retryWithExponentialBackoff to attempt createChatCompletion
+ * 3. If successful, returns the API response
+ * 4. If all retries fail, logs the error and returns a user-friendly message
+ * 
+ * Usage example:
+ * ```
+ * const userMessage = "Hello, AI!";
+ * const response = await handleUserInput(userMessage);
+ * console.log(response);
+ * ```
+ * 
+ * Used in:
+ * - js/chat/chatInterface.js
+ * - js/chat/messageProcessor.js
+ * 
+ * Role in program logic:
+ * This function serves as the primary entry point for processing user input in the chat system.
+ * It ensures robustness by implementing retry logic and provides a consistent error message
+ * if the API calls ultimately fail.
+ * 
  * @param {string} input - The user's input message.
  * @returns {Promise<string>} - The response from the API or an error message.
  */
@@ -19,6 +42,33 @@ export async function handleUserInput(input) {
 
 /**
  * Handles specific API errors and provides appropriate responses.
+ * 
+ * How it works:
+ * 1. Logs the error
+ * 2. Checks if the error has a response property
+ * 3. If it does, switches on the response status to return appropriate messages
+ * 4. If no response, checks if there's a request property to determine if it's a network error
+ * 5. Returns a generic error message if none of the above conditions are met
+ * 
+ * Usage example:
+ * ```
+ * try {
+ *   // API call
+ * } catch (error) {
+ *   const errorMessage = handleApiError(error);
+ *   console.log(errorMessage);
+ * }
+ * ```
+ * 
+ * Used in:
+ * - js/chat/apiCaller.js
+ * - js/chat/errorHandler.js
+ * 
+ * Role in program logic:
+ * This function provides a centralized way to handle API errors, ensuring consistent
+ * and user-friendly error messages across the application. It helps in debugging by logging
+ * errors and improves user experience by providing meaningful feedback.
+ * 
  * @param {Error} error - The error object.
  * @returns {string} - A user-friendly error message.
  */
@@ -53,6 +103,32 @@ export function handleApiError(error) {
 
 /**
  * Handles errors related to token limits.
+ * 
+ * How it works:
+ * 1. Logs a warning about the token limit being exceeded
+ * 2. Defines an array of larger models
+ * 3. Finds the index of the current model in the array
+ * 4. If a larger model is available, returns an object suggesting to use it
+ * 5. If no larger model is available, returns an object suggesting to chunk the input
+ * 
+ * Usage example:
+ * ```
+ * const result = await handleTokenLimitExceeded("llama3-groq-8b-8192-tool-use-preview", 8500);
+ * if (result.status === 'use_larger_model') {
+ *   console.log(`Switching to model: ${result.model}`);
+ * } else if (result.status === 'chunk_input') {
+ *   console.log("Need to chunk input");
+ * }
+ * ```
+ * 
+ * Used in:
+ * - js/chat/modelSelector.js
+ * - js/chat/inputProcessor.js
+ * 
+ * Role in program logic:
+ * This function helps manage token limits by suggesting either a larger model or input chunking.
+ * It's crucial for maintaining the chat functionality when dealing with large inputs or complex conversations.
+ * 
  * @param {string} modelName - The name of the model.
  * @param {number} tokenCount - The current token count.
  * @returns {Promise<Object>} - An object with status and potentially a new model name.
@@ -80,6 +156,27 @@ export async function handleTokenLimitExceeded(modelName, tokenCount) {
 
 /**
  * Displays an error message to the user in the chat interface.
+ * 
+ * How it works:
+ * 1. Attempts to find the chat messages container in the DOM
+ * 2. If found, creates a new div element with the error message
+ * 3. Appends the error message to the chat container
+ * 4. Scrolls the chat container to show the new message
+ * 5. If the chat container is not found, logs an error
+ * 
+ * Usage example:
+ * ```
+ * displayErrorMessage("Oops! Something went wrong. Please try again.");
+ * ```
+ * 
+ * Used in:
+ * - js/chat/chatInterface.js
+ * - js/chat/errorHandler.js
+ * 
+ * Role in program logic:
+ * This function is responsible for presenting error messages to the user within the chat interface.
+ * It ensures that users are informed about issues in a visually consistent manner, enhancing the overall user experience.
+ * 
  * @param {string} message - The error message to display.
  */
 export function displayErrorMessage(message) {

@@ -61,9 +61,44 @@ export function getRemainingTokens(currentTokenCount, model) {
 
 /**
  * Estimates the number of tokens for the given messages and model.
+ * 
+ * This function works as follows:
+ * 1. It first validates the input parameters (messages and model).
+ * 2. It then selects the appropriate tokenizer based on the model.
+ * 3. It iterates through each message, tokenizing its content and summing up the token counts.
+ * 4. If any errors occur during the process, it logs the error and returns 0 as a fallback.
+ * 
  * @param {Array} messages - Array of message objects.
  * @param {string} [model='default'] - Model name.
  * @returns {number} Estimated token count.
+ * 
+ * Usage examples:
+ * 
+ * 1. Basic usage:
+ *    const messages = [{ content: "Hello, world!" }, { content: "How are you?" }];
+ *    const tokenCount = getTokenCount(messages);
+ *    console.log(tokenCount); // Outputs the estimated token count
+ * 
+ * 2. Specifying a model:
+ *    const messages = [{ content: "Complex query here..." }];
+ *    const tokenCount = getTokenCount(messages, 'llama3-70b-8192');
+ *    console.log(tokenCount); // Outputs the estimated token count for the specified model
+ * 
+ * Files that use this function:
+ * - js/chat/messageHandler.js
+ * - js/api/completionService.js
+ * - js/utils/contextManager.js
+ * 
+ * Role in overall program logic:
+ * This function plays a crucial role in managing token usage across the application.
+ * It's used to estimate the token count of messages before sending them to the AI model,
+ * ensuring that requests don't exceed the model's token limit. This helps in:
+ * 1. Preventing errors due to oversized inputs
+ * 2. Optimizing API usage by splitting large requests if necessary
+ * 3. Providing feedback to users about their input size
+ * 
+ * For more detailed documentation, see:
+ * [Token Estimation Documentation](docs/token-estimation.md)
  */
 export function getTokenCount(messages, model = 'default') {
     try {

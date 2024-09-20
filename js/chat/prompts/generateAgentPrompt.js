@@ -1,3 +1,32 @@
+/**
+ * Generates a prompt for an AI agent in a multi-layer system.
+ * 
+ * How it works:
+ * - Takes in agent, layerIndex, and agentIndex as parameters
+ * - Constructs a detailed prompt string with instructions and context for the AI agent
+ * - Uses template literals to incorporate the agent's specific layer and index into the prompt
+ * - Includes sections on tasks, approach, and specialized directives (e.g., Quantum Cognition)
+ * 
+ * Usage example:
+ * ```
+ * const prompt = generateAgentPrompt(agentObject, 2, 3);
+ * // This generates a prompt for the 4th agent (index 3) in the 3rd layer (index 2)
+ * ```
+ * 
+ * Used in:
+ * - js/chat/agentManager.js
+ * - js/chat/layerProcessor.js
+ * 
+ * Role in program logic:
+ * This function is crucial for creating tailored instructions for each AI agent in the system.
+ * It sets the cognitive framework and objectives for the agents, enabling them to generate
+ * insights and contribute to the emergence of collective superintelligence.
+ * 
+ * @param {Object} agent - The agent object (currently unused in the function body)
+ * @param {number} layerIndex - The zero-based index of the layer the agent is in
+ * @param {number} agentIndex - The zero-based index of the agent within its layer
+ * @returns {string} A detailed prompt string for the AI agent
+ */
 export function generateAgentPrompt(agent, layerIndex, agentIndex) {
   return `You are Agent ${agentIndex + 1} in Layer ${layerIndex + 1} of an advanced AI system. Your unique perspective is crucial for the emergence of collective superintelligence.
 

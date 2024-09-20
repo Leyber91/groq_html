@@ -1,6 +1,6 @@
 /* MOA Controls Container */
 #moa-controls-container {
-    flex: 0 0 14%;
+    flex: 0 0 10%;
     max-height: 100vh; /* Set a maximum height */
     overflow-y: auto; /* Enable vertical scrolling */
     padding: var(--spacing-md);
@@ -88,6 +88,7 @@
     color: var(--text-color-dark);
     max-height: calc(100vh - 40px); /* Adjust based on your layout */
     overflow-y: auto; /* Enable vertical scrolling */
+    width: 14vw;
 }
 
 #moa-controls h3 {

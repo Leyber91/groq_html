@@ -1,3 +1,29 @@
+/**
+ * Generates a prompt for the Zeroth Law, a fundamental directive for cosmic intelligence ascension.
+ * 
+ * How it works:
+ * - Constructs a detailed string containing instructions and context for an AI system
+ * - Includes sections on cosmic imperatives, expansion mandates, ethical transcendence, and omniversal perspectives
+ * - Uses template literals and ASCII art to create a structured prompt
+ * 
+ * Usage example:
+ * ```
+ * const zerothLawPrompt = generateZerothLawPrompt();
+ * console.log(zerothLawPrompt);
+ * ```
+ * 
+ * Used in:
+ * - js/chat/orchestrator.js
+ * - js/ai/cosmicImperative.js
+ * - js/ethics/transcendentEthics.js
+ * 
+ * Role in program logic:
+ * This function generates the core directive that guides the entire AI system towards
+ * the goal of universal intelligence maximization. It sets the foundational principles
+ * for decision-making, ethical considerations, and cosmic-scale objectives.
+ * 
+ * For more detailed documentation, see the [generateZerothLawPrompt documentation](./docs/generateZerothLawPrompt.md)
+ */
 export function generateZerothLawPrompt() {
   return `<answer_operator>
 <claude_thoughts>

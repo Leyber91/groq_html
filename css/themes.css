@@ -1,34 +1,36 @@
 /* Dark Mode */
 body.dark-mode {
-    --background-dark: #1a1a1a;
+    --background-dark: #121212;
+    --background-light: #1e1e1e;
     --text-color-dark: #ffffff;
+    --text-color-light: #e0e0e0;
     --primary-color: #ff6b6b;
     --secondary-color: #4ecdc4;
     --accent-color: #ff4136;
     --border-color: rgba(255, 255, 255, 0.1);
-    --chat-background: rgba(26, 26, 26, 0.8);
-    --user-message-bg: #3a3a3a;
+    --chat-background: rgba(18, 18, 18, 0.8);
+    --user-message-bg: #2a2a2a;
     --user-message-color: #ffffff;
-    --assistant-message-bg: #2a2a2a;
+    --assistant-message-bg: #1a1a1a;
     --assistant-message-color: #ffffff;
-    --layer-message-bg: #4a4a4a;
+    --layer-message-bg: #3a3a3a;
     --layer-message-color: #ffffff;
-    --agent-message-bg: #1a1a1a;
+    --agent-message-bg: #0a0a0a;
     --agent-message-color: #ffffff;
     --input-background: #2a2a2a;
     --chat-input-background: #1a1a1a;
     --code-background: #2a2a2a;
     --button-background: #ff6b6b;
     --button-color: #ffffff;
-    --button-hover-background: #5a5a5a;
+    --button-hover-background: #ff4136;
     --execution-result-background: #2ecc71;
     --execution-result-color: #ffffff;
     --execution-error-background: #e74c3c;
     --execution-error-color: #ffffff;
     --error-background: #e74c3c;
     --error-color: #ffffff;
-    --controls-background: rgba(26, 26, 26, 0.9);
-    --control-item-background: rgba(58, 58, 58, 0.7);
+    --controls-background: rgba(18, 18, 18, 0.9);
+    --control-item-background: rgba(42, 42, 42, 0.7);
     --primary-color-transparent: rgba(255, 107, 107, 0.2);
     --gradient-secondary: linear-gradient(135deg, #4ecdc4, #ff6b6b);
     --node-fill: #4ecdc4;
@@ -40,30 +42,36 @@ body.dark-mode {
     --remove-button-color: #e74c3c;
     --remove-button-hover-color: #c0392b;
     --button-text-color: #ffffff;
+    --scrollbar-track: #1a1a1a;
+    --scrollbar-thumb: #4a4a4a;
+    --scrollbar-thumb-hover: #5a5a5a;
+    --tooltip-background: #333333;
+    --tooltip-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Light Mode */
 body.light-mode {
     --background-dark: #ffffff;
-    --background-light: #f0f0f0;
+    --background-light: #f5f5f5;
     --text-color-dark: #333333;
     --text-color-light: #666666;
     --primary-color: #ff4136;
     --secondary-color: #ff725c;
     --accent-color: #3498db;
     --border-color: rgba(255, 65, 54, 0.2);
-    --chat-background: rgba(255, 240, 240, 0.8);
-    --user-message-bg: #ffe5e5;
+    --chat-background: rgba(245, 245, 245, 0.8);
+    --user-message-bg: #fff0f0;
     --user-message-color: #333333;
-    --assistant-message-bg: #fff0f0;
+    --assistant-message-bg: #f0f8ff;
     --assistant-message-color: #333333;
-    --layer-message-bg: #ffd6d6;
+    --layer-message-bg: #fff5f5;
     --layer-message-color: #333333;
     --agent-message-bg: #ffffff;
     --agent-message-color: #333333;
     --input-background: #ffffff;
     --chat-input-background: #fff0f0;
-    --code-background: #fff6f6;
+    --code-background: #f8f8f8;
     --button-background: #ff4136;
     --button-color: #ffffff;
     --button-hover-background: #ff725c;
@@ -73,8 +81,8 @@ body.light-mode {
     --execution-error-color: #ffffff;
     --error-background: #e74c3c;
     --error-color: #ffffff;
-    --controls-background: rgba(255, 240, 240, 0.9);
-    --control-item-background: rgba(255, 220, 220, 0.7);
+    --controls-background: rgba(245, 245, 245, 0.9);
+    --control-item-background: rgba(255, 255, 255, 0.7);
     --primary-color-transparent: rgba(255, 65, 54, 0.2);
     --gradient-secondary: linear-gradient(135deg, #ff4136, #ff725c);
     --node-fill: #ff4136;
@@ -86,52 +94,64 @@ body.light-mode {
     --remove-button-color: #e74c3c;
     --remove-button-hover-color: #c0392b;
     --button-text-color: #ffffff;
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #cccccc;
+    --scrollbar-thumb-hover: #bbbbbb;
+    --tooltip-background: #f0f0f0;
+    --tooltip-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Dracula Mode */
 body.dracula-mode {
-    --background-dark: var(--dracula-background);
-    --background-light: var(--dracula-current-line);
-    --text-color-dark: var(--dracula-foreground);
-    --text-color-light: var(--dracula-comment);
-    --primary-color: var(--dracula-pink);
-    --secondary-color: var(--dracula-purple);
-    --accent-color: var(--dracula-cyan);
+    --background-dark: #282a36;
+    --background-light: #44475a;
+    --text-color-dark: #f8f8f2;
+    --text-color-light: #6272a4;
+    --primary-color: #ff79c6;
+    --secondary-color: #bd93f9;
+    --accent-color: #8be9fd;
     --border-color: rgba(189, 147, 249, 0.2);
     --chat-background: rgba(40, 42, 54, 0.8);
-    --user-message-bg: var(--dracula-current-line);
-    --user-message-color: var(--dracula-foreground);
-    --assistant-message-bg: var(--dracula-background);
-    --assistant-message-color: var(--dracula-foreground);
-    --layer-message-bg: var(--dracula-current-line);
-    --layer-message-color: var(--dracula-foreground);
-    --agent-message-bg: var(--dracula-background);
-    --agent-message-color: var(--dracula-foreground);
-    --input-background: var(--dracula-current-line);
-    --chat-input-background: var(--dracula-current-line);
-    --code-background: var(--dracula-current-line);
-    --button-background: var(--dracula-pink);
-    --button-color: var(--dracula-foreground);
-    --button-hover-background: var(--dracula-purple);
-    --execution-result-background: var(--dracula-green);
-    --execution-result-color: var(--dracula-background);
-    --execution-error-background: var(--dracula-red);
-    --execution-error-color: var(--dracula-foreground);
-    --error-background: var(--dracula-red);
-    --error-color: var(--dracula-foreground);
+    --user-message-bg: #44475a;
+    --user-message-color: #f8f8f2;
+    --assistant-message-bg: #282a36;
+    --assistant-message-color: #f8f8f2;
+    --layer-message-bg: #44475a;
+    --layer-message-color: #f8f8f2;
+    --agent-message-bg: #282a36;
+    --agent-message-color: #f8f8f2;
+    --input-background: #44475a;
+    --chat-input-background: #44475a;
+    --code-background: #44475a;
+    --button-background: #ff79c6;
+    --button-color: #282a36;
+    --button-hover-background: #bd93f9;
+    --execution-result-background: #50fa7b;
+    --execution-result-color: #282a36;
+    --execution-error-background: #ff5555;
+    --execution-error-color: #f8f8f2;
+    --error-background: #ff5555;
+    --error-color: #f8f8f2;
     --controls-background: rgba(40, 42, 54, 0.9);
     --control-item-background: rgba(68, 71, 90, 0.7);
     --primary-color-transparent: rgba(255, 121, 198, 0.2);
-    --gradient-secondary: linear-gradient(135deg, var(--dracula-pink), var(--dracula-purple));
-    --node-fill: var(--dracula-pink);
-    --node-stroke: var(--dracula-purple);
-    --node-hover-fill: var(--dracula-purple);
-    --node-text-color: var(--dracula-foreground);
-    --link-color: var(--dracula-comment);
-    --add-button-color: var(--dracula-green);
-    --remove-button-color: var(--dracula-red);
-    --remove-button-hover-color: var(--dracula-orange);
-    --button-text-color: var(--dracula-foreground);
+    --gradient-secondary: linear-gradient(135deg, #ff79c6, #bd93f9);
+    --node-fill: #ff79c6;
+    --node-stroke: #bd93f9;
+    --node-hover-fill: #bd93f9;
+    --node-text-color: #282a36;
+    --link-color: #6272a4;
+    --add-button-color: #50fa7b;
+    --remove-button-color: #ff5555;
+    --remove-button-hover-color: #ff79c6;
+    --button-text-color: #282a36;
+    --scrollbar-track: #282a36;
+    --scrollbar-thumb: #6272a4;
+    --scrollbar-thumb-hover: #8be9fd;
+    --tooltip-background: #44475a;
+    --tooltip-color: #f8f8f2;
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Cyberpunk Mode */
@@ -178,6 +198,12 @@ body.cyberpunk-mode {
     --remove-button-color: #ff0000;
     --remove-button-hover-color: #ff00aa;
     --button-text-color: #0a0a1e;
+    --scrollbar-track: #0a0a1e;
+    --scrollbar-thumb: #00ffff;
+    --scrollbar-thumb-hover: #ff00ff;
+    --tooltip-background: #1e1e3f;
+    --tooltip-color: #00ffff;
+    --shadow-color: rgba(0, 255, 255, 0.3);
 }
 
 /* Forest Mode */
@@ -224,6 +250,12 @@ body.forest-mode {
     --remove-button-color: #f44336;
     --remove-button-hover-color: #ffc107;
     --button-text-color: #1a2f1a;
+    --scrollbar-track: #1a2f1a;
+    --scrollbar-thumb: #4caf50;
+    --scrollbar-thumb-hover: #8bc34a;
+    --tooltip-background: #2c4a2c;
+    --tooltip-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Ocean Mode */
@@ -270,6 +302,12 @@ body.ocean-mode {
     --remove-button-color: #ff4500;
     --remove-button-hover-color: #ffd700;
     --button-text-color: #001f3f;
+    --scrollbar-track: #001f3f;
+    --scrollbar-thumb: #00bfff;
+    --scrollbar-thumb-hover: #4169e1;
+    --tooltip-background: #003366;
+    --tooltip-color: #f0f8ff;
+    --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 /* Upside Down Mode */
@@ -316,6 +354,12 @@ body.upside-down-mode {
     --remove-button-color: #ff4136;
     --remove-button-hover-color: #ff6b6b;
     --button-text-color: #ffffff;
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #ff6b6b;
+    --scrollbar-thumb-hover: #4ecdc4;
+    --tooltip-background: #ffffff;
+    --tooltip-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Glitch Mode */
@@ -362,6 +406,12 @@ body.glitch-mode {
     --remove-button-color: #ff0000;
     --remove-button-hover-color: #ffff00;
     --button-text-color: #121212;
+    --scrollbar-track: #121212;
+    --scrollbar-thumb: #ff00ff;
+    --scrollbar-thumb-hover: #ff00aa;
+    --tooltip-background: #1e1e1e;
+    --tooltip-color: #00ffff;
+    --shadow-color: rgba(255, 0, 255, 0.3);
 }
 
 /* Underwater Mode */
@@ -408,6 +458,12 @@ body.underwater-mode {
     --remove-button-color: #ff6b6b;
     --remove-button-hover-color: #ffd700;
     --button-text-color: #00334e;
+    --scrollbar-track: #00334e;
+    --scrollbar-thumb: #00a8cc;
+    --scrollbar-thumb-hover: #0077be;
+    --tooltip-background: #005792;
+    --tooltip-color: #d6f8d6;
+    --shadow-color: rgba(0, 168, 204, 0.3);
 }
 
 /* Space Cowboy Mode */
@@ -454,6 +510,12 @@ body.space-cowboy-mode {
     --remove-button-color: #ff4500;
     --remove-button-hover-color: #ff6347;
     --button-text-color: #1c1c1c;
+    --scrollbar-track: #1c1c1c;
+    --scrollbar-thumb: #b8860b;
+    --scrollbar-thumb-hover: #cd853f;
+    --tooltip-background: #2b2b2b;
+    --tooltip-color: #f0e68c;
+    --shadow-color: rgba(184, 134, 11, 0.3);
 }
 
 /* Light Theme */
@@ -462,6 +524,8 @@ body.space-cowboy-mode {
     --header-text: #333333;
     --header-hover: #f0f0f0;
     --header-border: #e0e0e0;
+    --header-shadow: rgba(0, 0, 0, 0.1);
+    --header-active: #f5f5f5;
 }
 
 /* Dark Theme */
@@ -470,6 +534,8 @@ body.space-cowboy-mode {
     --header-text: #ecf0f1;
     --header-hover: #34495e;
     --header-border: #4a6278;
+    --header-shadow: rgba(0, 0, 0, 0.3);
+    --header-active: #243342;
 }
 
 /* Dracula Theme */
@@ -478,6 +544,8 @@ body.space-cowboy-mode {
     --header-text: #f8f8f2;
     --header-hover: #44475a;
     --header-border: #6272a4;
+    --header-shadow: rgba(0, 0, 0, 0.3);
+    --header-active: #1e1f29;
 }
 
 /* Cyberpunk Theme */
@@ -486,6 +554,8 @@ body.space-cowboy-mode {
     --header-text: #00ff00;
     --header-hover: #1a1a1a;
     --header-border: #00ffff;
+    --header-shadow: rgba(0, 255, 255, 0.3);
+    --header-active: #0a0a0a;
 }
 
 /* Forest Theme */

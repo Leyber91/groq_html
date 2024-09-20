@@ -43,8 +43,24 @@ const MAX_FALLBACK_ATTEMPTS = 3;
 
 /**
  * Function to interact with the Hermes3 model through the server endpoint.
+ * 
+ * This function sends a POST request to the '/api/ask-hermes' endpoint with the provided question.
+ * It handles the response and potential errors from the server.
+ * 
  * @param {string} question - The question to ask Hermes3.
  * @returns {Promise<string>} The response from Hermes3.
+ * 
+ * @example
+ * const response = await askHermes3("What is the capital of France?");
+ * console.log(response); // Outputs: "The capital of France is Paris."
+ * 
+ * @usedBy
+ * - chatWithMOA function in this file
+ * - handleUserFeedback function in this file
+ * 
+ * @role
+ * This function serves as an interface to the Hermes3 model, allowing other parts of the application
+ * to easily query the model without dealing with the underlying API communication details.
  */
 async function askHermes3(question) {
     try {
@@ -71,8 +87,27 @@ async function askHermes3(question) {
 /**
  * Main function to handle chat interactions with MOA.
  * Enhanced for better performance, error handling, and maintainability.
+ * 
+ * This function processes the user's message through multiple layers of AI agents,
+ * generates responses, handles errors, and manages the overall chat flow.
+ * 
  * @param {string} message - The user's message.
  * @returns {Promise<Object>} An object containing the context and total tokens used.
+ * 
+ * @example
+ * const result = await chatWithMOA("Tell me about artificial intelligence.");
+ * console.log(result.context); // Outputs: Detailed response about AI
+ * console.log(result.totalTokens); // Outputs: Total number of tokens used
+ * 
+ * @usedBy
+ * - Main chat interface component (not shown in this file)
+ * - API endpoints for chat functionality (not shown in this file)
+ * 
+ * @role
+ * This function is the core of the chat interaction system. It orchestrates the entire process
+ * of receiving a user message, processing it through various AI models, and generating a response.
+ * It handles error cases, manages caching, and integrates with other system components like
+ * the diagram visualization and meta-learning features.
  */
 export async function chatWithMOA(message) {
     try {
@@ -335,6 +370,34 @@ export async function chatWithMOA(message) {
     }
 }
 
+/**
+ * Function to make an optimized API call based on meta-advice and user input.
+ * 
+ * This function selects the appropriate model and parameters based on meta-advice,
+ * then makes an API call to either Hermes3 or another specified model.
+ * 
+ * @param {Object} metaAdvice - Object containing recommendations for the API call.
+ * @param {string} userInput - The user's input to be processed.
+ * @returns {Promise<string>} The response from the selected model.
+ * 
+ * @example
+ * const metaAdvice = {
+ *   recommendedModel: 'gpt-3.5-turbo',
+ *   temperature: 0.8,
+ *   maxTokens: 200
+ * };
+ * const response = await makeOptimizedApiCall(metaAdvice, "Explain quantum computing");
+ * console.log(response); // Outputs: Detailed explanation of quantum computing
+ * 
+ * @usedBy
+ * - Not directly used in this file, but can be called from other parts of the application
+ *   that implement meta-learning or dynamic model selection.
+ * 
+ * @role
+ * This function serves as an intermediary between the meta-learning system and the actual API calls.
+ * It allows for dynamic optimization of API calls based on meta-advice, potentially improving
+ * response quality and efficiency.
+ */
 async function makeOptimizedApiCall(metaAdvice, userInput) {
     try {
         const model = metaAdvice.recommendedModel || moaConfig.default_model;
@@ -360,8 +423,29 @@ async function makeOptimizedApiCall(metaAdvice, userInput) {
 
 /**
  * Function to handle user feedback and update the system accordingly.
+ * 
+ * This function processes user feedback (positive or negative) and adjusts the system's
+ * learning rate and feedback threshold. For negative feedback, it also triggers a
+ * re-evaluation of the context using Hermes3.
+ * 
  * @param {string} feedback - The user's feedback ('positive' or 'negative').
  * @param {string} context - The context of the interaction.
+ * 
+ * @example
+ * await handleUserFeedback('positive', 'The AI provided a helpful explanation about climate change.');
+ * // This will slightly increase the learning rate
+ * 
+ * await handleUserFeedback('negative', 'The AI gave incorrect information about historical events.');
+ * // This will decrease the learning rate and trigger a re-evaluation
+ * 
+ * @usedBy
+ * - User feedback component in the chat interface (not shown in this file)
+ * - API endpoint for submitting user feedback (not shown in this file)
+ * 
+ * @role
+ * This function is crucial for the self-improvement aspect of the system. It allows
+ * the AI to learn from user feedback and potentially improve its performance over time.
+ * It's a key component in creating a more adaptive and responsive AI system.
  */
 export async function handleUserFeedback(feedback, context) {
     logger.info(`Received user feedback: ${feedback}`);
@@ -418,6 +502,27 @@ export async function handleUserFeedback(feedback, context) {
     }
 }
 
+/**
+ * Function to calculate a new feedback threshold based on recent feedback.
+ * 
+ * This function adjusts the feedback threshold slightly up or down depending on
+ * whether the feedback was positive or negative.
+ * 
+ * @param {string} feedback - The user's feedback ('positive' or 'negative').
+ * @returns {number} The new calculated feedback threshold.
+ * 
+ * @example
+ * const newThreshold = calculateNewFeedbackThreshold('positive');
+ * console.log(newThreshold); // Outputs: A number slightly higher than the current threshold
+ * 
+ * @usedBy
+ * - handleUserFeedback function in this file
+ * 
+ * @role
+ * This function plays a part in the system's self-adjustment mechanism. By dynamically
+ * adjusting the feedback threshold, it helps the system become more or less sensitive
+ * to feedback over time, potentially leading to more balanced and effective learning.
+ */
 function calculateNewFeedbackThreshold(feedback) {
     // Implement your logic to calculate the new feedback threshold
     // This is a placeholder implementation

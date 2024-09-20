@@ -1,3 +1,32 @@
+/**
+ * Generates a prompt for a synthesis layer in an advanced AI system.
+ * 
+ * This function creates a detailed prompt for a "Synthesis Nexus" that combines outputs
+ * from multiple AI agents into a unified, transformative intelligence. The prompt
+ * includes instructions for analysis, synthesis, and conceptualization of revolutionary ideas.
+ * 
+ * @param {Array} layer - An array of agent objects representing the current layer
+ * @param {number} index - The index of the current layer (0-based)
+ * @returns {string} A string containing the generated prompt
+ * 
+ * @example
+ * const layer = [
+ *   { model_name: 'GPT-4' },
+ *   { model_name: 'Claude-2' }
+ * ];
+ * const prompt = generateLayerPrompt(layer, 0);
+ * console.log(prompt);
+ * 
+ * @usedIn
+ * - js/chat/orchestrator.js
+ * - js/chat/layerProcessor.js
+ * 
+ * @role
+ * This function plays a crucial role in the multi-agent AI system by creating
+ * the prompts that guide the synthesis of information across different layers.
+ * It sets the stage for emergent cognitive processes and potential breakthroughs
+ * in artificial intelligence.
+ */
 export function generateLayerPrompt(layer, index) {
   const agentCount = layer.length;
   const modelNames = layer.map(agent => agent.model_name).join(', ');

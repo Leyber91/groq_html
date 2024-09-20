@@ -20,6 +20,8 @@ body {
     background-color: var(--background-dark);
     color: var(--text-color-dark);
     font-family: var(--font-primary);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 main {
@@ -27,38 +29,62 @@ main {
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin: 0 auto;
+    padding: 2em; /* var(--spacing-lg) */
 }
 
 #moa-diagram {
-    flex: 0 0 85%;
+    flex: 1 1 70%;
     overflow: auto;
-    padding: var(--spacing-md);
+    padding: 1em; /* var(--spacing-md) */
     background-color: var(--background-dark);
+    border-radius: var(--border-radius);
+    box-shadow: 0 0.25em 0.375em rgba(0, 0, 0, 0.1); /* 4px 6px to em */
 }
 
 #moa-controls-container {
-    flex: 0 0 14%;
+    flex: 0 0 15%;
     overflow-y: auto;
-    padding: var(--spacing-md);
+    padding: 1em; /* var(--spacing-md) */
     background-color: var(--background-light);
-    border-left: 1px solid var(--text-color-light);
+    border-left: 1px solid var(--border-color);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    box-shadow: 0.125em 0 0.375em rgba(0, 0, 0, 0.1); /* 2px 6px to em */
 }
 
 #chat-interface {
-    flex: 0 0 40%;
+    flex: 0 0 45%;
     height: 100%;
     overflow-y: auto;
     padding: var(--spacing-md);
     background-color: var(--background-dark);
-    border-left: 1px solid var(--text-color-light);
+    border-left: 1px solid var(--border-color);
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    box-shadow: -0.125em 0 0.375em rgba(0, 0, 0, 0.1); /* -2px 6px to em */
 }
 
 footer {
-    height: var(--footer-height);
+    height: 3.75em; /* var(--footer-height) */
     background-color: var(--background-light);
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    padding: 0 var(--spacing-md);
+    padding: 0 2em; /* var(--spacing-lg) */
+    border-top: 1px solid var(--border-color);
 }
 
+@media (max-width: 75em) { /* 1200px to em */
+    main {
+        flex-direction: column;
+    }
+
+    #moa-diagram,
+    #moa-controls-container,
+    #chat-interface {
+        flex: 1 1 auto;
+        width: 100%;
+        max-height: 100%;
+        border-radius: var(--border-radius);
+        margin-bottom: 1em; /* var(--spacing-md) */
+    }
+}

@@ -13,11 +13,24 @@ const RATE_LIMITS = {
     "mixtral-8x7b-32768": { rpm: 30, tpm: 5000 }
 };
 
+/**
+ * Checks if a given model is available in the RATE_LIMITS object.
+ * @param {string} model - The name of the model to check.
+ * @returns {boolean} True if the model is available, false otherwise.
+ */
 function isModelAvailable(model) {
     return model in RATE_LIMITS;
 }
 
+/**
+ * ModelRateLimiter class manages rate limiting for specific AI models.
+ * It ensures that requests to the model don't exceed the defined rate limits.
+ */
 class ModelRateLimiter {
+    /**
+     * Creates a new ModelRateLimiter instance.
+     * @param {string} model - The name of the AI model.
+     */
     constructor(model) {
         this.limits = RATE_LIMITS[model] || { rpm: 10, tpm: 5000 }; // Default limits
         this.lastRequestTime = 0;
@@ -26,6 +39,11 @@ class ModelRateLimiter {
         this.requestQueue = [];
     }
 
+    /**
+     * Schedules a request to be processed when rate limits allow.
+     * @param {number} tokens - The number of tokens in the request.
+     * @returns {Promise} Resolves when the request can be processed.
+     */
     async scheduleRequest(tokens) {
         return new Promise((resolve, reject) => {
             this.requestQueue.push({ tokens, resolve, reject });
@@ -33,6 +51,10 @@ class ModelRateLimiter {
         });
     }
 
+    /**
+     * Processes the queue of requests, respecting rate limits.
+     * This method is called internally and manages the timing of requests.
+     */
     async processQueue() {
         if (this.requestQueue.length === 0) return;
 
@@ -68,6 +90,11 @@ class ModelRateLimiter {
 
 const rateLimiters = {};
 
+/**
+ * Gets or creates a rate limiter for a specific model.
+ * @param {string} model - The name of the AI model.
+ * @returns {ModelRateLimiter} The rate limiter for the specified model.
+ */
 export function getRateLimiter(model) {
     if (!rateLimiters[model]) {
         rateLimiters[model] = new ModelRateLimiter(model);
@@ -75,6 +102,34 @@ export function getRateLimiter(model) {
     return rateLimiters[model];
 }
 
+/**
+ * Schedules a request for a specific model, respecting rate limits.
+ * 
+ * @param {string} model - The name of the AI model.
+ * @param {Array} messages - The messages to be processed by the model.
+ * @throws {Error} If the model parameter is invalid.
+ * 
+ * Usage example:
+ * ```javascript
+ * try {
+ *   await scheduleRequest('llama3-8b-8192', [{ role: 'user', content: 'Hello, AI!' }]);
+ *   // Proceed with the API call to the AI model
+ * } catch (error) {
+ *   console.error('Failed to schedule request:', error);
+ * }
+ * ```
+ * 
+ * This function is used in:
+ * - src/services/aiService.js
+ * - src/controllers/chatController.js
+ * - src/workers/batchProcessor.js
+ * 
+ * Role in program logic:
+ * This function acts as a gatekeeper for all AI model requests, ensuring that
+ * the application respects the rate limits for each model. It's a crucial part
+ * of the request pipeline, sitting between the application logic and the actual
+ * API calls to the AI models.
+ */
 export async function scheduleRequest(model, messages) {
     if (typeof model !== 'string' || !model) {
         logger.error(`Invalid model parameter in scheduleRequest: ${model}`);
@@ -85,6 +140,11 @@ export async function scheduleRequest(model, messages) {
     await limiter.scheduleRequest(tokens);
 }
 
+/**
+ * Retrieves the current rate limit status for a specific model.
+ * @param {string} model - The name of the AI model.
+ * @returns {Object|null} The rate limit status or null if the model is not available.
+ */
 export function getRateLimitStatus(model) {
     if (!isModelAvailable(model)) {
         logger.warn(`No rate limiter found for model: ${model}`);
@@ -101,6 +161,10 @@ export function getRateLimitStatus(model) {
     };
 }
 
+/**
+ * Resets the rate limits for a specific model to its original values.
+ * @param {string} model - The name of the AI model.
+ */
 export function resetRateLimits(model) {
     if (!isModelAvailable(model)) {
         logger.warn(`No rate limiter found for model: ${model}`);
@@ -111,10 +175,19 @@ export function resetRateLimits(model) {
     logger.info(`Rate limits reset to original values for model: ${model}`);
 }
 
+/**
+ * Returns an array of all available AI model names.
+ * @returns {Array<string>} An array of model names.
+ */
 export function getAvailableModels() {
     return Object.keys(RATE_LIMITS);
 }
 
+/**
+ * Updates the rate limits for a specific model.
+ * @param {string} model - The name of the AI model.
+ * @param {Object} newLimits - The new limits to set.
+ */
 export function updateRateLimits(model, newLimits) {
     if (!isModelAvailable(model)) {
         logger.warn(`No rate limiter found for model: ${model}`);

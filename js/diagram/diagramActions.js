@@ -13,6 +13,23 @@ import {
 } from './stylesConstants.js';
 import { calculateConnectionStrength } from './helpers.js';
 
+/**
+ * Adds a new layer to the MOA configuration.
+ * 
+ * This function adds a new layer with a default agent to the MOA configuration
+ * and triggers a diagram update.
+ * 
+ * Usage example:
+ * addLayer();
+ * 
+ * Other files that use this function:
+ * - js/components/LayerControls.js
+ * - js/modules/configurationManager.js
+ * 
+ * Role in overall program logic:
+ * This function allows for dynamic expansion of the MOA structure, enabling
+ * users to add new layers of processing to the architecture.
+ */
 export function addLayer() {
   if (moaConfig && Array.isArray(moaConfig.layers)) {
     moaConfig.layers.push([{ model_name: 'llama3-8b-8192', temperature: 0.5 }]);
@@ -22,6 +39,25 @@ export function addLayer() {
   }
 }
 
+/**
+ * Adds a new agent to a specific layer in the MOA configuration.
+ * 
+ * This function adds a new agent with default settings to a specified layer
+ * and triggers a diagram update.
+ * 
+ * @param {number} layerIndex - The index of the layer to add the agent to.
+ * 
+ * Usage example:
+ * addAgent(2);
+ * 
+ * Other files that use this function:
+ * - js/components/LayerControls.js
+ * - js/modules/configurationManager.js
+ * 
+ * Role in overall program logic:
+ * This function allows for fine-grained control over the MOA structure,
+ * enabling users to add new processing units (agents) to specific layers.
+ */
 export function addAgent(layerIndex) {
   if (moaConfig && Array.isArray(moaConfig.layers) && moaConfig.layers[layerIndex]) {
     moaConfig.layers[layerIndex].push({
@@ -34,24 +70,80 @@ export function addAgent(layerIndex) {
   }
 }
 
+/**
+ * Removes a layer from the MOA configuration.
+ * 
+ * This function removes a specified layer from the MOA configuration,
+ * ensuring that at least one layer remains, and triggers a diagram update.
+ * 
+ * @param {number} layerIndex - The index of the layer to remove.
+ * 
+ * Usage example:
+ * removeLayer(1);
+ * 
+ * Other files that use this function:
+ * - js/components/LayerControls.js
+ * - js/modules/configurationManager.js
+ * 
+ * Role in overall program logic:
+ * This function allows for the simplification of the MOA structure by
+ * removing unnecessary layers, while maintaining the integrity of the architecture.
+ */
 export function removeLayer(layerIndex) {
   if (moaConfig.layers.length > 1) {
     moaConfig.layers.splice(layerIndex, 1);
     createMOADiagram();
   } else {
-    alert('Cannot remove the last layer.');
+    console.warn('Cannot remove the last layer.');
   }
 }
 
+/**
+ * Removes an agent from a specific layer in the MOA configuration.
+ * 
+ * This function removes a specified agent from a layer, ensuring that
+ * at least one agent remains in the layer, and triggers a diagram update.
+ * 
+ * @param {number} layerIndex - The index of the layer containing the agent.
+ * @param {number} agentIndex - The index of the agent to remove.
+ * 
+ * Usage example:
+ * removeAgent(2, 1);
+ * 
+ * Other files that use this function:
+ * - js/components/LayerControls.js
+ * - js/modules/configurationManager.js
+ * 
+ * Role in overall program logic:
+ * This function allows for fine-tuning of the MOA structure by removing
+ * specific agents from layers, providing flexibility in architecture design.
+ */
 export function removeAgent(layerIndex, agentIndex) {
-  if (moaConfig.layers[layerIndex].length > 1) {
+  if (moaConfig.layers[layerIndex] && moaConfig.layers[layerIndex].length > 1) {
     moaConfig.layers[layerIndex].splice(agentIndex, 1);
     createMOADiagram();
   } else {
-    alert('Cannot remove the last agent in a layer.');
+    console.warn('Cannot remove the last agent in a layer.');
   }
 }
 
+/**
+ * Updates the MOA configuration based on the current diagram state.
+ * 
+ * This function collects the current state of all nodes in the diagram
+ * and updates the MOA configuration accordingly.
+ * 
+ * Usage example:
+ * updateMOAConfig();
+ * 
+ * Other files that use this function:
+ * - js/components/ConfigPanel.js
+ * - js/modules/diagramUpdater.js
+ * 
+ * Role in overall program logic:
+ * This function is crucial for maintaining synchronization between the
+ * visual representation of the MOA and its underlying configuration data.
+ */
 export function updateMOAConfig() {
   const svg = d3.select('#moa-diagram svg');
   const newConfig = {
@@ -77,16 +169,34 @@ export function updateMOAConfig() {
         temperature: parseFloat(tempInput.property('value')),
       };
     } else {
-      newConfig.main_model = moaConfig.main_model;
-      newConfig.main_temperature = moaConfig.main_temperature;
+      newConfig.main_model = modelSelect.property('value');
+      newConfig.main_temperature = parseFloat(tempInput.property('value'));
     }
   });
 
-  // Update the global moaConfig
   configUpdateMOAConfig(newConfig);
   createMOADiagram();
 }
 
+/**
+ * Animates an agent in the diagram to indicate activity.
+ * 
+ * This function applies a visual animation to agents in a specific layer,
+ * as well as the main model if it's the last layer.
+ * 
+ * @param {number} index - The index of the layer to animate.
+ * 
+ * Usage example:
+ * animateAgent(1);
+ * 
+ * Other files that use this function:
+ * - js/components/DiagramAnimator.js
+ * - js/modules/processingSimulator.js
+ * 
+ * Role in overall program logic:
+ * This function enhances the visual feedback of the MOA diagram,
+ * helping users understand the flow of processing through the architecture.
+ */
 export function animateAgent(index) {
   const svg = d3.select('#moa-diagram svg');
   const nodes = svg.selectAll('.node');
@@ -129,6 +239,28 @@ export function animateAgent(index) {
   }
 }
 
+/**
+ * Updates a specific agent in the diagram.
+ * 
+ * This function updates the visual representation and data of a specific agent,
+ * including its model and status.
+ * 
+ * @param {number} layerIndex - The index of the layer containing the agent.
+ * @param {number} agentIndex - The index of the agent to update.
+ * @param {string} modelName - The new model name for the agent.
+ * @param {string} status - The new status of the agent ('success' or 'failure').
+ * 
+ * Usage example:
+ * updateDiagram(2, 1, 'new-model-name', 'success');
+ * 
+ * Other files that use this function:
+ * - js/components/AgentUpdater.js
+ * - js/modules/simulationController.js
+ * 
+ * Role in overall program logic:
+ * This function is essential for reflecting real-time changes in the MOA,
+ * such as model updates or processing status changes, in the diagram.
+ */
 export function updateDiagram(layerIndex, agentIndex, modelName, status) {
   if (layerIndex === undefined || agentIndex === undefined) {
     console.error(
@@ -149,10 +281,8 @@ export function updateDiagram(layerIndex, agentIndex, modelName, status) {
     return;
   }
 
-  // Update the model name in the dropdown
   agentNode.select('.agent-model').property('value', modelName);
 
-  // Animate the node based on status
   agentNode
     .select('circle')
     .transition()
@@ -162,20 +292,36 @@ export function updateDiagram(layerIndex, agentIndex, modelName, status) {
     .duration(NODE_ANIMATION_DURATION)
     .attr('fill', AGENT_FILL_COLOR);
 
-  // Update the node label
   agentNode.select('text').text(`A${agentIndex}`);
 
-  // Update the node in the global nodeMap
   if (nodeMap.has(nodeId)) {
     const updatedNode = nodeMap.get(nodeId);
     updatedNode.model_name = modelName;
     nodeMap.set(nodeId, updatedNode);
   }
 
-  // Update node connections
   updateNodeConnections(layerIndex, agentIndex);
 }
 
+/**
+ * Updates the connections for a specific node in the diagram.
+ * 
+ * This function recalculates and updates the visual representation of
+ * connections for a given node based on the current configuration.
+ * 
+ * @param {number} layerIndex - The index of the layer containing the node.
+ * @param {number} agentIndex - The index of the agent (node) to update connections for.
+ * 
+ * Usage example:
+ * updateNodeConnections(1, 2);
+ * 
+ * Other files that use this function:
+ * - This function is private and used internally by updateDiagram
+ * 
+ * Role in overall program logic:
+ * This function ensures that the visual representation of connections
+ * between nodes accurately reflects the current state of the MOA configuration.
+ */
 function updateNodeConnections(layerIndex, agentIndex) {
   const svg = d3.select('#moa-diagram svg');
   const links = svg.selectAll('.links line');
@@ -192,7 +338,6 @@ function updateNodeConnections(layerIndex, agentIndex) {
       const sourceNode = nodeMap.get(sourceId);
       const targetNode = nodeMap.get(targetId);
 
-      // Check if nodes exist
       if (!sourceNode || !targetNode) {
         console.warn(`Node not found for source ${sourceId} or target ${targetId}`);
         return;
