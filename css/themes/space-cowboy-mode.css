@@ -1,0 +1,180 @@
+/* Space Cowboy Mode - Maximum Expression, Western Vintage Vibes */
+body.space-cowboy-mode {
+    --background-dark: #1a0d00;
+    --background-light: #2b1400;
+    --text-color-dark: #ffd700;
+    --text-color-light: #ffa500;
+    --primary-color: #b8860b;
+    --secondary-color: #cd853f;
+    --accent-color: #ff4500;
+    --border-color: rgba(184, 134, 11, 0.4);
+    --chat-background: rgba(26, 13, 0, 0.9);
+    --user-message-bg: #2b1400;
+    --user-message-color: #ffd700;
+    --assistant-message-bg: #1a0d00;
+    --assistant-message-color: #ffa500;
+    --layer-message-bg: #2b1400;
+    --layer-message-color: #ffd700;
+    --agent-message-bg: #1a0d00;
+    --agent-message-color: #ffa500;
+    --input-background: #2b1400;
+    --chat-input-background: #2b1400;
+    --code-background: #3c2200;
+    --button-background: #b8860b;
+    --button-color: #1a0d00;
+    --button-hover-background: #cd853f;
+    --execution-result-background: #cd853f;
+    --execution-result-color: #1a0d00;
+    --execution-error-background: #ff4500;
+    --execution-error-color: #ffd700;
+    --error-background: #ff4500;
+    --error-color: #ffd700;
+    --controls-background: rgba(26, 13, 0, 0.95);
+    --control-item-background: rgba(43, 20, 0, 0.8);
+    --primary-color-transparent: rgba(184, 134, 11, 0.3);
+    --gradient-secondary: linear-gradient(135deg, #b8860b, #cd853f);
+    --node-fill: #b8860b;
+    --node-stroke: #cd853f;
+    --node-hover-fill: #cd853f;
+    --node-text-color: #1a0d00;
+    --link-color: #ffa500;
+    --add-button-color: #cd853f;
+    --remove-button-color: #ff4500;
+    --remove-button-hover-color: #ff6347;
+    --button-text-color: #1a0d00;
+    --scrollbar-track: #1a0d00;
+    --scrollbar-thumb: #b8860b;
+    --scrollbar-thumb-hover: #cd853f;
+    --tooltip-background: #2b1400;
+    --tooltip-color: #ffd700;
+    --shadow-color: rgba(184, 134, 11, 0.5);
+
+    /* Maximized Space Cowboy Mode Effects */
+    --text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
+    --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(184, 134, 11, 0.3);
+    --button-glow: 0 0 20px var(--accent-color), 0 0 40px var(--primary-color);
+    --input-focus-glow: 0 0 15px var(--secondary-color), 0 0 30px var(--primary-color);
+    --code-highlight: #4d2b00;
+    --scrollbar-glow: 0 0 12px var(--primary-color), 0 0 24px var(--accent-color);
+    --western-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path fill="%23b8860b" fill-opacity="0.15" d="M40 5L47 30H73L52 45L60 70L40 55L20 70L28 45L7 30H33L40 5Z"/></svg>');
+}
+
+body.space-cowboy-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--western-pattern), radial-gradient(circle, rgba(43, 20, 0, 0.7) 0%, rgba(26, 13, 0, 0.9) 100%);
+    opacity: 0.1;
+    z-index: -1;
+    animation: tumbleweed 30s linear infinite, dustStorm 20s ease-in-out infinite alternate;
+}
+
+@keyframes tumbleweed {
+    0% { background-position: 0 0, center; }
+    100% { background-position: 100% 100%, center; }
+}
+
+@keyframes dustStorm {
+    0%, 100% { filter: blur(0px); }
+    50% { filter: blur(2px); }
+}
+
+body.space-cowboy-mode .header-title {
+    font-family: 'Wanted', 'Old West', serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+body.space-cowboy-mode .header-title::before,
+body.space-cowboy-mode .header-title::after {
+    content: '🤠';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2em;
+    opacity: 0.8;
+    animation: lasso 5s ease-in-out infinite;
+}
+
+body.space-cowboy-mode .header-title::before {
+    left: -40px;
+}
+
+body.space-cowboy-mode .header-title::after {
+    right: -40px;
+}
+
+@keyframes lasso {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); }
+    50% { transform: translateY(-60%) rotate(15deg); }
+}
+
+body.space-cowboy-mode #chat-messages::before {
+    content: '🌵';
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 36px;
+    opacity: 0.7;
+    animation: sway 8s ease-in-out infinite;
+}
+
+body.space-cowboy-mode #chat-messages::after {
+    content: '🐎';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 36px;
+    opacity: 0.7;
+    animation: gallop 12s linear infinite;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes gallop {
+    0% { left: -50px; }
+    100% { left: calc(100% + 50px); }
+}
+
+body.space-cowboy-mode * {
+    transition: all 0.4s ease-in-out;
+}
+
+body.space-cowboy-mode button,
+body.space-cowboy-mode input,
+body.space-cowboy-mode select,
+body.space-cowboy-mode textarea {
+    border: 2px solid var(--border-color);
+    border-radius: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+body.space-cowboy-mode button::after,
+body.space-cowboy-mode input::after,
+body.space-cowboy-mode select::after,
+body.space-cowboy-mode textarea::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--primary-color) 10%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+body.space-cowboy-mode button:hover::after,
+body.space-cowboy-mode input:focus::after,
+body.space-cowboy-mode select:focus::after,
+body.space-cowboy-mode textarea:focus::after {
+    opacity: 0.2;
+    animation: tumbleweed 5s linear infinite;
+}

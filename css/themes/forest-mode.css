@@ -1,0 +1,453 @@
+/* forest-mode.css */
+
+/* Forest Mode - Maximized Expression */
+body.forest-mode {
+    /* Existing CSS Variables */
+    --canopy-dark: #052505;
+    --canopy-light: #0d3d0d;
+    --sunlight: #f9ffd6;
+    --moonlight: #d0e8d0;
+    --leaf-green: #2ecc71;
+    --moss-green: #27ae60;
+    --bark-brown: #795548;
+    --forest-floor: #3e2723;
+    --wildflower-yellow: #f1c40f;
+    --berry-red: #e74c3c;
+    --water-blue: #3498db;
+    --forest-mist: rgba(255, 255, 255, 0.1);
+
+    /* Enhanced Variables */
+    --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --button-glow: 0 0 15px var(--wildflower-yellow);
+    --input-focus-glow: 0 0 10px var(--moss-green);
+    --code-highlight: #1a2e1a;
+    --scrollbar-glow: 0 0 8px var(--leaf-green);
+    --leaf-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><path fill="%232ecc71" fill-opacity="0.1" d="M25 0 L50 25 L25 50 L0 25 Z"/></svg>');
+    --tree-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23795548" fill-opacity="0.1" d="M30 100 L50 0 L70 100 Z"/></svg>');
+
+    /* New Variables for Additional Effects */
+    --bird-color: #ffffff;
+    --firefly-color: #ffeb3b;
+    --raindrop-color: #3498db;
+    --star-color: #ffffff;
+    --twinkle-opacity: 0.7;
+}
+
+/* Body Styles */
+body.forest-mode {
+    background-color: var(--canopy-dark);
+    color: var(--moonlight);
+    transition: all 0.5s ease;
+    animation: dayNightCycle 120s ease-in-out infinite;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%232ecc71" d="M12 2L2 22h20L12 2z"/></svg>'), auto;
+}
+
+/* Pseudo-element for Background Patterns and Animations */
+body.forest-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        var(--leaf-pattern),
+        var(--tree-pattern),
+        radial-gradient(circle at 10% 20%, var(--forest-mist) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, var(--forest-mist) 0%, transparent 20%);
+    background-size: 50px 50px, 100px 100px, 100% 100%, 100% 100%;
+    background-position: 0 0, 40px 60px, 130px 270px, 0 0;
+    opacity: 0.3;
+    z-index: -1;
+    animation: forestAmbience 120s linear infinite, twinkle 20s infinite;
+}
+
+/* Pseudo-element for Forest Creature */
+body.forest-mode::after {
+    content: '🦊'; /* Forest Creature */
+    position: fixed;
+    bottom: -20px;
+    right: 20px;
+    font-size: 30px;
+    animation: peekaboo 10s ease-in-out infinite;
+    z-index: 9999;
+}
+
+/* Tree Styles */
+body.forest-mode .tree {
+    width: 50px;
+    height: 150px;
+    background: var(--bark-brown);
+    position: absolute;
+    bottom: 0;
+    left: 20%; /* Adjust as needed */
+    border-radius: 5px;
+    transform-origin: bottom center;
+    animation: breeze 6s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.forest-mode .tree::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -25px;
+    width: 100px;
+    height: 100px;
+    background: var(--leaf-green);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--leaf-green);
+    transition: transform 0.3s ease;
+}
+
+body.forest-mode .tree.grow {
+    transform: scale(1.1);
+}
+
+body.forest-mode .tree.grow::before {
+    transform: scale(1.2);
+}
+
+@keyframes breeze {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Raindrop Styles */
+body.forest-mode .raindrop {
+    position: absolute;
+    top: -100px;
+    width: 2px;
+    height: 15px;
+    background: var(--raindrop-color);
+    opacity: 0;
+    animation: rainfall 2s linear infinite;
+    border-radius: 50%;
+}
+
+body.forest-mode .raindrop:nth-child(odd) {
+    left: 10%;
+    animation-delay: 0s;
+}
+
+body.forest-mode .raindrop:nth-child(even) {
+    left: 20%;
+    animation-delay: 1s;
+}
+
+@keyframes rainfall {
+    0% { transform: translateY(-100px); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(100px); opacity: 0; }
+}
+
+/* Firefly Effect */
+body.forest-mode .firefly {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 5px;
+    height: 5px;
+    background: var(--firefly-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--firefly-color);
+    animation: fireflyMove 3s linear infinite, fireflyBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes fireflyMove {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(20px, -20px); }
+    50% { transform: translate(40px, 0px); }
+    75% { transform: translate(20px, 20px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes fireflyBlink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Bird Animation */
+body.forest-mode .bird {
+    position: absolute;
+    top: 10%;
+    left: -50px;
+    width: 30px;
+    height: 30px;
+    background: var(--bird-color);
+    border-radius: 50%;
+    box-shadow: 15px 0 0 var(--bird-color), -15px 0 0 var(--bird-color);
+    animation: birdFly 10s linear forwards;
+}
+
+@keyframes birdFly {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    25% { transform: translateX(100px) translateY(-50px) rotate(-15deg); }
+    50% { transform: translateX(200px) translateY(0px) rotate(0deg); }
+    75% { transform: translateX(300px) translateY(50px) rotate(15deg); }
+    100% { transform: translateX(400px) translateY(0px) rotate(0deg); }
+}
+
+/* Scrollbar Customization */
+body.forest-mode::-webkit-scrollbar {
+    width: 15px;
+    background-color: var(--bark-brown);
+}
+
+body.forest-mode::-webkit-scrollbar-thumb {
+    background-color: var(--leaf-green);
+    border-radius: 10px;
+    border: 3px solid var(--bark-brown);
+}
+
+body.forest-mode::-webkit-scrollbar-thumb:hover {
+    background-color: var(--moss-green);
+    box-shadow: var(--scrollbar-glow);
+}
+
+/* Header Styles */
+body.forest-mode .header {
+    background: linear-gradient(135deg, var(--header-bg), var(--canopy-light));
+    box-shadow: 0 2px 10px var(--shadow-color);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+body.forest-mode .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,0.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,0.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,0.1) 2px, transparent 40px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    animation: twinkle 20s infinite;
+}
+
+/* Header Title Enhancements */
+body.forest-mode .header-title {
+    text-shadow: var(--text-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+body.forest-mode .header-title::after {
+    content: '🌳🍃';
+    margin-left: 10px;
+    font-size: 0.8em;
+    animation: sway 5s ease-in-out infinite;
+}
+
+/* Header Hover Effects */
+body.forest-mode .header:hover {
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* Chat Interface Styles */
+body.forest-mode #chat-messages {
+    box-shadow: var(--box-shadow);
+    background: linear-gradient(to bottom, var(--chat-background), rgba(5, 37, 5, 0.7));
+    backdrop-filter: blur(5px);
+    border: 2px solid var(--primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+    max-height: 70vh;
+    position: relative;
+}
+
+/* Message Styles */
+body.forest-mode .message {
+    border-left: 3px solid var(--secondary-color);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+}
+
+body.forest-mode .message:hover {
+    transform: translateX(5px) scale(1.02);
+    box-shadow: -5px 0 10px var(--primary-color-transparent);
+}
+
+/* Specific Message Types */
+body.forest-mode .user-message {
+    background: var(--user-message-bg);
+    color: var(--user-message-color);
+    border-left-color: var(--primary-color);
+}
+
+body.forest-mode .agent-message {
+    background: var(--agent-message-bg);
+    color: var(--agent-message-color);
+    border-left-color: var(--secondary-color);
+}
+
+body.forest-mode .layer-message {
+    background: var(--layer-message-bg);
+    color: var(--layer-message-color);
+    border-left-color: var(--tertiary-color);
+}
+
+body.forest-mode .assistant-message {
+    background: var(--assistant-message-bg);
+    color: var(--assistant-message-color);
+    border-left-color: var(--accent-color);
+}
+
+/* Input Form Styles */
+body.forest-mode #chat-input-form {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+body.forest-mode #chat-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: var(--input-background);
+    color: var(--text-color-light);
+    transition: all 0.3s ease;
+}
+
+body.forest-mode #chat-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: var(--input-focus-glow);
+    transform: translateY(-2px);
+}
+
+/* Send Button Styles */
+body.forest-mode #send-message {
+    padding: 10px 20px;
+    background-color: var(--button-background);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+body.forest-mode #send-message::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent, 
+        var(--forest-mist), 
+        transparent 30%
+    );
+    animation: rotate 4s linear infinite;
+}
+
+body.forest-mode #send-message:hover {
+    background-color: var(--secondary-color);
+    box-shadow: var(--button-glow);
+    transform: translateY(-3px);
+}
+
+/* Toggle Animations Media Query */
+@media (prefers-reduced-motion: reduce) {
+    body.forest-mode * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* New Animations */
+
+/* Sway Animation for Header Title */
+@keyframes sway {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(5deg) translateY(-5px); }
+    75% { transform: rotate(-5deg) translateY(5px); }
+}
+
+/* Peekaboo Animation for Forest Creature */
+@keyframes peekaboo {
+    0%, 100% { transform: translateY(100%); }
+    50% { transform: translateY(0); }
+}
+
+/* Firefly Movement and Blink */
+@keyframes fireflyMove {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(20px, -20px); }
+    50% { transform: translate(40px, 0px); }
+    75% { transform: translate(20px, 20px); }
+    100% { transform: translate(0, 0); }
+}
+
+@keyframes fireflyBlink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Rainfall Animation */
+@keyframes rainfall {
+    0% { transform: translateY(-100px); opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { transform: translateY(100px); opacity: 0; }
+}
+
+/* Thunder Animation */
+@keyframes thunder {
+    0%, 100% { opacity: 0; }
+    10%, 30%, 50%, 70% { opacity: 1; }
+}
+
+/* Fog Animation */
+@keyframes fog {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 0.1; }
+}
+
+/* Rotate Animation for Send Button */
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Day-Night Cycle */
+@keyframes dayNightCycle {
+    0%, 100% { 
+        --background-dark: #052505;
+        --background-light: #0d3d0d;
+        --text-color-dark: #f9ffd6;
+        --text-color-light: #d0e8d0;
+    }
+    50% { 
+        --background-dark: #0d3d0d;
+        --background-light: #052505;
+        --text-color-dark: #d0e8d0;
+        --text-color-light: #f9ffd6;
+    }
+}
+
+/* Firefly Container */
+body.forest-mode .firefly-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}

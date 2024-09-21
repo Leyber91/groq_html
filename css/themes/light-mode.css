@@ -1,0 +1,396 @@
+/* Light Mode */
+body.light-mode {
+    --background-dark: #f8f8f8;
+    --background-light: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-light: #666666;
+    --primary-color: #ff4136;
+    --secondary-color: #3498db;
+    --accent-color: #2ecc71;
+    --border-color: rgba(255, 65, 54, 0.3);
+    --chat-background: rgba(255, 255, 255, 0.9);
+    --user-message-bg: #fff0f0;
+    --user-message-color: #333333;
+    --assistant-message-bg: #f0f8ff;
+    --assistant-message-color: #333333;
+    --layer-message-bg: #fff5f5;
+    --layer-message-color: #333333;
+    --agent-message-bg: #f0fff0;
+    --agent-message-color: #333333;
+    --input-background: #ffffff;
+    --chat-input-background: #fff0f0;
+    --code-background: #f8f8f8;
+    --button-background: #ff4136;
+    --button-color: #ffffff;
+    --button-hover-background: #ff725c;
+    --execution-result-background: #2ecc71;
+    --execution-result-color: #ffffff;
+    --execution-error-background: #e74c3c;
+    --execution-error-color: #ffffff;
+    --error-background: #e74c3c;
+    --error-color: #ffffff;
+    --controls-background: rgba(255, 255, 255, 0.95);
+    --control-item-background: rgba(248, 248, 248, 0.8);
+    --primary-color-transparent: rgba(255, 65, 54, 0.2);
+    --gradient-secondary: linear-gradient(135deg, #3498db, #2ecc71);
+    --node-fill: #3498db;
+    --node-stroke: #ff4136;
+    --node-hover-fill: #ff4136;
+    --node-text-color: #ffffff;
+    --link-color: #666666;
+    --add-button-color: #2ecc71;
+    --remove-button-color: #e74c3c;
+    --remove-button-hover-color: #c0392b;
+    --button-text-color: #ffffff;
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #cccccc;
+    --scrollbar-thumb-hover: #bbbbbb;
+    --tooltip-background: #f0f0f0;
+    --tooltip-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --header-bg: #ffffff;
+    --header-text: #333333;
+    --header-hover: #f0f0f0;
+    --header-border: #e0e0e0;
+    --header-shadow: rgba(0, 0, 0, 0.1);
+    --header-active: #f5f5f5;
+
+    /* Enhanced Light Mode Effects */
+    --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --button-glow: 0 0 15px var(--primary-color-transparent);
+    --input-focus-glow: 0 0 10px var(--secondary-color);
+    --code-highlight: #e8e8e8;
+    --scrollbar-glow: 0 0 8px var(--primary-color-transparent);
+}
+
+body.light-mode {
+    background-color: var(--background-light);
+    color: var(--text-color-dark);
+    transition: all 0.5s ease;
+}
+
+body.light-mode::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(45deg, var(--background-dark) 25%, transparent 25%), 
+        linear-gradient(-45deg, var(--background-dark) 25%, transparent 25%), 
+        linear-gradient(45deg, transparent 75%, var(--background-dark) 75%), 
+        linear-gradient(-45deg, transparent 75%, var(--background-dark) 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    opacity: 0.05;
+    z-index: -1;
+    animation: patternShift 60s linear infinite;
+}
+
+@keyframes patternShift {
+    0% { background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
+    100% { background-position: 40px 40px, 40px 50px, 50px 30px, 30px 40px; }
+}
+
+body.light-mode .header-title {
+    text-shadow: var(--text-shadow);
+}
+
+body.light-mode .header-title::after {
+    content: '☀️';
+    margin-left: 10px;
+    font-size: 0.8em;
+    animation: sunPulse 5s infinite;
+}
+
+@keyframes sunPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+body.light-mode #chat-messages {
+    box-shadow: var(--box-shadow);
+    background: linear-gradient(to bottom, var(--chat-background), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(5px);
+}
+
+body.light-mode .message {
+    border-left: 3px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+body.light-mode .message:hover {
+    transform: translateX(5px);
+    box-shadow: -5px 0 10px var(--primary-color-transparent);
+}
+
+body.light-mode #send-message {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+body.light-mode #send-message::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent, 
+        rgba(255, 255, 255, 0.8), 
+        transparent 30%
+    );
+    animation: rotate 4s linear infinite;
+}
+
+body.light-mode #send-message:hover {
+    background-color: var(--secondary-color);
+    box-shadow: var(--button-glow);
+}
+
+@keyframes rotate {
+    100% { transform: rotate(1turn); }
+}
+
+body.light-mode #chat-input {
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+body.light-mode #chat-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: var(--input-focus-glow);
+}
+
+body.light-mode code {
+    background-color: var(--code-background);
+    border-left: 3px solid var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+body.light-mode code:hover {
+    background-color: var(--code-highlight);
+}
+
+body.light-mode::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+body.light-mode::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+    box-shadow: var(--scrollbar-glow);
+}
+
+body.light-mode .moa-controls button {
+    transition: all 0.3s ease;
+}
+
+body.light-mode .moa-controls button:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--button-glow);
+}
+
+body.light-mode #moa-diagram {
+    filter: none;
+    transition: none;
+}
+
+body.light-mode .node {
+    transition: all 0.3s ease;
+}
+
+body.light-mode .node:hover {
+    filter: brightness(1.1);
+}
+
+body.light-mode .link {
+    stroke: var(--link-color);
+    stroke-dasharray: 5, 5;
+    animation: flowDash 20s linear infinite;
+}
+
+@keyframes flowDash {
+    to { stroke-dashoffset: -100; }
+}
+
+/* Ensure theme toggle button remains visible */
+body.light-mode #theme-toggle {
+    background-color: var(--button-background);
+    color: var(--button-color);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+}
+
+body.light-mode #theme-toggle:hover {
+    background-color: var(--button-hover-background);
+    transform: scale(1.05);
+}
+
+/* Add a subtle shine animation to the theme toggle button */
+@keyframes shine {
+    0% { background-position: -100% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+body.light-mode #theme-toggle {
+    background: linear-gradient(90deg, var(--button-background) 0%, var(--button-hover-background) 50%, var(--button-background) 100%);
+    background-size: 200% 100%;
+    animation: shine 3s infinite;
+}
+
+/* Light-specific enhancements */
+body.light-mode .header {
+    background: linear-gradient(135deg, var(--header-bg), var(--background-light));
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+body.light-mode button {
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+body.light-mode button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+body.light-mode input[type="text"],
+body.light-mode input[type="number"],
+body.light-mode select {
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 1px 3px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+body.light-mode input[type="text"]:focus,
+body.light-mode input[type="number"]:focus,
+body.light-mode select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px var(--secondary-color-transparent), inset 0 1px 3px var(--shadow-color);
+}
+
+/* Add a subtle paper texture to the background */
+body.light-mode::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/png;base64,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');
+    opacity: 0.02;
+    z-index: -1;
+}
+
+/* Add a subtle hover effect to interactive elements */
+body.light-mode a,
+body.light-mode button,
+body.light-mode .interactive-element {
+    transition: all 0.3s ease;
+}
+
+body.light-mode a:hover,
+body.light-mode button:hover,
+body.light-mode .interactive-element:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/* Add a subtle parallax effect to the background */
+@keyframes parallax {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+body.light-mode::before {
+    animation: parallax 15s ease-in-out infinite;
+}
+
+/* Add a subtle color shift to the background */
+@keyframes colorShift {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(5deg); }
+    100% { filter: hue-rotate(0deg); }
+}
+
+body.light-mode {
+    animation: colorShift 30s infinite;
+}
+
+/* Improve the design of interactive elements */
+body.light-mode button,
+body.light-mode input[type="text"],
+body.light-mode input[type="number"],
+body.light-mode select {
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+body.light-mode button {
+    background: linear-gradient(135deg, var(--button-background), var(--button-hover-background));
+    border: none;
+    color: var(--button-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body.light-mode button:hover {
+    background: linear-gradient(135deg, var(--button-hover-background), var(--button-background));
+}
+
+/* Improve the design of the chat interface */
+body.light-mode #chat-messages {
+    border-radius: 12px;
+    padding: 20px;
+}
+
+body.light-mode .message {
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+}
+
+/* Ensure the diagram doesn't get affected by transitions */
+body.light-mode #moa-diagram {
+    transition: none;
+    animation: none;
+    filter: none;
+}
+
+body.light-mode #moa-diagram * {
+    transition: none;
+    animation: none;
+}
+
+/* Add a subtle glow effect to the header */
+body.light-mode .header {
+    position: relative;
+    overflow: hidden;
+}
+
+body.light-mode .header::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0.5;
+    animation: headerGlow 10s infinite;
+}
+
+@keyframes headerGlow {
+    0%, 100% { transform: translate(-30%, -30%) rotate(0deg); }
+    50% { transform: translate(-30%, -30%) rotate(180deg); }
+}

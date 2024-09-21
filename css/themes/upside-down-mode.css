@@ -1,0 +1,81 @@
+/* Upside Down Mode */
+body.upside-down-mode {
+    --background-dark: #f0f0f0;
+    --background-light: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-light: #666666;
+    --primary-color: #ff6b6b;
+    --secondary-color: #4ecdc4;
+    --accent-color: #ff4136;
+    --border-color: rgba(51, 51, 51, 0.2);
+    --chat-background: rgba(240, 240, 240, 0.8);
+    --user-message-bg: #ffffff;
+    --user-message-color: #333333;
+    --assistant-message-bg: #f0f0f0;
+    --assistant-message-color: #333333;
+    --layer-message-bg: #ffffff;
+    --layer-message-color: #333333;
+    --agent-message-bg: #f0f0f0;
+    --agent-message-color: #333333;
+    --input-background: #ffffff;
+    --chat-input-background: #ffffff;
+    --code-background: #ffffff;
+    --button-background: #ff6b6b;
+    --button-color: #ffffff;
+    --button-hover-background: #4ecdc4;
+    --execution-result-background: #4ecdc4;
+    --execution-result-color: #ffffff;
+    --execution-error-background: #ff4136;
+    --execution-error-color: #ffffff;
+    --error-background: #ff4136;
+    --error-color: #ffffff;
+    --controls-background: rgba(240, 240, 240, 0.9);
+    --control-item-background: rgba(255, 255, 255, 0.7);
+    --primary-color-transparent: rgba(255, 107, 107, 0.2);
+    --gradient-secondary: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+    --node-fill: #ff6b6b;
+    --node-stroke: #4ecdc4;
+    --node-hover-fill: #4ecdc4;
+    --node-text-color: #ffffff;
+    --link-color: #666666;
+    --add-button-color: #4ecdc4;
+    --remove-button-color: #ff4136;
+    --remove-button-hover-color: #ff6b6b;
+    --button-text-color: #ffffff;
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #ff6b6b;
+    --scrollbar-thumb-hover: #4ecdc4;
+    --tooltip-background: #ffffff;
+    --tooltip-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --header-bg: #f0f0f0;
+    --header-text: #333333;
+    --header-hover: #ffffff;
+    --header-border: #cccccc;
+    --header-shadow: rgba(0, 0, 0, 0.1);
+    --header-active: #e6e6e6;
+
+    /* Enhanced Upside Down Mode Effects */
+    --text-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+    --box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    --button-glow: 0 -5px 10px var(--primary-color);
+    --input-focus-glow: 0 -4px 8px var(--secondary-color);
+    --code-highlight: #e8e8e8;
+    --scrollbar-glow: 0 -3px 5px var(--primary-color);
+    transform: rotate(180deg);
+    filter: invert(1);
+}
+
+body.upside-down-mode * {
+    transform: rotate(180deg);
+}
+
+body.upside-down-mode #chat-messages {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+body.upside-down-mode #user-input {
+    transform: rotate(180deg) scaleX(-1);
+}
+

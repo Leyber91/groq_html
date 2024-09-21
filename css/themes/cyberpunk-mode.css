@@ -1,0 +1,499 @@
+/* css/themes/cyberpunk-mode.css */
+/* Cyberpunk Mode - Enhanced Expression */
+
+:root {
+    /* Color Palette */
+    --background-dark: #0a0a1e;
+    --background-light: #1e1e3f;
+    --text-color: #00ffff;
+    --accent-color: #ff00ff;
+    --primary-color: #00ff00;
+    --secondary-color: #ff00aa;
+    --border-color: #00cccc;
+    --shadow-color: rgba(0, 255, 255, 0.5);
+    --neon-pink: #ff69b4;
+    --neon-blue: #1e90ff;
+    --neon-green: #39ff14;
+    --neon-yellow: #ffff33;
+
+    /* Glow Effects */
+    --neon-glow: 0 0 10px var(--accent-color), 0 0 20px var(--accent-color);
+    --button-glow: 0 0 15px var(--primary-color), 0 0 30px var(--primary-color);
+    --input-glow: 0 0 10px var(--secondary-color), 0 0 20px var(--secondary-color);
+    --card-glow: 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+}
+
+/* Base Styles */
+body.cyberpunk-mode {
+    background-color: var(--background-dark);
+    color: var(--text-color);
+    font-family: 'Orbitron', sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Dynamic Neon Grid Background */
+body.cyberpunk-mode::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(45deg, var(--background-dark) 25%, transparent 25%, transparent 75%, var(--background-dark) 75%, var(--background-dark) 100%),
+        linear-gradient(45deg, var(--background-dark) 25%, transparent 25%, transparent 75%, var(--background-dark) 75%, var(--background-dark) 100%);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    opacity: 0.1;
+    z-index: -1;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0, 30px 30px; }
+    100% { background-position: 60px 60px, 90px 90px; }
+}
+
+/* Glowing Overlay with Pulsing Effect */
+body.cyberpunk-mode::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 0, 255, 0.2), transparent 70%);
+    z-index: -1;
+    animation: pulseGlow 10s ease-in-out infinite alternate, colorShift 30s linear infinite;
+}
+
+@keyframes pulseGlow {
+    from { opacity: 0.3; }
+    to { opacity: 0.7; }
+}
+
+@keyframes colorShift {
+    0% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(360deg); }
+    100% { filter: hue-rotate(0deg); }
+}
+
+/* Header Styling with Advanced Glitch Effect */
+header.cyberpunk-header {
+    background: linear-gradient(135deg, var(--background-light), var(--accent-color));
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--neon-glow);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+header.cyberpunk-header h1 {
+    font-size: 3em;
+    text-shadow: var(--neon-glow);
+    position: relative;
+    animation: flicker 3s infinite;
+}
+
+header.cyberpunk-header h1::after {
+    content: '⚡';
+    margin-left: 10px;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); opacity: 1; }
+    20% { transform: translate(-2px, 2px); opacity: 0.8; }
+    40% { transform: translate(-2px, -2px); opacity: 0.6; }
+    60% { transform: translate(2px, 2px); opacity: 0.8; }
+    80% { transform: translate(2px, -2px); opacity: 1; }
+    100% { transform: translate(0); opacity: 1; }
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% { 
+        opacity: 0.4;
+    }
+}
+
+/* Enhanced Button Styling with Rainbow Gradient */
+button.cyberpunk-button {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--neon-pink), var(--neon-blue));
+    border: 2px solid var(--border-color);
+    color: var(--background-dark);
+    padding: 12px 24px;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: var(--neon-glow);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+button.cyberpunk-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    opacity: 0;
+}
+
+button.cyberpunk-button:hover::before {
+    opacity: 1;
+    top: 150%;
+    left: 150%;
+}
+
+button.cyberpunk-button:hover {
+    box-shadow: 0 0 20px var(--button-glow);
+    transform: scale(1.1);
+}
+
+/* Advanced Input Styling with Neon Borders */
+input.cyberpunk-input,
+textarea.cyberpunk-textarea {
+    background: var(--background-light);
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px var(--shadow-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input.cyberpunk-input:focus,
+textarea.cyberpunk-textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--input-glow);
+    outline: none;
+}
+
+/* Link Styling with Underline Animation */
+a.cyberpunk-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+a.cyberpunk-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-color);
+    left: 0;
+    bottom: -3px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+a.cyberpunk-link:hover::after {
+    transform: scaleX(1);
+}
+
+a.cyberpunk-link:hover {
+    color: var(--primary-color);
+}
+
+/* Enhanced Card Component with 3D Effect */
+.card.cyberpunk-card {
+    background: rgba(30, 30, 63, 0.85);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--card-glow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    perspective: 1000px;
+}
+
+.card.cyberpunk-card:hover {
+    transform: rotateY(10deg) translateY(-10px);
+    box-shadow: 0 0 30px var(--neon-green), 0 0 60px var(--neon-green);
+}
+
+/* Footer Styling with Animated Waves */
+footer.cyberpunk-footer {
+    background: linear-gradient(135deg, var(--background-light), var(--accent-color));
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--neon-glow);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+footer.cyberpunk-footer::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100%;
+    animation: waveMove 10s linear infinite;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+footer.cyberpunk-footer p {
+    margin: 0;
+    color: var(--text-color);
+    text-shadow: var(--neon-glow);
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+    header.cyberpunk-header h1 {
+        font-size: 2em;
+    }
+
+    button.cyberpunk-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .card.cyberpunk-card {
+        padding: 16px;
+    }
+
+    footer.cyberpunk-footer p {
+        font-size: 0.9em;
+    }
+
+    /* Enhanced Chat Styling for Smaller Screens */
+    .chat-container.cyberpunk-chat {
+        height: 400px;
+        padding: 15px;
+    }
+
+    .chat-input.cyberpunk-chat-input input {
+        padding: 10px;
+    }
+
+    .chat-input.cyberpunk-chat-input button {
+        padding: 10px 20px;
+    }
+}
+
+/* Additional Components */
+
+/* Notification Badge */
+.badge.cyberpunk-badge {
+    background: var(--neon-yellow);
+    color: var(--background-dark);
+    padding: 5px 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px var(--neon-yellow);
+    font-weight: bold;
+    position: relative;
+}
+
+.badge.cyberpunk-badge::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 12px;
+    height: 12px;
+    background: var(--neon-red);
+    border: 2px solid var(--background-dark);
+    border-radius: 50%;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+}
+
+/* Tooltip Styling */
+.tooltip.cyberpunk-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.tooltip.cyberpunk-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--background-light);
+    color: var(--text-color);
+    padding: 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    box-shadow: var(--neon-glow);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.tooltip.cyberpunk-tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Loader Animation */
+.loader.cyberpunk-loader {
+    border: 8px solid var(--background-light);
+    border-top: 8px solid var(--primary-color);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.5s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Enhanced Chat Styling */
+.chat-container.cyberpunk-chat {
+    background: rgba(30, 30, 63, 0.9);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: var(--neon-glow);
+    max-width: 800px;
+    margin: 40px auto;
+    overflow-y: auto;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-message.user-messages {
+    background: var(--primary-color);
+    color: var(--background-dark);
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    align-self: flex-end;
+    max-width: 70%;
+    position: relative;
+    box-shadow: 0 0 10px var(--primary-color);
+    animation: fadeIn 0.5s ease;
+}
+
+.chat-message.assistant-messages {
+    background: var(--accent-color);
+    color: var(--background-dark);
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    max-width: 70%;
+    position: relative;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: fadeIn 0.5s ease;
+}
+
+.chat-input.cyberpunk-chat-input {
+    display: flex;
+    margin-top: 20px;
+}
+
+.chat-input.cyberpunk-chat-input input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px 0 0 8px;
+    background: var(--background-light);
+    color: var(--text-color);
+    box-shadow: inset 0 0 10px var(--shadow-color);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chat-input.cyberpunk-chat-input input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--input-glow);
+    outline: none;
+}
+
+.chat-input.cyberpunk-chat-input button {
+    padding: 12px 24px;
+    border: 2px solid var(--border-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--neon-pink), var(--neon-blue));
+    color: var(--background-dark);
+    cursor: pointer;
+    border-radius: 0 8px 8px 0;
+    box-shadow: var(--button-glow);
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+}
+
+.chat-input.cyberpunk-chat-input button:hover {
+    box-shadow: 0 0 20px var(--button-glow);
+    transform: scale(1.05);
+}
+
+/* Chat Timestamp Styling */
+.chat-message .timestamp {
+    display: block;
+    font-size: 0.8em;
+    color: var(--text-color);
+    margin-top: 5px;
+    text-align: right;
+}
+
+/* Scrollbar Customization for Chat */
+.chat-container.cyberpunk-chat::-webkit-scrollbar {
+    width: 12px;
+}
+
+.chat-container.cyberpunk-chat::-webkit-scrollbar-track {
+    background: var(--background-dark);
+}
+
+.chat-container.cyberpunk-chat::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 6px;
+    box-shadow: 0 0 5px var(--primary-color), inset 0 0 5px var(--accent-color);
+}
+
+.chat-container.cyberpunk-chat::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

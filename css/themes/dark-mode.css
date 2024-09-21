@@ -1,0 +1,135 @@
+/* Dark Mode - Maximum Expression */
+body.dark-mode {
+    /* Core Colors */
+    --background-dark: #000000;
+    --background-light: #0a0a0a;
+    --text-color-dark: #ffffff;
+    --text-color-light: #f0f0f0;
+    --primary-color: #ff1493;
+    --secondary-color: #00ffff;
+    --accent-color: #ff00ff;
+    
+    /* UI Elements */
+    --border-color: rgba(255, 255, 255, 0.15);
+    --chat-background: rgba(0, 0, 0, 0.9);
+    --user-message-bg: #1a0033;
+    --user-message-color: #f0f0ff;
+    --assistant-message-bg: #003300;
+    --assistant-message-color: #f0fff0;
+    --layer-message-bg: #330033;
+    --layer-message-color: #fff0ff;
+    --agent-message-bg: #000033;
+    --agent-message-color: #f0f8ff;
+    --input-background: #1a1a1a;
+    --chat-input-background: #0d0d0d;
+    --code-background: #1a1a1a;
+    
+    /* Buttons and Controls */
+    --button-background: #ff1493;
+    --button-color: #ffffff;
+    --button-hover-background: #ff69b4;
+    --execution-result-background: #00ff00;
+    --execution-result-color: #000000;
+    --execution-error-background: #ff0000;
+    --execution-error-color: #ffffff;
+    --error-background: #8b0000;
+    --error-color: #ffd700;
+    --controls-background: rgba(0, 0, 0, 0.95);
+    --control-item-background: rgba(26, 26, 26, 0.8);
+    
+    /* Special Effects */
+    --primary-color-transparent: rgba(255, 20, 147, 0.3);
+    --gradient-secondary: linear-gradient(135deg, #00ffff, #ff1493);
+    
+    /* Graph Elements */
+    --node-fill: #00ffff;
+    --node-stroke: #ff1493;
+    --node-hover-fill: #ff69b4;
+    --node-text-color: #ffffff;
+    --link-color: #808080;
+    --add-button-color: #00ff00;
+    --remove-button-color: #ff0000;
+    --remove-button-hover-color: #8b0000;
+    
+    /* Misc UI */
+    --button-text-color: #ffffff;
+    --scrollbar-track: #0a0a0a;
+    --scrollbar-thumb: #333333;
+    --scrollbar-thumb-hover: #4d4d4d;
+    --tooltip-background: #1a1a1a;
+    --tooltip-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    
+    /* Header */
+    --header-bg: #1a0033;
+    --header-text: #f0f0ff;
+    --header-hover: #2b0052;
+    --header-border: #3d0066;
+    --header-shadow: rgba(0, 0, 0, 0.5);
+    --header-active: #0d001a;
+
+    /* Enhanced Dark Mode Effects */
+    --text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    --box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+    --button-glow: 0 0 20px var(--primary-color);
+    --input-focus-glow: 0 0 15px var(--secondary-color);
+    --code-highlight: #2a2a2a;
+    --scrollbar-glow: 0 0 10px var(--primary-color);
+
+    /* Neon Effects */
+    --neon-glow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+    --text-neon: 0 0 5px currentColor, 0 0 10px currentColor;
+
+    /* Animated Gradients */
+    --animated-gradient: linear-gradient(270deg, #ff1493, #00ffff, #ff00ff);
+    background-size: 600% 600%;
+    animation: gradientShift 30s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Apply neon effects */
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+    text-shadow: var(--text-neon);
+}
+
+body.dark-mode .neon-element {
+    box-shadow: var(--neon-glow);
+}
+
+/* Pulsating elements */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+body.dark-mode .pulse {
+    animation: pulse 3s infinite;
+}
+
+/* Starry background */
+body.dark-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    animation: twinkle 10s infinite linear;
+    z-index: -1;
+}
+
+@keyframes twinkle {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}

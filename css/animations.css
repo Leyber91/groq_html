@@ -1,113 +1,159 @@
+/* Basic Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
 @keyframes pulse {
     0% { transform: scale(1); }
-    25% { transform: scale(1.05) rotate(2deg); }
-    50% { transform: scale(1.1) rotate(-2deg); }
-    75% { transform: scale(1.05) rotate(2deg); }
-    100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(-20px); }
-    50% { opacity: 0.5; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+/* Neon Glow Animations */
+@keyframes neonPulse {
+    0% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
+    50% { box-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue); }
+    100% { box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
 }
 
-@keyframes gridPulse {
-    0% { opacity: 0.3; transform: scale(0.95); }
-    25% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.05); }
-    75% { opacity: 0.5; transform: scale(1); }
-    100% { opacity: 0.3; transform: scale(0.95); }
+@keyframes neonTextPulse {
+    0% { text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
+    50% { text-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue); }
+    100% { text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue); }
 }
 
-@keyframes glow {
-    0% { filter: drop-shadow(0 0 2px rgba(255, 107, 107, 0.5)); }
-    25% { filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.7)); }
-    50% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.9)); }
-    75% { filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.7)); }
-    100% { filter: drop-shadow(0 0 2px rgba(255, 107, 107, 0.5)); }
+/* Cyber-inspired Animations */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-5px, 5px); }
+    40% { transform: translate(-5px, -5px); }
+    60% { transform: translate(5px, 5px); }
+    80% { transform: translate(5px, -5px); }
+    100% { transform: translate(0); }
 }
 
-@keyframes rotate {
-    0% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.2); }
-    100% { transform: rotate(360deg) scale(1); }
+@keyframes dataFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    25% { transform: translateY(-15px) scale(1.1); }
-    50% { transform: translateY(0) scale(1); }
-    75% { transform: translateY(-5px) scale(1.05); }
+/* UI Element Transitions */
+@keyframes expandCollapse {
+    0% { transform: scaleY(0); opacity: 0; }
+    100% { transform: scaleY(1); opacity: 1; }
 }
 
+@keyframes rotateIn {
+    0% { transform: rotate(-90deg) scale(0.5); opacity: 0; }
+    100% { transform: rotate(0) scale(1); opacity: 1; }
+}
+
+/* Enhanced Existing Animations */
 @keyframes enhancedPulse {
-    0% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.1) rotate(5deg); }
-    50% { transform: scale(1.15) rotate(-5deg); }
-    75% { transform: scale(1.1) rotate(5deg); }
-    100% { transform: scale(1) rotate(0deg); }
+    0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+    50% { transform: scale(1.05) rotate(2deg); filter: brightness(1.2); }
+    100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
 }
 
 @keyframes enhancedGlow {
-    0% { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.4)) brightness(1); }
-    25% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6)) brightness(1.2); }
-    50% { filter: drop-shadow(0 0 25px rgba(255, 107, 107, 0.8)) brightness(1.4); }
-    75% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.6)) brightness(1.2); }
-    100% { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.4)) brightness(1); }
+    0% { filter: drop-shadow(0 0 5px rgba(var(--neon-blue-rgb), 0.5)) brightness(1); }
+    50% { filter: drop-shadow(0 0 15px rgba(var(--neon-blue-rgb), 0.8)) brightness(1.2); }
+    100% { filter: drop-shadow(0 0 5px rgba(var(--neon-blue-rgb), 0.5)) brightness(1); }
 }
 
-@keyframes wave {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-20px) rotate(10deg) scale(1.1); }
-    50% { transform: translateY(0) rotate(0deg) scale(1); }
-    75% { transform: translateY(-20px) rotate(-10deg) scale(1.1); }
+/* Quantum-inspired Animations */
+@keyframes quantumFluctuation {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.5; }
 }
 
-@keyframes colorChange {
-    0% { background-color: #ff6b6b; transform: scale(1); }
-    25% { background-color: #feca57; transform: scale(1.05); }
-    50% { background-color: #4ecdc4; transform: scale(1.1); }
-    75% { background-color: #8a2be2; transform: scale(1.05); }
-    100% { background-color: #ff6b6b; transform: scale(1); }
+@keyframes quantumEntanglement {
+    0% { transform: rotate(0deg) translateX(0) scale(1); }
+    33% { transform: rotate(120deg) translateX(10px) scale(1.1); }
+    66% { transform: rotate(240deg) translateX(-10px) scale(0.9); }
+    100% { transform: rotate(360deg) translateX(0) scale(1); }
 }
 
-@keyframes slideIn {
-    0% { transform: translateX(-5%) rotate(-5deg); opacity: 0; }
-    50% { transform: translateX(2%) rotate(2deg); opacity: 0.5; }
-    100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+/* Application-specific Animations */
+@keyframes nodeExpand {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-@keyframes rotate3D {
-    0% { transform: rotate3d(1, 1, 1, 0deg) scale(1); }
-    50% { transform: rotate3d(1, 1, 1, 180deg) scale(1.2); }
-    100% { transform: rotate3d(1, 1, 1, 360deg) scale(1); }
+@keyframes linkConnect {
+    0% { stroke-dashoffset: 100%; }
+    100% { stroke-dashoffset: 0%; }
 }
 
-@keyframes textGlitch {
-    0%, 100% { text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.05em -0.025em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75); }
-    25% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75); }
-    50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75); }
-    75% { text-shadow: -0.025em 0 0 rgba(255,0,0,.75), -0.025em -0.025em 0 rgba(0,255,0,.75), -0.025em -0.05em 0 rgba(0,0,255,.75); }
+/* Enhanced Animations */
+@keyframes enhancedFadeIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); filter: blur(5px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
-@keyframes slideDown {
-    0% { transform: translateY(-100%) rotate(-5deg); opacity: 0; }
-    50% { transform: translateY(-50%) rotate(2deg); opacity: 0.5; }
-    100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+@keyframes enhancedGlitch {
+    0% { transform: translate(0) skew(0deg); }
+    20% { transform: translate(-5px, 5px) skew(10deg); }
+    40% { transform: translate(-5px, -5px) skew(-5deg); }
+    60% { transform: translate(5px, 5px) skew(-10deg); }
+    80% { transform: translate(5px, -5px) skew(5deg); }
+    100% { transform: translate(0) skew(0deg); }
 }
 
-@keyframes fadeIn {
-    0% { opacity: 0; transform: scale(0.9) translateY(-20px); }
-    50% { opacity: 0.5; transform: scale(1.05) translateY(10px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+@keyframes enhancedDataFlow {
+    0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+    50% { background-position: 100% 50%; filter: hue-rotate(180deg); }
+    100% { background-position: 0% 50%; filter: hue-rotate(360deg); }
 }
 
-#moa-controls-container {
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease;
+/* Utility Classes */
+.animate-fadeIn { animation: enhancedFadeIn 0.5s ease-out; }
+.animate-fadeOut { animation: fadeOut 0.3s ease-in; }
+.animate-pulse { animation: enhancedPulse 2s infinite; }
+.animate-neonPulse { animation: neonPulse 2s infinite; }
+.animate-neonTextPulse { animation: neonTextPulse 2s infinite; }
+.animate-glitch { animation: enhancedGlitch 0.3s ease-in-out; }
+.animate-dataFlow { 
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+    background-size: 200% 100%;
+    animation: enhancedDataFlow 10s linear infinite;
+}
+.animate-expandCollapse { animation: expandCollapse 0.3s ease-in-out; }
+.animate-rotateIn { animation: rotateIn 0.5s ease-out; }
+.animate-enhancedPulse { animation: enhancedPulse 2s infinite; }
+.animate-enhancedGlow { animation: enhancedGlow 2s infinite; }
+.animate-quantumFluctuation { animation: quantumFluctuation 3s infinite; }
+.animate-quantumEntanglement { animation: quantumEntanglement 5s infinite; }
+.animate-nodeExpand { animation: nodeExpand 0.5s ease-out; }
+.animate-linkConnect { 
+    stroke-dasharray: 100%;
+    animation: linkConnect 1s ease-out forwards;
 }
 
-#moa-controls-container.collapsed {
-    transform: translateY(-100%) rotate(-5deg) scale(0.9);
-    opacity: 0;
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .animate-fadeIn,
+    .animate-fadeOut,
+    .animate-pulse,
+    .animate-neonPulse,
+    .animate-neonTextPulse,
+    .animate-glitch,
+    .animate-dataFlow,
+    .animate-expandCollapse,
+    .animate-rotateIn,
+    .animate-enhancedPulse,
+    .animate-enhancedGlow,
+    .animate-quantumFluctuation,
+    .animate-quantumEntanglement,
+    .animate-nodeExpand,
+    .animate-linkConnect {
+        animation: none !important;
+        transition: none !important;
+    }
 }

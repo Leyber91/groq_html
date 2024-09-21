@@ -11,7 +11,7 @@
       "llama3-groq-8b-8192-tool-use-preview",
       "mixtral-8x7b-32768"
     ],
-    "default": "mixtral-8x7b-32768",
+    "default": "llama3-groq-70b-8192-tool-use-preview",
     "info": {
       "gemma-7b-it": {
         "description": "Lightweight model for general tasks",

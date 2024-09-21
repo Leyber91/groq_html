@@ -1,4 +1,4 @@
-// theme-toggle.js
+// js/main/theme-toggle.js
 
 const themes = ['dark', 'light', 'dracula', 'cyberpunk', 'forest', 'ocean', 'upside-down', 'glitch', 'underwater', 'space-cowboy'];
 

@@ -1,0 +1,194 @@
+/* Ocean Mode - Maximum Expression */
+body.ocean-mode {
+    --background-dark: #000080;
+    --background-light: #0066cc;
+    --text-color-dark: #e6f3ff;
+    --text-color-light: #87ceeb;
+    --primary-color: #00ffff;
+    --secondary-color: #1e90ff;
+    --accent-color: #ffd700;
+    --border-color: rgba(0, 255, 255, 0.4);
+    --chat-background: rgba(0, 0, 128, 0.9);
+    --user-message-bg: #0066cc;
+    --user-message-color: #e6f3ff;
+    --assistant-message-bg: #000080;
+    --assistant-message-color: #87ceeb;
+    --layer-message-bg: #0066cc;
+    --layer-message-color: #e6f3ff;
+    --agent-message-bg: #000080;
+    --agent-message-color: #87ceeb;
+    --input-background: #0066cc;
+    --chat-input-background: #0066cc;
+    --code-background: #0066cc;
+    --button-background: #00ffff;
+    --button-color: #000080;
+    --button-hover-background: #1e90ff;
+    --execution-result-background: #1e90ff;
+    --execution-result-color: #000080;
+    --execution-error-background: #ff6347;
+    --execution-error-color: #e6f3ff;
+    --error-background: #ff6347;
+    --error-color: #e6f3ff;
+    --controls-background: rgba(0, 0, 128, 0.95);
+    --control-item-background: rgba(0, 102, 204, 0.8);
+    --primary-color-transparent: rgba(0, 255, 255, 0.3);
+    --gradient-secondary: linear-gradient(135deg, #00ffff, #1e90ff);
+    --node-fill: #00ffff;
+    --node-stroke: #1e90ff;
+    --node-hover-fill: #1e90ff;
+    --node-text-color: #000080;
+    --link-color: #87ceeb;
+    --add-button-color: #1e90ff;
+    --remove-button-color: #ff6347;
+    --remove-button-hover-color: #ffd700;
+    --button-text-color: #000080;
+    --scrollbar-track: #000080;
+    --scrollbar-thumb: #00ffff;
+    --scrollbar-thumb-hover: #1e90ff;
+    --tooltip-background: #0066cc;
+    --tooltip-color: #e6f3ff;
+    --shadow-color: rgba(0, 255, 255, 0.5);
+    --header-bg: #0077be;
+    --header-text: #e0ffff;
+    --header-hover: #00a3e0;
+    --header-border: #40e0d0;
+    --header-shadow: rgba(0, 255, 255, 0.5);
+    --header-active: #005a87;
+
+    /* Maximized Ocean Mode Effects */
+    --text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    --box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    --button-glow: 0 0 25px var(--primary-color);
+    --input-focus-glow: 0 0 20px var(--secondary-color);
+    --code-highlight: #0080ff;
+    --scrollbar-glow: 0 0 15px var(--accent-color);
+    --wave-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="30" viewBox="0 0 100 30"><path fill="%2300ffff" fill-opacity="0.2" d="M0 30 Q 25 0, 50 30 T 100 30 Z"/></svg>');
+}
+
+body.ocean-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--wave-pattern), radial-gradient(circle, rgba(0,255,255,0.1) 0%, rgba(0,0,128,0.3) 100%);
+    opacity: 0.2;
+    z-index: -1;
+    animation: wave 8s linear infinite, pulse 10s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0% { background-position: 0 0, center; }
+    100% { background-position: 100% 100%, center; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+body.ocean-mode .header-title::before,
+body.ocean-mode .header-title::after {
+    content: '🌊';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5em;
+    opacity: 0.7;
+    animation: float 3s ease-in-out infinite;
+}
+
+body.ocean-mode .header-title::before {
+    left: -30px;
+    animation-delay: 0.5s;
+}
+
+body.ocean-mode .header-title::after {
+    right: -30px;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(-50%) rotate(0deg); }
+    50% { transform: translateY(-60%) rotate(10deg); }
+}
+
+body.ocean-mode #chat-messages::before {
+    content: '🐠';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 32px;
+    opacity: 0.7;
+    animation: swim 8s ease-in-out infinite;
+}
+
+body.ocean-mode #chat-messages::after {
+    content: '🐙';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 32px;
+    opacity: 0.7;
+    animation: tentacle 12s ease-in-out infinite;
+}
+
+@keyframes swim {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(5deg); }
+    50% { transform: translateX(15px) rotate(-5deg); }
+    75% { transform: translateY(15px) rotate(5deg); }
+}
+
+@keyframes tentacle {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    25% { transform: scale(1.1) rotate(10deg); }
+    50% { transform: scale(0.9) rotate(-10deg); }
+    75% { transform: scale(1.1) rotate(10deg); }
+}
+
+body.ocean-mode * {
+    transition: all 0.3s ease-in-out;
+}
+
+body.ocean-mode *:hover {
+    text-shadow: 0 0 15px var(--primary-color);
+}
+
+body.ocean-mode button,
+body.ocean-mode input,
+body.ocean-mode select,
+body.ocean-mode textarea {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+body.ocean-mode button::before,
+body.ocean-mode input::before,
+body.ocean-mode select::before,
+body.ocean-mode textarea::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, var(--primary-color), transparent 360deg);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    animation: rotate 4s linear infinite;
+}
+
+body.ocean-mode button:hover::before,
+body.ocean-mode input:focus::before,
+body.ocean-mode select:focus::before,
+body.ocean-mode textarea:focus::before {
+    opacity: 1;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

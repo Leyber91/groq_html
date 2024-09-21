@@ -1,0 +1,141 @@
+/* Glitch Mode - Maximum Chaos Edition */
+body.glitch-mode {
+    --background-dark: #0a0a0a;
+    --background-light: #1a1a1a;
+    --text-color-dark: #0f0;
+    --text-color-light: #0ff;
+    --primary-color: #f0f;
+    --secondary-color: #f0a;
+    --accent-color: #ff0;
+    --border-color: rgba(0, 255, 0, 0.3);
+    --chat-background: rgba(10, 10, 10, 0.9);
+    --user-message-bg: #1a1a1a;
+    --user-message-color: #0f0;
+    --assistant-message-bg: #0a0a0a;
+    --assistant-message-color: #0ff;
+    --layer-message-bg: #1a1a1a;
+    --layer-message-color: #0f0;
+    --agent-message-bg: #0a0a0a;
+    --agent-message-color: #0ff;
+    --input-background: #1a1a1a;
+    --chat-input-background: #1a1a1a;
+    --code-background: #1a1a1a;
+    --button-background: #f0f;
+    --button-color: #0a0a0a;
+    --button-hover-background: #f0a;
+    --execution-result-background: #0f0;
+    --execution-result-color: #0a0a0a;
+    --execution-error-background: #f00;
+    --execution-error-color: #0f0;
+    --error-background: #f00;
+    --error-color: #0f0;
+    --controls-background: rgba(10, 10, 10, 0.95);
+    --control-item-background: rgba(26, 26, 26, 0.8);
+    --primary-color-transparent: rgba(255, 0, 255, 0.3);
+    --gradient-secondary: linear-gradient(135deg, #f0f, #f0a);
+    --node-fill: #f0f;
+    --node-stroke: #f0a;
+    --node-hover-fill: #f0a;
+    --node-text-color: #0a0a0a;
+    --link-color: #0ff;
+    --add-button-color: #0f0;
+    --remove-button-color: #f00;
+    --remove-button-hover-color: #ff0;
+    --button-text-color: #0a0a0a;
+    --scrollbar-track: #0a0a0a;
+    --scrollbar-thumb: #f0f;
+    --scrollbar-thumb-hover: #f0a;
+    --tooltip-background: #1a1a1a;
+    --tooltip-color: #0ff;
+    --shadow-color: rgba(255, 0, 255, 0.4);
+    --header-bg: #0a0a0a;
+    --header-text: #0f0;
+    --header-hover: #1a1a1a;
+    --header-border: #f0f;
+    --header-shadow: rgba(255, 0, 255, 0.4);
+    --header-active: #050505;
+
+    /* Extreme Glitch Mode Effects */
+    --text-shadow: 0 0 8px var(--text-color-light), 0 0 12px var(--accent-color);
+    --box-shadow: 0 0 15px var(--primary-color), 0 0 25px var(--secondary-color);
+    --button-glow: 0 0 20px var(--accent-color), 0 0 30px var(--primary-color);
+    --input-focus-glow: 0 0 15px var(--secondary-color), 0 0 25px var(--primary-color);
+    --code-highlight: #2a2a2a;
+    --scrollbar-glow: 0 0 12px var(--primary-color), 0 0 20px var(--accent-color);
+    --glitch-effect: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%23ff00ff" fill-opacity="0.2" width="100" height="100"/><polygon fill="%2300ffff" fill-opacity="0.2" points="0,100 100,0 100,100"/><polygon fill="%23ffff00" fill-opacity="0.2" points="0,0 100,0 0,100"/></svg>');
+}
+
+@keyframes extreme-glitch-anim {
+    0%, 100% { clip-path: inset(80% 0 0 0); transform: skew(10deg); }
+    20% { clip-path: inset(20% 0 60% 0); transform: skew(-15deg); }
+    40% { clip-path: inset(60% 0 20% 0); transform: skew(5deg); }
+    60% { clip-path: inset(40% 0 40% 0); transform: skew(-5deg); }
+    80% { clip-path: inset(0 0 80% 0); transform: skew(15deg); }
+}
+
+body.glitch-mode .header-title {
+    position: relative;
+    animation: text-flicker 0.5s infinite alternate;
+}
+
+@keyframes text-flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+body.glitch-mode .header-title::before,
+body.glitch-mode .header-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body.glitch-mode .header-title::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00ff, 2px 2px #00ffff;
+    animation: extreme-glitch-anim 2s infinite linear alternate-reverse;
+}
+
+body.glitch-mode .header-title::after {
+    left: -2px;
+    text-shadow: 2px 0 #00ffff, -2px -2px #ffff00;
+    animation: extreme-glitch-anim 3s infinite linear alternate;
+}
+
+body.glitch-mode #chat-messages {
+    background-image: var(--glitch-effect);
+    background-size: 200px 200px;
+    animation: glitch-bg 5s linear infinite, glitch-shake 0.2s infinite;
+}
+
+@keyframes glitch-bg {
+    0% { background-position: 0 0; filter: hue-rotate(0deg); }
+    50% { background-position: 100px 100px; filter: hue-rotate(180deg); }
+    100% { background-position: 200px 200px; filter: hue-rotate(360deg); }
+}
+
+@keyframes glitch-shake {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(5px, 5px) rotate(1deg); }
+    50% { transform: translate(-5px, -5px) rotate(-1deg); }
+    75% { transform: translate(5px, -5px) rotate(1deg); }
+}
+
+body.glitch-mode * {
+    transition: all 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body.glitch-mode *:hover {
+    animation: glitch-hover 0.3s infinite;
+}
+
+@keyframes glitch-hover {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
+    75% { transform: translate(2px, -2px); }
+    100% { transform: translate(0, 0); }
+}
